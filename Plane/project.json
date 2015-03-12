@@ -1,0 +1,52 @@
+{
+    "project_type": "javascript",
+
+    "debugMode" : 1,
+    "showFPS" : true,
+    "frameRate" : 60,
+    "id" : "gameCanvas",
+    "renderMode" : 0,
+    "engineDir":"frameworks/cocos2d-html5",
+
+    "modules" : ["cocos2d"],
+
+    "jsList" : [
+        "src/resource.js",
+        "src/app.js",
+
+        "src/Common/constant.js",
+        "src/Common/EnemyType.js",
+        "src/Common/Level.js",
+
+        "src/mainMeun/MMBackgroundLayer.js",
+        "src/mainMeun/MMTouchLayer.js",
+
+
+        "src/About/About.js",
+        "src/About/ABBackgroundLayer.js",
+        "src/About/ABTouchLayer.js",
+
+
+        "src/Option/option.js",
+        "src/Option/STBackgroundLayer.js",
+        "src/Option/STTouchLayer.js",
+
+
+        "src/GamePlay/GamePlay.js",
+        "src/GamePlay/GPBackgroundLayer.js",
+        "src/GamePlay/GPTouchLayer.js",
+        "src/GamePlay/Sprite/BulletSprite.js",
+        "src/GamePlay/Sprite/ShipSprite.js",
+        "src/GamePlay/Sprite/EnemySprite.js",
+        "src/GamePlay/Sprite/ExplosionSprite.js",
+        "src/GamePlay/Sprite/SparkEffectSprite.js",
+        "src/GamePlay/Classes/LevelManager.js",
+
+
+        "src/GameOver/GameOver.js",
+        "src/GameOver/GOBackgroundLayer.js",
+        "src/GameOver/GOTouchLayer.js"
+
+
+    ]
+}
