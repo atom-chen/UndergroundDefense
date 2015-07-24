@@ -34,6 +34,29 @@
   	"init":0,
   	"block_money":10
   }, 
+  "monster":{
+  	"monster1":{
+  		"blood": 1500,
+        "hurt": 350,
+        "time" : 2,    
+        "speed": 0.3,
+        "cost" : 120
+  	},
+  	"monster2":{
+  		"blood": 1500,
+        "hurt": 450,
+        "time" : 2,    
+        "speed": 0.6,
+        "cost" : 120
+  	},
+  	"monster3":{
+  		"blood": 2000,
+        "hurt": 450,
+        "time" : 2,    
+        "speed": 0.4,
+        "cost" : 200
+  	}
+  },
   "SoldierPoint":[
     {      
       "x": 18,
