@@ -1,7 +1,7 @@
 -----Warrior 的Layer
 --
 local A_start = require("Util/A_start")
-local coordinate = require("Util/ coordinate")
+local coordinate = require("Util/coordinate")
 
 local WarriorLayer = class("WarriorLayer",function()
     return cc.Layer:create()

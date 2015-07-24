@@ -19,10 +19,13 @@ function bitBlock.change(layerBg, point,mapPointX,mapPointY, map)
     if(gid ~= 34 )then
         if(gid == 15)then --变为可走路线
             layerBg:setTileGID(34,cc.p(item[1],item[2])) --设置为可行走图块
+           
+            --没解锁一块砖，加钱
+            Money = Money + result.money.block_money
+            
             --每次点击更新勇士的寻路路径    
-
             ---获取勇士对象
-            if(isExistWarrior)then
+            if(isExistWarrior )then
 
                 local warriorLayer = map:getChildByTag(5000)
 

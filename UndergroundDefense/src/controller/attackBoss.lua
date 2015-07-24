@@ -1,5 +1,5 @@
 
-local coordinate = require("Util/ coordinate")
+local coordinate = require("Util/coordinate")
 
 local bloodTip = require("View/bloodTip")
 
@@ -76,7 +76,6 @@ function attackBoss.bitBoss(map)
                 else
                     print("游戏结束")
                     cc.Director:getInstance():getScheduler():unscheduleScriptEntry(schedulerId)
-                    isExistWarrior = false
                     gameResult = false
                     local scene = require("ResultScene")
                     local gameScene = scene.create()

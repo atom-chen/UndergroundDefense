@@ -18,6 +18,7 @@ _soldierNum = result.SoldierNum  --小兵总数量
 
 _WarriorNum = result.WarriorNum
 
+
 Boss = result.Boss
 
 Soldier = result.Soldier
@@ -45,19 +46,12 @@ object=require("Util.getObjectLayerData")-- 加载地图对象层属性获取类
 
 tiled=require("Util/getTiledData") -- 加载地图指定point图块是否能移动
 
-birthplace_blood = 0;
-
-soldierTab={}  --小兵集合
 
 Warrior_P = {} --现在的勇士
 
-soldierPoint={} --小兵巡查点
-
-isExistWarrior = false  --每次只有一个勇士存在
-
-whichWarrior = 0 --表示当前是第几个勇士
 
 WarriorType = 0 --当前勇士的类型
+
 --
 
 

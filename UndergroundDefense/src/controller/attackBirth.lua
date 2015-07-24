@@ -1,5 +1,5 @@
 
-local coordinate = require("Util/ coordinate")
+local coordinate = require("Util/coordinate")
 
 local bloodTip = require("View/bloodTip")
 

@@ -6,7 +6,7 @@ local soldierView = require("View/soldier")
 
 local bloodTip = require("View/bloodTip")
 
-local coordinate = require("Util/ coordinate")
+local coordinate = require("Util/coordinate")
 
 local skill = require("controller/skill")
 
