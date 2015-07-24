@@ -1,8 +1,9 @@
 {	
 	
-  "SoldierNum": 20, 
-  "WarriorNum": 15,
-  "Warrior_time":25,
+  "SoldierNum": 23, 
+  "WarriorNum": 15,  
+  "Warrior_LiftTime":109,
+  
   "birthplace_blood":4000,
   "Boss": {
     "blood": 9000,
@@ -26,11 +27,13 @@
     "skill_time": 6,
     "skill_type1":1000,
     "skill_type2":600,
-    "speed": 0.5 ,
+    "speed": 0.3 ,
     "space": 5  
   },
- 
-  
+  "money":{
+  	"init":0,
+  	"block_money":10
+  }, 
   "SoldierPoint":[
     {      
       "x": 18,
