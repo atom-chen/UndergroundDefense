@@ -1,7 +1,7 @@
 
 
 local  leftMenu= class("leftMenu",function()
-    return cc.Layer:create()
+    return cc.LayerColor:create()
 end)
 
 
@@ -9,48 +9,49 @@ end)
 function leftMenu.create(x,y)
 
     local layer = leftMenu.new()
-    --------金币 
-    local  money = cc.Sprite:create("icon/money.png")
-    money:setScale(0.6)
-    money:setPosition(x,y)
-    layer:addChild(money)   
+    --------妖怪1 
+    local  monster1 = cc.Sprite:create("monster/monster_head1.png")
+    monster1:setScale(1.5)
+    monster1:setPosition(x,y)
+    layer:addChild(monster1,0,1)   
+   
+    monster1:setColor(cc.c3b(120,120,120))
 
-    local money_txt = cc.Label:createWithTTF(Money,"fonts/arial.ttf",15)
-    money_txt:setPosition(x+30,y)
-    money_txt:setColor(cc.c3b(0,0,0))
-    layer:addChild(money_txt,0,1)
-    --------时间
-    local time = cc.Sprite:create("icon/time.png")
-    time:setScale(0.6)
-    time:setPosition(x + 90,y)   
-    layer:addChild(time) 
+    --------妖怪2
+    local monster2 = cc.Sprite:create("monster/monster_head2.png")
+    monster2:setScale(1.5)
+    monster2:setPosition(x ,y - 80)   
+    layer:addChild(monster2,0,2) 
+    monster2:setColor(cc.c3b(120,120,120))
+    
+    --------妖怪3
+    local monster3 = cc.Sprite:create("monster/RobotState4.png")
+    monster3:setScale(1.3)
+    monster3:setPosition(x ,y -160)   
+    layer:addChild(monster3,0,3) 
+    monster3:setColor(cc.c3b(120,120,120))
+    
+   
+    
+    local listener_left = cc.EventListenerTouchOneByOne:create()
+    local function onTouchBegan_left(touche, event)
+        print("statr")
+    end
+    local function onTouchesMove_left(touche, event)
+        print("oooo")
+    end
+    local function onTouchEnd_left(touche, event)
 
-    local time_txt = cc.Label:createWithTTF(0,"fonts/arial.ttf",15)
-    time_txt:setColor(cc.c3b(0,0,0))
-    time_txt:setPosition(x + 120,y)   
-    layer:addChild(time_txt,0,2) 
-    --------第几波勇士
-    local warrior = cc.Sprite:create("icon/warrior.png")
-    warrior:setScale(0.8)
-    warrior:setPosition(x + 180,y)   
-    layer:addChild(warrior) 
+    end
 
-    local warrior_txt = cc.Label:createWithTTF(whichWarrior,"fonts/arial.ttf",15)
-    warrior_txt:setColor(cc.c3b(0,0,0))
-    warrior_txt:setPosition(x + 210,y)   
-    layer:addChild(warrior_txt,0,3) 
 
-    --------小兵数量
-    local soldier = cc.Sprite:create("icon/soldier.png")
-    soldier:setScale(0.8)
-    soldier:setPosition(x + 270,y)   
-    layer:addChild(soldier) 
-
-    local soldier_txt = cc.Label:createWithTTF(table.getn(soldierTab),"fonts/arial.ttf",15)
-    soldier_txt:setColor(cc.c3b(0,0,0))
-    soldier_txt:setPosition(x + 300,y)   
-    layer:addChild(soldier_txt,0,4) 
-
+    ----监听leftMenu       
+    listener_left:registerScriptHandler(onTouchBegan_left,cc.Handler.EVENT_TOUCH_BEGAN )
+    listener_left:registerScriptHandler(onTouchEnd_left,cc.Handler.EVENT_TOUCH_ENDED )
+    listener_left:registerScriptHandler(onTouchesMove_left,cc.Handler.EVENT_TOUCHES_MOVED )
+    local eventDispatcher_left = layer:getEventDispatcher()
+    eventDispatcher_left:addEventListenerWithSceneGraphPriority(listener_left, layer)
+    
     return layer
 end
 

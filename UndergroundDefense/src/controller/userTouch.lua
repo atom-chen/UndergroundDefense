@@ -1,12 +1,13 @@
 
 local A_start=require("Util/A_start")
 
-local bitBlock = class("bitBlock")
+local userTouch = class("userTouch")
 
 local warriorView = require("View/warrior")
 
 ----点击改变图块类型
-function bitBlock.change(layerBg, point,mapPointX,mapPointY, map)
+--
+function userTouch.bitBlock(layerBg, point,mapPointX,mapPointY, map)
     ---求出是地图哪一个点cc.p()
 
     local bit_point={}    
@@ -16,6 +17,7 @@ function bitBlock.change(layerBg, point,mapPointX,mapPointY, map)
     
     local gid = layerBg:getTileGIDAt(cc.p(item[1],item[2])) --获取点击方块的gid
     
+    print("gid: ".. gid)
     if(gid ~= 34 )then
         if(gid == 15)then --变为可走路线
             layerBg:setTileGID(34,cc.p(item[1],item[2])) --设置为可行走图块
@@ -54,4 +56,4 @@ function bitBlock.change(layerBg, point,mapPointX,mapPointY, map)
 
 end
 
-return bitBlock
+return userTouch

@@ -5,7 +5,7 @@ local soldierView = require("View/soldier")
 
 local warriorView = require("View/warrior")
 
-local bitBlock = require("controller/bitBlock")
+local userTouch = require("controller/userTouch")
 
 local fight = require("controller/fight")
 
@@ -18,6 +18,8 @@ local attackBirth = require("controller/attackBirth")
 local attackBoss = require("controller/attackBoss")
 
 local updateMenu = require("controller/updateMenu")
+
+local leftMenu = require("View/leftMenu")
 
 local upMenu = require("View/upMenu")
 
@@ -68,11 +70,11 @@ function GameScene:createMap()
     --上级菜单
     local upmenu = upMenu.create(60,600)
     layerMap:addChild(upmenu,0,10086)
-
-    --根据名字获取map的layer
-    --local layerBg=map:getLayer("layerMap") layerBg:addChild(robber,0,11) addChild: is not supported on TMXLayer
-
     
+    --左级菜单
+    local leftmenu = leftMenu.create(45,360)
+    layerMap:addChild(leftmenu,0,10087)
+
     ----bos视图显示
     --local object = require("Util.getObjectLayerData") --全局已加载
     local bospoint = object.getPoint(map,"object","Bospoint")    --加载对象层数据
@@ -97,7 +99,8 @@ function GameScene:createMap()
     
         ---更新upMenu
         updateMenu.upMenu(upmenu)
-
+        updateMenu.leftMenu(leftmenu)
+       
         --小兵数量_soldierNum，创建小兵       
         if(table.getn(soldierTab)< _soldierNum and birthplace_blood > 0)then
             space = space + 0.5;
@@ -133,7 +136,7 @@ function GameScene:createMap()
                     _WarriorLifeTime = result.Warrior_LiftTime  --更新勇士生存时间值
                     --移动勇士
                     warriorView.move(map)
-    
+
                     wspace = 0
                 end
 
@@ -163,16 +166,15 @@ function GameScene:createMap()
     local bitNode;
     local function onTouchBegan(touche,event)
         bitNode = touche:getLocation()        
-
         return true
-    end
+    end   
     
     local function onTouchEnd(touche,event)
         local diff = touche:getLocation()
         local x=bitNode.x-diff.x
       
         if(x<5 and x>-5)then    --误差5
-          bitBlock.change(layerBg,diff,layerMap:getChildByTag(1):getPositionX(),
+            userTouch.bitBlock(layerBg,diff,layerMap:getChildByTag(1):getPositionX(),
                  layerMap:getChildByTag(1):getPositionY(),map)
         end
     end
@@ -182,6 +184,8 @@ function GameScene:createMap()
     listener1:registerScriptHandler(onTouchEnd,cc.Handler.EVENT_TOUCH_ENDED )
     local eventDispatcher1 = layerBg:getEventDispatcher()
     eventDispatcher1:addEventListenerWithSceneGraphPriority(listener1, layerBg)
+    
+    
     
     ---移动地图layer
     local function onTouchesMoved(touches, event)
@@ -197,18 +201,19 @@ function GameScene:createMap()
         if(My < 0 and My > -1280)then
             node:setPositionY(My)
         end
---        if( (Mx < 0 and Mx > -1920) and (My < 0 and My > -1280))then --不能移出边框
---           node:setPosition(cc.p(Mx, My))
---        end 
-        --print("X : " ..Mx,"Y : "..My)
+
     end
       
-
+   --监听地图成
     local listener = cc.EventListenerTouchAllAtOnce:create()
     listener:registerScriptHandler(onTouchesMoved,cc.Handler.EVENT_TOUCHES_MOVED )
     local eventDispatcher = layerMap:getEventDispatcher()
     eventDispatcher:addEventListenerWithSceneGraphPriority(listener, layerMap)
+     
+    
     return layerMap
+       
+  
 end
 
 

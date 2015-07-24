@@ -31,9 +31,9 @@ _soldierView = Soldier.Viewrang  --小兵视野
 
 _soldierHurt = Soldier.hurt
 
-_soldierTime = Soldier.time
+_soldierTime = Soldier.time  --  多久攻击一次
 
-_soldierSpace = Soldier.space
+_soldierSpace = Soldier.space  --隔多久创建一个小兵
 
 _warriorSpeed = Warrior.speed  --勇士的速度
 
