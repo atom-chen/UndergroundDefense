@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="90" height="60" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="tmw_desert_spacing" tilewidth="32" tileheight="32" spacing="1" margin="1">
+  <image source="tmw_desert_spacing.png" width="265" height="199"/>
+  <tile id="9">
+   <properties>
+    <property name="removable" value="false"/>
+   </properties>
+  </tile>
+  <tile id="33">
+   <properties>
+    <property name="isMoveable" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="layerMap" width="90" height="60">
+  <data encoding="base64" compression="zlib">
+   eJztnE1zGjEMhn1ob+2tvbWQybTAoWX5/7+uywzvoLiSLMmyFzI5aCDgD/lZWZZlk5dSysuHTJHdhwwVjvMlqe3zTU4dbSyr7G86XV8PqxxvsjwAvx7OPUy4zw83WQzP8HIreyKMt2Y0ijPs70jGeyIi8eqxr4X0szWTWZxhe1o9zs5GMcryY4/GeVdxrvkthX8O4PFqFA/n67M/PwCvbM4RkRjC3+6rsrSMhSHaeEafnc2ZY7OQ9yehrMe3PyPr0ZytZZ8pRsvkHBm3xxd7nsl7EIlzpvSug+9BPJyvPhGxxuUm2JvRfRr8J9Y/if2u3H024on97e9nji28nD+t8pm8RtpvcdbkTJ4bnmvPWLecUxrnL6t8Ja+Z/UbHCO5Rxi3umXG/lbPXno+dnEfaWFa72ZyvPthjz5jbGZyjdnWYxDmio8SZY6a1o42R5oiwRmqxniW/wtW/lL71IFPq/mZwtuhRt4f54eWGXEgmZ8REiKvwXpu/Vs6cr81aR7zry5kZk1Ye8WaEMzgeyv1sQetHYp3J2Stcfgnjsvh2xHktXa7lar/DlR+VI/H4Z6k+9iKXct9XRDlz417K/UxK8tFHpi08A+k8i+tbKpc1N+l7L2fpu0O5r3ESn8h8gJ9u2Wdr/8j1DT9r1RHnaLAByxmlxjkjRscadmL6zBBvW1L5Wj/Ot9XjiPQrcc7iAV1HcM5aZ+ucOI1DPXxPlczmPLrdjL6t8xVn0/CT53LPoWn9SpxHyZace3Xz5BUsnEfZo1T/qn/vfZrRuvf2q3FGnGTV9VDVidgP9tw4V6RxpHd8s+eSFk9KnOF/WjYROYO2sq+/W4p+dhDpY2vOko4478Ba4NVFGyvX34mpRznT8/SWTWifS9wQI0v9UOFszcK5biPCleq8OMZJue4LrxPEkyPgnjPdR8JvaftRSTQ9rJy9QvcpGIdn3tJyZ/KZVL/2JVo/o3zHaM707qwUS1K/Y/Hldf+tvQ7ya1bOmf4aebuof8581rQ9moeiMQrNZ9YMkKPUGFk5a8xHSIuztQ0v52gdzjdIekT80whpce7RMSuequtIedhRnLEuRvaBVs499pxlI1w7mecPdAyUKc4JevenVr8h1W+tY6/lbb4Ldy6Qg7Hu7TJii1b7ONPJsAvORvGZhTPWqGisUItlbNp8qfPrPZwzmWrzXONs2QON1L9VZlHKWsY+S0+Os3a/ghPp/kGGfWTaVEbMlMmZq7+QV4t9bxW70rYtPncrzsg/zJQe3bU5gHu+9Hx4X97a1Jb2zNVrnVW2+o5wi+YCwRiCPAtyb9xYZoiFs3euZXCuzxg8nBH/4j48tWfPuUXUdrl6HOfWvcsZnGGXnninh5snXsV+xrqPqTlb8sMzOe/K/787pMLdcYmuD5a9Uz1fPPstytnCZDZn8JTsWvvtp7cfy96p9aw9nFuxQOu7bM6a9OwLufLZd9WldfDSaDMSj81cb3rLa/YZ5byrOFvy5FHOPSKNweOff63y26Cv9nv9LM5gzZ1b9HCx6Bf5zZqH859V/hr1kmLKTM67osc4LRuLcsb4PPdALPdLLAw85aN2x3G29DWC81WQb7c+l9mcPeVpnQzOrT2WVz9r7t3Lued8wBLPejh/W+V7oL+L8l00foiOSRKMFfvMrPU4wvnHKj8DOkDo/z+rn80MibDAXVW6n8Z525m84hmhnCVPHPUbHun5vcF7kZrzh4yXf+/OmEg=
+  </data>
+ </layer>
+ <objectgroup name="object" width="90" height="60">
+  <object name="Bospoint" x="266" y="515" width="28" height="21"/>
+  <object name="warriorpoint" x="1820" y="1670" width="11" height="13"/>
+  <object name="soldierpoint" x="162" y="1836" width="17" height="16"/>
+ </objectgroup>
+</map>
