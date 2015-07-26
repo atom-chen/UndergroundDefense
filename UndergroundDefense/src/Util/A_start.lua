@@ -109,8 +109,8 @@ function A_start.findPath(startPoint, endPoint, map)
                  else
                       for key1, var1 in ipairs(_open) do
                   	       if(var1.x == var.x and var1.y == var.y)then 
-                               if(var1.f>f)then---两个版本，// 检查G值还是F值
-                              --if(var1.g>g)then
+                               --if(var1.f>f)then---两个版本，// 检查G值还是F值
+                              if(var1.g>g)then
                   	               var1.f = f
                   	               var1.g = g
                   	               var1.h = h

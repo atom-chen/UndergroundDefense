@@ -32,6 +32,7 @@ local screeWidth,screeHeight
 function GameScene.create()
     local scene = GameScene.new()
     scene:addChild(GameScene:createMap())
+
     return scene
 end
 
@@ -61,28 +62,21 @@ end
 
 -----------使用地图编辑器
 function GameScene:createMap()
+
     local layerMap=cc.Layer:create()
+    
     ---加载tmx显示地图
     local  map = cc.TMXTiledMap:create("map/map.tmx") ---每个TMXTiledMap都被当作一个精灵
     layerMap:addChild(map, 0, 1)
     
-    ---需要添加到layerMap上，添加的map上会随地图移动而移动
-    --上级菜单
-    local upmenu = upMenu.create(60,600)
-    layerMap:addChild(upmenu,0,10086)
-    
-    --左级菜单
-    local leftmenu = leftMenu.create(45,360)
-    layerMap:addChild(leftmenu,0,10087)
 
     ----bos视图显示
     --local object = require("Util.getObjectLayerData") --全局已加载
     local bospoint = object.getPoint(map,"object","Bospoint")    --加载对象层数据
     local bos = bosView.create(bospoint.x,bospoint.y)
     map:addChild(bos,0,10000)
-           
-    ----添加小兵
-  
+
+
     local soldierpoint = object.getPoint(map,"object","soldierpoint")
     local space = 0;
     
@@ -92,7 +86,74 @@ function GameScene:createMap()
   
     math.randomseed(os.time()) 
     
+    --上级菜单
+    local upmenu = upMenu.create(60,600)
+    layerMap:addChild(upmenu,0,10086)
+    
+    --左级菜单
+    local leftmenu = leftMenu.create(45,360,map)
+    layerMap:addChild(leftmenu,0,10087)
+    
+
+    --监听地图层 -在map上的坐标
+    local layerBg=map:getLayer("layerMap")
+    local bitNode;
+    
+    local function onTouchBegan(touche,event)
+        bitNode = touche:getLocation()        
+        return true
+    end   
+
+    local function onTouchEnd(touche,event)
+        local diff = touche:getLocation()
+        local x=bitNode.x-diff.x
+
+        if(x < 5 and x > -5)then    --误差5
+            userTouch.bitBlock(layerBg,diff,layerMap:getChildByTag(1):getPositionX(),
+                layerMap:getChildByTag(1):getPositionY(),map)
+        end
+    end
+
+    local listener1 = cc.EventListenerTouchOneByOne:create()
+    listener1:registerScriptHandler(onTouchBegan,cc.Handler.EVENT_TOUCH_BEGAN )
+    listener1:registerScriptHandler(onTouchEnd,cc.Handler.EVENT_TOUCH_ENDED )
+    local eventDispatcher1 = layerBg:getEventDispatcher()
+    eventDispatcher1:addEventListenerWithSceneGraphPriority(listener1, layerBg)
+
+
+
+    local function onTouchBegan_map(touche, event)
+    	return true
+    end
+
+    ---移动地图layer
+    local function onToucheMoved_map(touche, event)
+        local diff =touche:getDelta() 
+        local node = layerMap:getChildByTag(1)
+       
+        --print("diff: ".. touches[1]:getLocation().x,touches[1]:getLocation().y)
+        local currentPosX, currentPosY= node:getPosition()
+        local Mx = currentPosX + diff.x
+        local My = currentPosY + diff.y
+        ---不能移出边框
+        if(Mx < 0 and Mx > -1920)then
+            node:setPositionX(Mx)
+        end 
+        if(My < 0 and My > -1280)then
+            node:setPositionY(My)
+        end
+
+    end
+
+    --监听地图成
+    local listener = cc.EventListenerTouchOneByOne:create()
+    listener:registerScriptHandler(onTouchBegan_map,cc.Handler.EVENT_TOUCH_BEGAN )
+    listener:registerScriptHandler(onToucheMoved_map,cc.Handler.EVENT_TOUCH_MOVED )
+    local eventDispatcher = layerMap:getEventDispatcher()
+    eventDispatcher:addEventListenerWithSceneGraphPriority(listener, layerMap)
+
     local wspace = 0 ;
+    
           
     --更新方法
     local function update()
@@ -105,10 +166,9 @@ function GameScene:createMap()
         if(table.getn(soldierTab)< _soldierNum and birthplace_blood > 0)then
             space = space + 0.5;
             if(space > _soldierSpace)then 
-                local soldier = soldierView.create(soldierpoint.x,soldierpoint.y,soldierKey)
+                local soldier = soldierView.create(soldierpoint.x,soldierpoint.y)
                 map:addChild(soldier,0,soldierKey)
-                
-                soldierKey = soldierKey +1
+                soldierKey =soldierKey +1
                 space = 0;
             end    
         end 
@@ -145,8 +205,8 @@ function GameScene:createMap()
         
         ---小兵巡逻
         soldierView.move(map)
-        
-         ---对战  
+
+        ---对战  
         if(isExistWarrior) then
             fight.follow(map) 
             --
@@ -156,65 +216,15 @@ function GameScene:createMap()
         end        
           
     end
-      
+     
     --调度器，0代表每帧更新
     schedulerId = cc.Director:getInstance():getScheduler():scheduleScriptFunc(update, 0.2, false)
     
-        
-    --监听地图层
-    local layerBg=map:getLayer("layerMap")
-    local bitNode;
-    local function onTouchBegan(touche,event)
-        bitNode = touche:getLocation()        
-        return true
-    end   
     
-    local function onTouchEnd(touche,event)
-        local diff = touche:getLocation()
-        local x=bitNode.x-diff.x
-      
-        if(x<5 and x>-5)then    --误差5
-            userTouch.bitBlock(layerBg,diff,layerMap:getChildByTag(1):getPositionX(),
-                 layerMap:getChildByTag(1):getPositionY(),map)
-        end
-    end
-    
-    local listener1 = cc.EventListenerTouchOneByOne:create()
-    listener1:registerScriptHandler(onTouchBegan,cc.Handler.EVENT_TOUCH_BEGAN )
-    listener1:registerScriptHandler(onTouchEnd,cc.Handler.EVENT_TOUCH_ENDED )
-    local eventDispatcher1 = layerBg:getEventDispatcher()
-    eventDispatcher1:addEventListenerWithSceneGraphPriority(listener1, layerBg)
-    
-    
-    
-    ---移动地图layer
-    local function onTouchesMoved(touches, event)
-        local diff = touches[1]:getDelta()
-        local node = layerMap:getChildByTag(1)
-        local currentPosX, currentPosY= node:getPosition()
-        local Mx = currentPosX + diff.x
-        local My = currentPosY + diff.y
-        ---不能移出边框
-        if(Mx < 0 and Mx > -1920)then
-            node:setPositionX(Mx)
-        end 
-        if(My < 0 and My > -1280)then
-            node:setPositionY(My)
-        end
-
-    end
-      
-   --监听地图成
-    local listener = cc.EventListenerTouchAllAtOnce:create()
-    listener:registerScriptHandler(onTouchesMoved,cc.Handler.EVENT_TOUCHES_MOVED )
-    local eventDispatcher = layerMap:getEventDispatcher()
-    eventDispatcher:addEventListenerWithSceneGraphPriority(listener, layerMap)
-     
-    
-    return layerMap
-       
+    return layerMap      
   
 end
+
 
 
 return GameScene

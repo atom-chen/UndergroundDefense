@@ -7,11 +7,23 @@ local soldierLayer = class("soldiersLayer",function()
     return cc.Layer:create()
 end)
 
-function soldierLayer.create(x,y)
+function soldierLayer.create(x,y,sprite,blood_num,hurt)
     
     local layer = soldierLayer.new()
         
-    local soldier = cc.Sprite:create("soldier.png")
+    local soldier
+
+    if(sprite)then 
+        soldier = cc.Sprite:create(sprite)
+        if(sprite == "monster/RobotRun3.png")then
+            soldier:setScale(0.25)
+        else
+            soldier:setScale(0.6)
+        end
+    else
+        soldier = cc.Sprite:create("soldier.png")
+    end    
+    
     soldier:setPosition(x,y)
     layer:addChild(soldier,0,100)---设置tag为100，小兵移动时需要使用这个tag
     
@@ -33,7 +45,12 @@ function soldierLayer.create(x,y)
     progress1:setScaleX(0.5)
     layer:addChild(progress1,0,102)
     
-    local bd_txt = Soldier.blood .. "/".. Soldier.blood
+    local bd_txt
+    if(blood_num)then
+        bd_txt = blood_num .."/" ..blood_num
+    else
+        bd_txt = Soldier.blood .. "/".. Soldier.blood
+    end
     
     ----添加血量文字
     local blood_txt = cc.Label:createWithTTF(bd_txt,"fonts/arial.ttf",10)
@@ -43,9 +60,14 @@ function soldierLayer.create(x,y)
    
     local path = {}
     --把小兵添加到集合
-    --true用来指示运动是否结束,0表示移动次数,path表示移动的线路,true表示是否在停止巡逻,小兵血量,
-    --小兵的tag,正在被打的小兵,是否运行攻击勇士
-    table.insert(soldierTab,{layer,true,0,path,false,Soldier.blood,soldierKey,false,false})
+    --true用来指示运动是否结束,0表示移动次数,path表示移动的线路,true表示是否在停止巡逻,小兵剩余血量,
+    --小兵的tag,正在被打的小兵,是否运行攻击勇士,伤害值，总血量
+    if(sprite)then 
+        table.insert(soldierTab,{layer,true,0,path,false,blood_num,soldierKey,false,false,hurt,blood_num})
+    else
+        table.insert(soldierTab,{layer,true,0,path,false,Soldier.blood,soldierKey,false,false,Soldier.hurt,Soldier.blood})
+    end 
+
 
     return layer
 end
@@ -111,7 +133,7 @@ function soldierLayer.move(map)
                  Noderun("ff",var) --“ff"只是为了满足函数调用   
                --路径 没找到
                else
-                  node[2] = true  --重新巡逻 
+                var[2] = true  --重新巡逻 
                end
             
       	   end

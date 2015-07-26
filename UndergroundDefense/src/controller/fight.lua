@@ -58,9 +58,9 @@ function fight.follow(map)
         else --和勇士战斗的小兵
             if(not var[9])then --还没运行攻击的小兵               
                 var[9] =true
-
+                
                 local function bitWarrior()
-                    Warrior_P[2] = Warrior_P[2] - Soldier.hurt
+                    Warrior_P[2] = Warrior_P[2] - var[10]
                     --勇士死亡
                     if(Warrior_P[2] <= 0)then
                         map:removeChildByTag(5000) --移除勇士                        
@@ -77,7 +77,7 @@ function fight.follow(map)
                     else
                         if(map:getChildByTag(5000))then
                             --显示扣血效果
-                            local tip =  bloodTip.create(Warrior_P[1]:getChildByTag(1000),"-".._soldierHurt,map,5555,1)
+                            local tip =  bloodTip.create(Warrior_P[1]:getChildByTag(1000),"-"..var[10],map,5555,1)
                             map:addChild(tip,0,5555) 
                             blooding:setPercentage(math.floor(Warrior_P[2]/Warrior.blood*100))
                             blood_txt:setString(Warrior_P[2].. "/" .. Warrior.blood)
@@ -113,8 +113,8 @@ function fight.follow(map)
                     map:addChild(skill_tip,0,123)
                     
                     fight_soldier[6] = fight_soldier[6] - Warrior.skill_type1 ;
-                    remaind:setPercentage(math.floor(fight_soldier[6]/Soldier.blood*100))
-                    txt:setString(fight_soldier[6].. "/" .. Soldier.blood)
+                    remaind:setPercentage(math.floor(fight_soldier[6]/fight_soldier[11]*100))
+                    txt:setString(fight_soldier[6].. "/" .. fight_soldier[11])
                else
                     --显示技能名
                     local skill_tip =  bloodTip.skill(Warrior_P[1]:getChildByTag(1000),"治疗术+".. Warrior.skill_type2,map,123)
@@ -126,8 +126,8 @@ function fight.follow(map)
                end
              else   --普攻            
                fight_soldier[6] = fight_soldier[6] - Warrior.hurt ;
-               remaind:setPercentage(math.floor(fight_soldier[6]/Soldier.blood*100))
-               txt:setString(fight_soldier[6].. "/" .. Soldier.blood)
+                remaind:setPercentage(math.floor(fight_soldier[6]/fight_soldier[11]*100))
+                txt:setString(fight_soldier[6].. "/" .. fight_soldier[11])
              end
              if(fight_soldier[6] > 0)then 
                     local w_action = cc.Sequence:create(cc.DelayTime:create(Warrior.time),

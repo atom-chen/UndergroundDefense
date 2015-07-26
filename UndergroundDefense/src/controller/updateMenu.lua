@@ -47,17 +47,23 @@ function updateMenu.leftMenu(menu)
     --点亮怪兽1
     if(Money >= result.monster.monster1.cost)then
         monster1:setColor(cc.c3b(255,255,255))
+    else
+        monster1:setColor(cc.c3b(120,120,120))
     end
     
     --点亮怪兽2
     if(Money >= result.monster.monster2.cost)then
         monster2:setColor(cc.c3b(255,255,255))
+    else
+        monster2:setColor(cc.c3b(120,120,120))
     end
     
     
     --点亮怪兽3
     if(Money >= result.monster.monster3.cost)then
         monster3:setColor(cc.c3b(255,255,255))
+    else
+        monster3:setColor(cc.c3b(120,120,120))
     end
    
 end
