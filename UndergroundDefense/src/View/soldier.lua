@@ -25,7 +25,7 @@ function soldierLayer.create(x,y,sprite,blood_num,hurt)
     end    
     
     soldier:setPosition(x,y)
-    layer:addChild(soldier,0,100)---设置tag为100，小兵移动时需要使用这个tag
+    layer:addChild(soldier,0,100)
     
     ------添加血条    
     local blood = cc.Sprite:create("monster_blood_frame.png")
@@ -40,7 +40,7 @@ function soldierLayer.create(x,y,sprite,blood_num,hurt)
     progress1:setType(1)--设成横向
     progress1:setMidpoint(cc.p(0,0))
     progress1:setBarChangeRate(cc.p(1,0))--左往右
-    progress1:setPercentage(100)--设置0%
+    progress1:setPercentage(100)
     progress1:setPosition(x,y+20)   
     progress1:setScaleX(0.5)
     layer:addChild(progress1,0,102)
