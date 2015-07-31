@@ -60,7 +60,7 @@ function soldierLayer.create(x,y,sprite,blood_num,hurt)
    
     local path = {}
     --把小兵添加到集合
-    --true用来指示运动是否结束,0表示移动次数,path表示移动的线路,true表示是否在停止巡逻,小兵剩余血量,
+    --true用来指示一次目标点巡逻是否结束,0表示移动次数,path表示移动的线路,true表示是否在停止巡逻,小兵剩余血量,
     --小兵的tag,正在被打的小兵,是否运行攻击勇士,伤害值，总血量
     if(sprite)then 
         table.insert(soldierTab,{layer,true,0,path,false,blood_num,soldierKey,false,false,hurt,blood_num})
@@ -106,9 +106,9 @@ function soldierLayer.move(map)
               --print("start: " .. startItem.x .. "  " ..startItem.y)
             
               --获取巡逻终点的item
-              local ram = math.random(1,table.getn(_soldierPoint)) 
+              local ram = math.random(1,table.getn(result.SoldierPoint)) 
                        
-              local endItem = _soldierPoint[ram]
+              local endItem = result.SoldierPoint[ram]
             
               --print("end : ".. endItem.x,endItem.y)
                --A_start寻路

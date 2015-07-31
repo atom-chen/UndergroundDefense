@@ -14,32 +14,12 @@ result = json.decode(data)      --table转json
 
 --获取对应配置
 
-_soldierNum = result.SoldierNum  --小兵总数量
-
-_WarriorNum = result.WarriorNum
-
-
 Boss = result.Boss
 
 Soldier = result.Soldier
 
 Warrior = result.Warrior
 
-_soldierPoint = result.SoldierPoint -- 小兵巡逻点集合
-
-_soldierView = Soldier.Viewrang  --小兵视野
-
-_soldierHurt = Soldier.hurt
-
-_soldierTime = Soldier.time  --  多久攻击一次
-
-_soldierSpace = Soldier.space  --隔多久创建一个小兵
-
-_warriorSpeed = Warrior.speed  --勇士的速度
-
-_WarriorHurt = Warrior.hurt
-
-_warriorTime = Warrior.time
 
 ------------定义全局参数
 object=require("Util.getObjectLayerData")-- 加载地图对象层属性获取类

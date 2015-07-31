@@ -162,10 +162,10 @@ function GameScene:createMap()
         updateMenu.upMenu(upmenu)
         updateMenu.leftMenu(leftmenu)
        
-        --小兵数量_soldierNum，创建小兵       
-        if(table.getn(soldierTab)< _soldierNum and birthplace_blood > 0)then
+        --小兵数量result.SoldierNum，创建小兵       
+        if(table.getn(soldierTab)< result.SoldierNum and birthplace_blood > 0)then
             space = space + 0.5;
-            if(space > _soldierSpace)then 
+            if(space > Soldier.space)then 
                 local soldier = soldierView.create(soldierpoint.x,soldierpoint.y)
                 map:addChild(soldier,0,soldierKey)
                 soldierKey =soldierKey +1
@@ -173,13 +173,13 @@ function GameScene:createMap()
             end    
         end 
                   
-        --勇士数量_WarriorNum，地图没勇士创建勇士
+        --勇士数量result.WarriorNum，地图没勇士创建勇士
         if(not isExistWarrior )then
             wspace = wspace + 0.5
             if(wspace > Warrior.space)then
                 whichWarrior = whichWarrior + 1 --表示第几个勇士
                
-                if(whichWarrior > _WarriorNum)then
+                if(whichWarrior > result.WarriorNum)then
                     cc.Director:getInstance():getScheduler():unscheduleScriptEntry(schedulerId)
                     gameResult = true
                     local scene = require("ResultScene")

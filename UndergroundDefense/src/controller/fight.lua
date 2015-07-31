@@ -34,7 +34,7 @@ function fight.follow(map)
         if(not var[5])then  --没和勇士战斗的小兵
             local spointx,spointy = var[1]:getChildByTag(100):getPosition()
             --遇到勇士
-            if(math.abs(spointx-wpointx)< _soldierView and math.abs(spointy-wpointy) < _soldierView)then
+            if(math.abs(spointx-wpointx)< Soldier.Viewrang and math.abs(spointy-wpointy) < Soldier.Viewrang)then
                 var[5] = true -- 遇上勇士
                 --小兵
                 local soldier = var[1]:getChildByTag(100)
@@ -83,7 +83,7 @@ function fight.follow(map)
                             blood_txt:setString(Warrior_P[2].. "/" .. Warrior.blood)
                         end
 
-                        var[1]:getChildByTag(100):runAction(cc.Sequence:create(cc.DelayTime:create(_soldierTime),
+                        var[1]:getChildByTag(100):runAction(cc.Sequence:create(cc.DelayTime:create(Soldier.time),
                             cc.CallFunc:create(bitWarrior,{})))
                     end
 

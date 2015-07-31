@@ -112,10 +112,10 @@ function WarriorLayer.move(map,targetItem)
         local function Noderun(node ,path )
         	if(actionNum < table.getn(path))then
                 actionNum = actionNum + 1
-                blood:runAction(cc.MoveTo:create(_warriorSpeed,cc.p(path[actionNum].x,path[actionNum].y+55)))
-                blooding:runAction(cc.MoveTo:create(_warriorSpeed,cc.p(path[actionNum].x,path[actionNum].y+55)))
-                blood_txt:runAction(cc.MoveTo:create(_warriorSpeed,cc.p(path[actionNum].x,path[actionNum].y+65)))
-                local action =cc.Sequence:create(cc.MoveTo:create(_warriorSpeed,path[actionNum]),
+                blood:runAction(cc.MoveTo:create(Warrior.speed,cc.p(path[actionNum].x,path[actionNum].y+55)))
+                blooding:runAction(cc.MoveTo:create(Warrior.speed,cc.p(path[actionNum].x,path[actionNum].y+55)))
+                blood_txt:runAction(cc.MoveTo:create(Warrior.speed,cc.p(path[actionNum].x,path[actionNum].y+65)))
+                local action =cc.Sequence:create(cc.MoveTo:create(Warrior.speed,path[actionNum]),
                     cc.CallFunc:create(Noderun,path))
                 action:setTag(1010)
                 warrior:runAction(action)
