@@ -2,6 +2,7 @@
 
 local A_start = require("src/util/A_start")
 local coordinate = require("src/util/coordinate")
+local soldierModel = require("src/model/soldierModel")
 
 local soldierLayer = class("soldiersLayer",function()
     return cc.Layer:create()
@@ -67,27 +68,35 @@ function soldierLayer.create(x,y,sprite,blood_num,hurt)
     else
         table.insert(soldierTab,{layer,true,0,path,false,Soldier.blood,soldierKey,false,false,Soldier.hurt,Soldier.blood})
     end 
-
-
+    
+    local soldier_model
+    if(sprite)then 
+        soldier_model = soldierModel.create(layer,true,0,{},false,blood_num,soldierKey,false,false,hurt,blood_num)
+        table.insert(soldierTab,soldier_model)
+    else
+        soldier_model = soldierModel.create(layer,true,0,{},false,Soldier.blood,soldierKey,false,false,Soldier.hurt,Soldier.blood)
+        table.insert(soldierTab,soldier_model)      
+    end 
+	
+  
     return layer
 end
 
 local function Noderun(var,node)
-	if(node[3]< table.getn(node[4]))then
-	   node[3] = node[3] +1 ;	   
-        node[1]:getChildByTag(101):runAction(cc.MoveTo:create(Soldier.speed,
-            cc.p((node[4])[node[3]].x,(node[4])[node[3]].y+20)))
-        node[1]:getChildByTag(102):runAction(cc.MoveTo:create(Soldier.speed,
-            cc.p((node[4])[node[3]].x,(node[4])[node[3]].y+20)))
-        node[1]:getChildByTag(103):runAction(cc.MoveTo:create(Soldier.speed,
-            cc.p((node[4])[node[3]].x,(node[4])[node[3]].y+30)))
+    if(node.moveNum< table.getn(node.path))then
+        node.moveNum = node.moveNum +1 ;	   
+        node.layer:getChildByTag(101):runAction(cc.MoveTo:create(Soldier.speed,
+            cc.p(node.path[node.moveNum].x,node.path[node.moveNum].y+20)))
+        node.layer:getChildByTag(102):runAction(cc.MoveTo:create(Soldier.speed,
+            cc.p(node.path[node.moveNum].x,node.path[node.moveNum].y+20)))
+        node.layer:getChildByTag(103):runAction(cc.MoveTo:create(Soldier.speed,
+            cc.p(node.path[node.moveNum].x,node.path[node.moveNum].y+30)))
 	   
-	   node[1]:getChildByTag(100):runAction(cc.Sequence:create(
-            cc.MoveTo:create(Soldier.speed,(node[4])[node[3]]),cc.CallFunc:create(Noderun,node)))
-                                   --第一个参数是回调的方法，第二个参数可以是开发者自定义的table
-    else
-       node[3] = 0;
-       node[2] = true
+	    node.layer:getChildByTag(100):runAction(cc.Sequence:create(
+            cc.MoveTo:create(Soldier.speed,node.path[node.moveNum],cc.CallFunc:create(Noderun,node))) )                               --第一个参数是回调的方法，第二个参数可以是开发者自定义的table
+    else   
+       node.moveNum = 0;
+       node.isPatrol = true
     end
 end
 -- 
@@ -95,12 +104,12 @@ end
 function soldierLayer.move(map)	 
        
        for key, var in ipairs(soldierTab) do
-      	   if(var[2])then
-      	      var[3] = 0
+           if(var.isPatrol)then
+              var.moveNum = 0
       	      --print("再次巡逻、、。。。。。。")
-              var[2]  =  false   --防止小兵在运动是再次触发移动 
-              local point = cc.p(var[1]:getChildByTag(100):getPositionX(),
-                   var[1]:getChildByTag(100):getPositionY())  
+              var.isPatrol  =  false   --防止小兵在运动是再次触发移动 
+              local point = cc.p(var.layer:getChildByTag(100):getPositionX(),
+                   var.layer:getChildByTag(100):getPositionY())  
                 ---获取起点的item           
               local startItem = coordinate.getItem(map,point)
               --print("start: " .. startItem.x .. "  " ..startItem.y)
@@ -115,25 +124,25 @@ function soldierLayer.move(map)
               local result = A_start.findPath(startItem,endItem,map)
                ---路径查找到
               if(result ~= 0)then
-                 var[4] = {} --path{}先清零
-                 table.insert(var[4],1,coordinate.getPoint(map,endItem)) -- 插入终点
+                 var.path = {} --path{}先清零
+                 table.insert(var.path,1,coordinate.getPoint(map,endItem)) -- 插入终点
                  --位置数组
                  while(result.x)do
                     local item = {x =result.x, y=result.y}  
                                      
-                    table.insert(var[4],1,coordinate.getPoint(map,item))
+                    table.insert(var.path , 1,coordinate.getPoint(map,item))
                  
                     result=result.father
                  end 
                 
                 --防止回退到item中心
-                (var[4])[1].x,(var[4])[1].y = var[1]:getChildByTag(100):getPosition()  
+                 var.path[1].x,var.path[1].y = var.layer:getChildByTag(100):getPosition()  
                                        
                  --节点移动
-                 Noderun("ff",var) --“ff"只是为了满足函数调用   
+                 Noderun("",var) --“ff"只是为了满足函数调用   
                --路径 没找到
                else
-                var[2] = true  --重新巡逻 
+                 var.isPatrol = true  --重新巡逻 
                end
             
       	   end
