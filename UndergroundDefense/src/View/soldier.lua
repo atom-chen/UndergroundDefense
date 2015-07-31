@@ -1,7 +1,7 @@
 -----soldier 的Layer
 
-local A_start = require("Util/A_start")
-local coordinate = require("Util/coordinate")
+local A_start = require("src/util/A_start")
+local coordinate = require("src/util/coordinate")
 
 local soldierLayer = class("soldiersLayer",function()
     return cc.Layer:create()

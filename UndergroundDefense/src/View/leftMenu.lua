@@ -1,5 +1,5 @@
 
-local soldierView = require("View/soldier")
+local soldierView = require("src/view/soldier")
 
 local  leftMenu= class("leftMenu",function()
     return cc.LayerColor:create()

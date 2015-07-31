@@ -1,14 +1,14 @@
-local A_start=require("Util/A_start")
+local A_start=require("src/util/A_start")
 
-local warriorView = require("View/warrior")
+local warriorView = require("src/view/warrior")
 
-local soldierView = require("View/soldier")
+local soldierView = require("src/view/soldier")
 
-local bloodTip = require("View/bloodTip")
+local bloodTip = require("src/view/bloodTip")
 
-local coordinate = require("Util/coordinate")
+local coordinate = require("src/util/coordinate")
 
-local skill = require("controller/skill")
+local skill = require("src/controller/skill")
 
 local fight = class("fight")
  

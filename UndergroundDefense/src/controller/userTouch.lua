@@ -1,9 +1,10 @@
 
-local A_start=require("Util/A_start")
+local A_start=require("src/util/A_start")
+
+local warriorView = require("src/view/warrior")
 
 local userTouch = class("userTouch")
 
-local warriorView = require("View/warrior")
 
 ----点击改变图块类型
 --

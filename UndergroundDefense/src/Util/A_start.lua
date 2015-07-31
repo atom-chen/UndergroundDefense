@@ -2,7 +2,7 @@
 
 local  A_start= class("A_start")
 
-local node = require("model/node")
+local node = require("src/model/node")
 
 local cost_stargiht =1 ; --直线移动花费
 
@@ -23,8 +23,7 @@ local function  calculateH(point,endPoint)
 	local x = math.floor((endPoint.x - point.x)/32)
     local y = math.floor((endPoint.y - point.y)/32)
 	local dis =math.abs(x)+math.abs(y)
-	--local dis = math.sqrt(math.pow(x,2)+math.pow(y,2))
-	
+	--local dis = math.sqrt(math.pow(x,2)+math.pow(y,2))	
 	return dis
 end
 

@@ -1,7 +1,7 @@
 -----Warrior 的Layer
 --
-local A_start = require("Util/A_start")
-local coordinate = require("Util/coordinate")
+local A_start = require("src/util/A_start")
+local coordinate = require("src/util/coordinate")
 
 local WarriorLayer = class("WarriorLayer",function()
     return cc.Layer:create()
@@ -123,7 +123,7 @@ function WarriorLayer.move(map,targetItem)
         	end
         end                          
         --节点移动
-        Noderun("ff",path) --“ff"只是为了满足函数调用          
+        Noderun("",path) --“ff"只是为了满足函数调用          
     end
     
 
