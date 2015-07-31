@@ -1,7 +1,7 @@
 
 local A_start=require("src/util/A_start")
 
-local warriorView = require("src/view/warrior")
+local warriorView = require("src/view/role/warrior")
 
 local userTouch = class("userTouch")
 

@@ -1,9 +1,9 @@
 
 local coordinate = require("src/util/coordinate")
 
-local bloodTip = require("src/view/bloodTip")
+local gameTip = require("src/view/gameTip")
 
-local warriorView = require("src/view/warrior")
+local warriorView = require("src/view/role/warrior")
 
 local skill = require("src/controller/skill")
 
@@ -34,7 +34,7 @@ function attackBirth.soldierBirth(map)
                      
                       if(type == 1)then
                       --显示技能名
-                        local skill_tip =  bloodTip.skill(Warrior_P[1]:getChildByTag(1000),"暴击-"..Warrior.skill_type1 ,map,123)
+                        local skill_tip =  gameTip.skill(Warrior_P[1]:getChildByTag(1000),"暴击-"..Warrior.skill_type1 ,map,123)
                         map:addChild(skill_tip,0,123)
 
                         birthplace_blood = birthplace_blood - Warrior.skill_type1 ;
@@ -43,7 +43,7 @@ function attackBirth.soldierBirth(map)
                         
                       else
                         --显示技能名
-                        local skill_tip =  bloodTip.skill(Warrior_P[1]:getChildByTag(1000),"治疗术+".. Warrior.skill_type2,map,123)
+                        local skill_tip =  gameTip.skill(Warrior_P[1]:getChildByTag(1000),"治疗术+".. Warrior.skill_type2,map,123)
                         map:addChild(skill_tip,0,123)
                         Warrior_P [2] = Warrior_P [2] + Warrior.skill_type2
                         
@@ -56,7 +56,7 @@ function attackBirth.soldierBirth(map)
                   else
                      birthplace_blood = birthplace_blood - Warrior.hurt
                      --显示扣血效果
-                     local Birthtip =  bloodTip.create(progress,"-"..Warrior.hurt,map,666,4)
+                     local Birthtip =  gameTip.create(progress,"-"..Warrior.hurt,map,666,4)
                      map:addChild(Birthtip,0,666) 
                   end
                   if(birthplace_blood > 0)then
@@ -70,7 +70,7 @@ function attackBirth.soldierBirth(map)
                     warrior:runAction(w_action)
                   else
                      --摧毁巢穴
-                    local distroy =  bloodTip.brith(progress,"巢穴被摧毁!!",map,666)
+                    local distroy =  gameTip.brith(progress,"巢穴被摧毁!!",map,666)
                     map:addChild(distroy,0,666)  
                     map:removeChildByTag(250)
                     local layerBg=map:getLayer("layerMap")               

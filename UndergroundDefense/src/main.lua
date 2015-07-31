@@ -37,7 +37,7 @@ local function main()
     cc.Director:getInstance():getOpenGLView():setDesignResolutionSize(960, 640, 3)
   
 
-    require("model/getConfig")  --读取配置文件
+    require("src/model/getConfig")  --读取配置文件
     
     --cc.Director:getInstance():getOpenGLView():setFrameSize(960,640)
     --create scene 

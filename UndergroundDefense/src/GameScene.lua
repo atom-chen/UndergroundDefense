@@ -1,27 +1,27 @@
 
-local bosView = require("View/bos")
+local bosView = require("src/view/role/bos")
 
-local soldierView = require("View/soldier")
+local soldierView = require("src/view/role/soldier")
 
-local warriorView = require("View/warrior")
+local warriorView = require("src/view/role/warrior")
 
-local userTouch = require("controller/userTouch")
+local userTouch = require("src/controller/userTouch")
 
-local fight = require("controller/fight")
+local fight = require("src/controller/battle/fight")
 
-local brithplace = require("View/birthplace")
+local brithplace = require("src/view/birthplace")
 
-local bloodTip = require("View/bloodTip")
+local gameTip = require("src/view/gameTip")
 
-local attackBirth = require("controller/attackBirth")
+local attackBirth = require("src/controller/battle/attackBirth")
 
-local attackBoss = require("controller/attackBoss")
+local attackBoss = require("src/controller/battle/attackBoss")
 
-local updateMenu = require("controller/updateMenu")
+local updateMenu = require("src/controller/updateMenu")
 
-local leftMenu = require("View/leftMenu")
+local leftMenu = require("src/view/menu/leftMenu")
 
-local upMenu = require("View/upMenu")
+local upMenu = require("src/view/menu/upMenu")
 
 local GameScene = class("GameScene",function()
     return cc.Scene:create()

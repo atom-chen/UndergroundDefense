@@ -1,10 +1,10 @@
 local A_start=require("src/util/A_start")
 
-local warriorView = require("src/view/warrior")
+local warriorView = require("src/view/role/warrior")
 
-local soldierView = require("src/view/soldier")
+local soldierView = require("src/view/role/soldier")
 
-local bloodTip = require("src/view/bloodTip")
+local gameTip = require("src/view/gameTip")
 
 local coordinate = require("src/util/coordinate")
 
@@ -77,7 +77,7 @@ function fight.follow(map)
                     else
                         if(map:getChildByTag(5000))then
                             --显示扣血效果
-                            local tip =  bloodTip.create(Warrior_P[1]:getChildByTag(1000),"-"..var[10],map,5555,1)
+                            local tip =  gameTip.create(Warrior_P[1]:getChildByTag(1000),"-"..var[10],map,5555,1)
                             map:addChild(tip,0,5555) 
                             blooding:setPercentage(math.floor(Warrior_P[2]/Warrior.blood*100))
                             blood_txt:setString(Warrior_P[2].. "/" .. Warrior.blood)
@@ -109,7 +109,7 @@ function fight.follow(map)
                time_space = 0
                if(type == 1)then
                     --显示技能名
-                    local skill_tip =  bloodTip.skill(Warrior_P[1]:getChildByTag(1000),"暴击-"..Warrior.skill_type1 ,map,123)
+                    local skill_tip =  gameTip.skill(Warrior_P[1]:getChildByTag(1000),"暴击-"..Warrior.skill_type1 ,map,123)
                     map:addChild(skill_tip,0,123)
                     
                     fight_soldier[6] = fight_soldier[6] - Warrior.skill_type1 ;
@@ -117,7 +117,7 @@ function fight.follow(map)
                     txt:setString(fight_soldier[6].. "/" .. fight_soldier[11])
                else
                     --显示技能名
-                    local skill_tip =  bloodTip.skill(Warrior_P[1]:getChildByTag(1000),"治疗术+".. Warrior.skill_type2,map,123)
+                    local skill_tip =  gameTip.skill(Warrior_P[1]:getChildByTag(1000),"治疗术+".. Warrior.skill_type2,map,123)
                     map:addChild(skill_tip,0,123)
                     Warrior_P [2] = Warrior_P [2] + Warrior.skill_type2
                     

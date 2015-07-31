@@ -1,9 +1,9 @@
 
 local coordinate = require("src/util/coordinate")
 
-local bloodTip = require("src/view/bloodTip")
+local gameTip = require("src/view/gameTip")
 
-local warriorView = require("src/view/warrior")
+local warriorView = require("src/view/role/warrior")
 
 local skill = require("src/controller/skill")
 
@@ -39,7 +39,7 @@ function attackBoss.bitBoss(map)
      
                     if(type == 1)then
                         --显示技能名
-                        local skill_tip =  bloodTip.skill(Warrior_P[1]:getChildByTag(1000),"暴击-"..Warrior.skill_type1 ,map,123)
+                        local skill_tip =  gameTip.skill(Warrior_P[1]:getChildByTag(1000),"暴击-"..Warrior.skill_type1 ,map,123)
                         map:addChild(skill_tip,0,123)
                    
                         Boss_blood = Boss_blood - Warrior.skill_type1 ;
@@ -47,7 +47,7 @@ function attackBoss.bitBoss(map)
                         txt:setString(Boss_blood.. "/" .. Boss.blood)
                     else
                         --显示技能名
-                        local skill_tip =  bloodTip.skill(Warrior_P[1]:getChildByTag(1000),"治疗术+".. Warrior.skill_type2,map,123)
+                        local skill_tip =  gameTip.skill(Warrior_P[1]:getChildByTag(1000),"治疗术+".. Warrior.skill_type2,map,123)
                         map:addChild(skill_tip,0,123)
                         Warrior_P [2] = Warrior_P [2] + Warrior.skill_type2
 
@@ -60,7 +60,7 @@ function attackBoss.bitBoss(map)
                 else
                     Boss_blood = Boss_blood - Warrior.hurt 
                     --显示扣血效果
-                    local Bosstip =  bloodTip.create(progress,"-"..Warrior.hurt,map,1001,4)
+                    local Bosstip =  gameTip.create(progress,"-"..Warrior.hurt,map,1001,4)
                     map:addChild(Bosstip,0,1001)
                 end
                 
@@ -97,7 +97,7 @@ function attackBoss.bitBoss(map)
                 if(Warrior_P[2] > 0)then
                     --print("Boss_time" .. Boss.time)
                     --显示扣血效果
-                    local tip =  bloodTip.create(Warrior_P[1]:getChildByTag(1000),"-"..Boss.hurt,map,585,1)
+                    local tip =  gameTip.create(Warrior_P[1]:getChildByTag(1000),"-"..Boss.hurt,map,585,1)
                     map:addChild(tip,0,585)
                     blooding:setPercentage(math.floor(Warrior_P[2]/Warrior.blood*100))
                     blood_txt:setString(Warrior_P[2].. "/" .. Warrior.blood)

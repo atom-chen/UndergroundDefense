@@ -1,12 +1,12 @@
-local  bloodTip= class("bloodTip",function()
+local  gameTip= class("gameTip",function()
     return cc.Layer:create()
 end)
 
 
 
-function bloodTip.create(node,tip,map,key,type)
+function gameTip.create(node,tip,map,key,type)
 
-    local layer = bloodTip.new()
+    local layer = gameTip.new()
     --[[
       1: warrior
       2: soldier
@@ -40,9 +40,9 @@ function bloodTip.create(node,tip,map,key,type)
 end
 
 --技能提示
-function bloodTip.skill(node,tip,map,key)
+function gameTip.skill(node,tip,map,key)
 
-    local layer = bloodTip.new()
+    local layer = gameTip.new()
     local x = node:getPositionX()
     local y = node:getPositionY() + 55  
    
@@ -62,9 +62,9 @@ function bloodTip.skill(node,tip,map,key)
 end
 
 --brith摧毁提示
-function bloodTip.brith(node,tip,map,key)
+function gameTip.brith(node,tip,map,key)
 
-    local layer = bloodTip.new()
+    local layer = gameTip.new()
     local x = node:getPositionX()
     local y = node:getPositionY()
 
@@ -82,4 +82,4 @@ function bloodTip.brith(node,tip,map,key)
     layer:addChild(blood_tip)
     return layer
 end
-return bloodTip
+return gameTip
