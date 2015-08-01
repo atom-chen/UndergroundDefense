@@ -1,6 +1,7 @@
 {	
 	
   "SoldierNum": 15, 
+  "enemySoldierNum": 10
   "WarriorNum": 15,  
   "Warrior_LiftTime":101,
   
@@ -10,6 +11,14 @@
     "hurt": 700,
     "time" : 3,
     "rang": 32    
+  },
+  "enemySoldier": {
+    "blood": 800,
+    "hurt": 200,
+    "Viewrang": 40,
+    "time" : 2,    
+    "speed": 0.4,
+    "space": 6
   },
   "Soldier": {
     "blood": 800,
