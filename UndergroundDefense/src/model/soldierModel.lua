@@ -1,8 +1,8 @@
 --  ********************************************************************
 --  Copyright(c) KingSoft
---  FileName    : character.lua
+--  FileName    : soldierModel.lua
 --  Creator     : HuangZhiLong
---  Date        : 2015年7月31日   下午3:23:46
+--  Date        : 2015年7月31日 下午11:26:09
 --  Contact     : huangzhilong1@kingsoft.com
 --  Comment     :
 --  *********************************************************************
@@ -12,65 +12,32 @@ local soldierModel = class(
     "soldierModel"
 )
 
-function soldierModel:ctor()
-
-    self.layer         = nil   --表示物体视图
-    
-    self.isPatrol      = nil   --一次目标点巡逻是否完成
-    
-    self.moveNum       = nil   --表示移动的次数
-    
-    self.path          = {}    --表示移动的路径
-    
-    self.isStop        = nil   --是否停止巡逻（攻击敌方）
-    
-    self.remaindBlood  = nil   --剩余血量
-    
-    self.tag           = nil   --view的tag
-    
-    self.isBeaten      = nil   --是否遭受攻击
-    
-    self.isBit         = nil   --是否在攻击状态
-    
-    self.hurt          = nil   --攻击伤害值
-    
-    self.blood         = nil   --总血量
-end
-
 function soldierModel.create(layer,isPatrol,moveNum,path,isStop,remaindBlood,tag,isBeaten,isBit,hurt,blood)
-   
-    local soldier = soldierModel.new()
-    
-    soldierModel:init(layer,isPatrol,moveNum,path,isStop,remaindBlood,tag,isBeaten,isBit,hurt,blood)
-    return soldier
-end
+    local mySoldier    = {}
 
-function soldierModel:init(layer,isPatrol,moveNum,path,isStop,remaindBlood,tag,isBeaten,isBit,hurt,blood)
-    --初始化值
-    self.layer         = layer
-    
-    self.isPatrol      = isPatrol
-    
-    self.moveNum       = moveNum
+    mySoldier.layer         = layer            --表示物体视图
 
-    self.path          = path
+    mySoldier.isPatrol      = isPatrol         --一次目标点巡逻是否完成
 
-    self.isStop        = isStop   
+    mySoldier.moveNum       = moveNum          --表示移动的次数
 
-    self.remaindBlood  = remaindBlood
+    mySoldier.path          = path             --表示移动的路径
 
-    self.tag           = tag
+    mySoldier.isStop        = isStop           --是否停止巡逻（攻击敌方）
 
-    self.isBeaten      = isBeaten
+    mySoldier.remaindBlood  = remaindBlood     --剩余血量
 
-    self.isBit         = isBit
+    mySoldier.tag           = tag              --view的tag
 
-    self.hurt          = hurt
+    mySoldier.isBeaten      = isBeaten         --是否遭受攻击
 
-    self.blood         = blood
-    
+    mySoldier.isBit         = isBit            --是否在攻击状态
+
+    mySoldier.hurt          = hurt             --攻击伤害值
+
+    mySoldier.blood         = blood            --总血量
+
+    return mySoldier
 end
 
 return soldierModel
-
-    

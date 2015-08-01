@@ -59,15 +59,15 @@ function soldierLayer.create(x,y,sprite,blood_num,hurt)
     blood_txt:setPosition(x,y+30)
     layer:addChild(blood_txt,1,103)
    
-    local path = {}
+    --local path = {}
     --把小兵添加到集合
     --true用来指示一次目标点巡逻是否结束,0表示移动次数,path表示移动的线路,true表示是否在停止巡逻,小兵剩余血量,
     --小兵的tag,正在被打的小兵,是否运行攻击勇士,伤害值，总血量
-    if(sprite)then 
-        table.insert(soldierTab,{layer,true,0,path,false,blood_num,soldierKey,false,false,hurt,blood_num})
-    else
-        table.insert(soldierTab,{layer,true,0,path,false,Soldier.blood,soldierKey,false,false,Soldier.hurt,Soldier.blood})
-    end 
+--    if(sprite)then 
+--        table.insert(soldierTab,{layer,true,0,path,false,blood_num,soldierKey,false,false,hurt,blood_num})
+--    else
+--        table.insert(soldierTab,{layer,true,0,path,false,Soldier.blood,soldierKey,false,false,Soldier.hurt,Soldier.blood})
+--    end 
     
     local soldier_model
     if(sprite)then 
@@ -84,29 +84,27 @@ end
 
 local function Noderun(var,node)
     if(node.moveNum< table.getn(node.path))then
-        node.moveNum = node.moveNum +1 ;	   
+        node.moveNum = node.moveNum +1 ;       
         node.layer:getChildByTag(101):runAction(cc.MoveTo:create(Soldier.speed,
             cc.p(node.path[node.moveNum].x,node.path[node.moveNum].y+20)))
         node.layer:getChildByTag(102):runAction(cc.MoveTo:create(Soldier.speed,
             cc.p(node.path[node.moveNum].x,node.path[node.moveNum].y+20)))
         node.layer:getChildByTag(103):runAction(cc.MoveTo:create(Soldier.speed,
             cc.p(node.path[node.moveNum].x,node.path[node.moveNum].y+30)))
-	   
-	    node.layer:getChildByTag(100):runAction(cc.Sequence:create(
-            cc.MoveTo:create(Soldier.speed,node.path[node.moveNum],cc.CallFunc:create(Noderun,node))) )                               --第一个参数是回调的方法，第二个参数可以是开发者自定义的table
+        node.layer:getChildByTag(100):runAction(cc.Sequence:create(
+            cc.MoveTo:create(Soldier.speed,node.path[node.moveNum]),cc.CallFunc:create(Noderun,node)))                                --第一个参数是回调的方法，第二个参数可以是开发者自定义的table
     else   
-       node.moveNum = 0;
-       node.isPatrol = true
+        node.moveNum = 0;
+        node.isPatrol = true
     end
-end
--- 
+end      
+
 ----小兵移动--查岗
 function soldierLayer.move(map)	 
        
        for key, var in ipairs(soldierTab) do
            if(var.isPatrol)then
               var.moveNum = 0
-      	      --print("再次巡逻、、。。。。。。")
               var.isPatrol  =  false   --防止小兵在运动是再次触发移动 
               local point = cc.p(var.layer:getChildByTag(100):getPositionX(),
                    var.layer:getChildByTag(100):getPositionY())  
@@ -129,21 +127,23 @@ function soldierLayer.move(map)
                  --位置数组
                  while(result.x)do
                     local item = {x =result.x, y=result.y}  
-                                     
-                    table.insert(var.path , 1,coordinate.getPoint(map,item))
+                    
+                    --print(item.x,item.y)                 
+                    table.insert(var.path ,  1 , coordinate.getPoint(map,item))
                  
                     result=result.father
                  end 
                 
                 --防止回退到item中心
                  var.path[1].x,var.path[1].y = var.layer:getChildByTag(100):getPosition()  
-                                       
+                                 
                  --节点移动
-                 Noderun("",var) --“ff"只是为了满足函数调用   
+                Noderun("",var) --“"只是为了满足函数调用   
+                 
                --路径 没找到
-               else
+              else
                  var.isPatrol = true  --重新巡逻 
-               end
+              end
             
       	   end
        end       

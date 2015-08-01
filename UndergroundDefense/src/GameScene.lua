@@ -3,11 +3,13 @@ local bosView = require("src/view/role/bos")
 
 local soldierView = require("src/view/role/soldier")
 
+local enemySoldier = require("src/view/role/enemySoldier")
+
 local warriorView = require("src/view/role/warrior")
 
 local userTouch = require("src/controller/userTouch")
 
-local fight = require("src/controller/battle/fight")
+local soldierFight = require("src/controller/battle/soldierFight")
 
 local brithplace = require("src/view/birthplace")
 
@@ -32,7 +34,7 @@ local screeWidth,screeHeight
 function GameScene.create()
     local scene = GameScene.new()
     scene:addChild(GameScene:createMap())
-
+    
     return scene
 end
 
@@ -44,7 +46,7 @@ function GameScene:ctor()
     ----数据初始化
     isExistWarrior = false
 
-    whichWarrior = 0
+    whichWarrior = 0      -- 第几个勇士
 
     Boss_blood = Boss.blood
 
@@ -56,7 +58,9 @@ function GameScene:ctor()
     
     soldierTab={}  -- 小兵集合
     
-    soldierKey = 300  -- 小兵的key
+    warriorTab = {}   --勇士小兵集合
+    
+    soldierKey = 30000  -- 小兵的key
 end
 
 
@@ -77,11 +81,15 @@ function GameScene:createMap()
     map:addChild(bos,0,10000)
 
 
-    local soldierpoint = object.getPoint(map,"object","soldierpoint")
-    local space = 0;
+    local soldierPoint = object.getPoint(map,"object","soldierpoint")
+    local soldierSpace = 0;
+    
+    local warriorPoint = object.getPoint(map,"object","warriorpoint")
+    local warriorSpace = 0 ;
+    local enemySoldierSpace = 0
     
     ---添加出生地血量
-    local birth_blood = brithplace.create(soldierpoint.x,soldierpoint.y)
+    local birth_blood = brithplace.create(soldierPoint.x,soldierPoint.y)
     map:addChild(birth_blood,0,250)
   
     math.randomseed(os.time()) 
@@ -93,11 +101,11 @@ function GameScene:createMap()
     --左级菜单
     local leftmenu = leftMenu.create(45,360,map)
     layerMap:addChild(leftmenu,0,10087)
-    
-
+ 
     --监听地图层 -在map上的坐标
     local layerBg=map:getLayer("layerMap")
     local bitNode;
+    
     
     local function onTouchBegan(touche,event)
         bitNode = touche:getLocation()        
@@ -151,32 +159,41 @@ function GameScene:createMap()
     listener:registerScriptHandler(onToucheMoved_map,cc.Handler.EVENT_TOUCH_MOVED )
     local eventDispatcher = layerMap:getEventDispatcher()
     eventDispatcher:addEventListenerWithSceneGraphPriority(listener, layerMap)
-
-    local wspace = 0 ;
     
           
     --更新方法
-    local function update()
-    
+    local function update()    
         ---更新upMenu
         updateMenu.upMenu(upmenu)
         updateMenu.leftMenu(leftmenu)
        
         --小兵数量result.SoldierNum，创建小兵       
         if(table.getn(soldierTab)< result.SoldierNum and birthplace_blood > 0)then
-            space = space + 0.5;
-            if(space > Soldier.space)then 
-                local soldier = soldierView.create(soldierpoint.x,soldierpoint.y)
+            soldierSpace = soldierSpace + 0.5;
+            if(soldierSpace > Soldier.space)then 
+                local soldier = soldierView.create(soldierPoint.x,soldierPoint.y)
                 map:addChild(soldier,0,soldierKey)
                 soldierKey =soldierKey +1
-                space = 0;
+                soldierSpace = 0;
             end    
         end 
+        
+        --敌方小兵
+        if(table.getn(warriorTab)< result.enemySoldierNum and birthplace_blood > 0)then
+            enemySoldierSpace = enemySoldierSpace + 0.5;
+            if(enemySoldierSpace > result.enemySoldier.space)then 
+                local soldier = enemySoldier.create(warriorPoint.x,warriorPoint.y)
+                map:addChild(soldier,0,soldierKey)
+                soldierKey =soldierKey +1
+                enemySoldierSpace = 0;
+            end    
+        end 
+        
                   
         --勇士数量result.WarriorNum，地图没勇士创建勇士
         if(not isExistWarrior )then
-            wspace = wspace + 0.5
-            if(wspace > Warrior.space)then
+            warriorSpace = warriorSpace + 0.5
+            if(warriorSpace > Warrior.space)then
                 whichWarrior = whichWarrior + 1 --表示第几个勇士
                
                 if(whichWarrior > result.WarriorNum)then
@@ -186,29 +203,28 @@ function GameScene:createMap()
                     local gameScene = scene.create()
                     cc.Director:getInstance():replaceScene(gameScene)  
                 else
-                        ---添加勇士
-                    local warriorpoint = object.getPoint(map,"object","warriorpoint")
-
-                    WarriorType = math.mod(whichWarrior,2)
-                    local warrior = warriorView.create(warriorpoint.x,warriorpoint.y, WarriorType)
+                    ---添加勇士                 
+                    local warrior = warriorView.create(warriorPoint.x,warriorPoint.y, math.mod(whichWarrior,2))
                     map:addChild(warrior,0,5000)           
                     isExistWarrior=true --存在勇士
                     _WarriorLifeTime = result.Warrior_LiftTime  --更新勇士生存时间值
                     --移动勇士
                     warriorView.move(map)
 
-                    wspace = 0
+                    warriorSpace = 0
                 end
 
             end
         end
         
         ---小兵巡逻
-        soldierView.move(map)
-
+        soldierView.move(map)       
+        enemySoldier.move(map)
+        
         ---对战  
-        if(isExistWarrior) then
-            fight.follow(map) 
+        
+        if(isExistWarrior) then   -- 勇士相关的战斗
+            soldierFight.warriorVsSoldier(map) 
             --
             attackBirth.soldierBirth(map)
 

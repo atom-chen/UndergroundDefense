@@ -2,7 +2,7 @@
 --
 local A_start = require("src/util/A_start")
 local coordinate = require("src/util/coordinate")
-
+local warriorModel = require("src/model/warriorModel")
 local WarriorLayer = class("WarriorLayer",function()
     return cc.Layer:create()
 end)
@@ -56,7 +56,8 @@ function WarriorLayer.create(x,y,type)
     
     ---剩余血量，类型,是否在运动,是否在攻击小兵
     Warrior_P={layer,Warrior.blood,type,false,false}
-           
+    --currentWarrior = warriorModel.create(layer,type,Warrior.blood,Warrior.blood,false,false)
+    
     return layer
 end
 
@@ -80,7 +81,7 @@ function WarriorLayer.move(map,targetItem)
     if(targetItem)then
        endItem = targetItem
     else
-        if(WarriorType == 0 and birthplace_blood >0)then
+        if(math.mod(whichWarrior,2) == 0 and birthplace_blood >0)then
             endItem = {x = 5, y = 57}
         else
             endItem = {x = 10, y = 17}
