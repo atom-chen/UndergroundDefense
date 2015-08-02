@@ -1,7 +1,7 @@
 {	
 	
   "SoldierNum": 15, 
-  "enemySoldierNum": 10
+  "enemySoldierNum": 10,
   "WarriorNum": 15,  
   "Warrior_LiftTime":101,
   
@@ -39,6 +39,19 @@
     "speed": 0.5 ,
     "space": 5  
   },
+  "trap":{
+  	"trapNum":20,
+  	"trap1":{
+  		"name":"Slow attack speed and move speed" ,
+  		"downmove":0.2,
+  		"downhurt": 100,
+  		"time":5
+  	},
+  	"trap2":{
+  		"name":"Cause damage",
+  		"hurt": 500
+  	}
+  }, 
   "money":{
   	"init":0,
   	"block_money":20
