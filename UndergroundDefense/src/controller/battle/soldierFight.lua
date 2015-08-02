@@ -12,9 +12,16 @@ local skill = require("src/controller/skill")
 
 local soldierFight = class("soldierFight")
  
+--小兵打小兵
+function soldierFight.soldierVsSoldier(map)
+	for key, soldier in ipairs(soldierTab) do
+	     
+	end
+end 
+ 
+
 
 local time_space = 0 
-
 -- 检查勇士进入小兵视野内
 function soldierFight.warriorVsSoldier(map)
     local warriorLayer = map:getChildByTag(5000)
@@ -30,9 +37,7 @@ function soldierFight.warriorVsSoldier(map)
     if((item.x == 5 and item.y == 57)or ((item.x == 10 and item.y == 17)))then
        attack = false  --不打小兵
     end
-    
-    --小兵互掐
-    
+   
     
     for key, var in ipairs(soldierTab) do
         if(not var.isStop)then  --没和勇士战斗的小兵

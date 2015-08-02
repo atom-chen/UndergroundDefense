@@ -58,23 +58,13 @@ function soldierLayer.create(x,y,sprite,blood_num,hurt)
     blood_txt:setColor(cc.c3b(0,0,0))
     blood_txt:setPosition(x,y+30)
     layer:addChild(blood_txt,1,103)
-   
-    --local path = {}
-    --把小兵添加到集合
-    --true用来指示一次目标点巡逻是否结束,0表示移动次数,path表示移动的线路,true表示是否在停止巡逻,小兵剩余血量,
-    --小兵的tag,正在被打的小兵,是否运行攻击勇士,伤害值，总血量
---    if(sprite)then 
---        table.insert(soldierTab,{layer,true,0,path,false,blood_num,soldierKey,false,false,hurt,blood_num})
---    else
---        table.insert(soldierTab,{layer,true,0,path,false,Soldier.blood,soldierKey,false,false,Soldier.hurt,Soldier.blood})
---    end 
     
     local soldier_model
     if(sprite)then 
-        soldier_model = soldierModel.create(layer,true,0,{},false,blood_num,soldierKey,false,false,hurt,blood_num)
+        soldier_model = soldierModel.create(layer,true,0,{},false,blood_num,soldierKey,false,hurt,blood_num)
         table.insert(soldierTab,soldier_model)
     else
-        soldier_model = soldierModel.create(layer,true,0,{},false,Soldier.blood,soldierKey,false,false,Soldier.hurt,Soldier.blood)
+        soldier_model = soldierModel.create(layer,true,0,{},false,Soldier.blood,soldierKey,false,Soldier.hurt,Soldier.blood)
         table.insert(soldierTab,soldier_model)      
     end 
 	
@@ -110,13 +100,14 @@ function soldierLayer.move(map)
                    var.layer:getChildByTag(100):getPositionY())  
                 ---获取起点的item           
               local startItem = coordinate.getItem(map,point)
+             
               --print("start: " .. startItem.x .. "  " ..startItem.y)
             
               --获取巡逻终点的item
               local ram = math.random(1,table.getn(result.SoldierPoint)) 
                        
               local endItem = result.SoldierPoint[ram]
-            
+  
               --print("end : ".. endItem.x,endItem.y)
                --A_start寻路
               local result = A_start.findPath(startItem,endItem,map)

@@ -1,3 +1,12 @@
+--  ********************************************************************
+--  Copyright(c) KingSoft
+--  FileName    : GameScene.lua
+--  Creator     : HuangZhiLong
+--  Date        : 2015年7月25日 下午11:41:46
+--  Contact     : huangzhilong1@kingsoft.com
+--  Comment     :
+--  *********************************************************************
+
 
 local bosView = require("src/view/role/bos")
 
@@ -32,17 +41,31 @@ end)
 local screeWidth,screeHeight
 
 function GameScene.create()
-    local scene = GameScene.new()
+    local scene = GameScene.new()   
+
+    math.randomseed(os.time()) 
+    
+    GameScene:init()
     scene:addChild(GameScene:createMap())
     
     return scene
 end
 
+local function cteateTrap()
+    local tag = 300
+    for var=1, result.trap.trapNum do
+        tag = tag + 1 
+        local trap = nil 
+    	if(math.random(1,2) == 1)then
+            trap = require("src/model/trapModel").create(cc.Sprite:create("res/trap1.png"),tag,1)                
+        else
+            trap = require("src/model/trapModel").create(cc.Sprite:create("res/trap2.png"),tag,2)
+        end
+        table.insert(trapTab,trap)
+    end
+end
 
-function GameScene:ctor()
-    self.visibleSize = cc.Director:getInstance():getVisibleSize()
-    screeWidth,screeHeight=self.visibleSize.width,self.visibleSize.height
-    print(screeWidth,screeHeight)
+function GameScene:init()
     ----数据初始化
     isExistWarrior = false
 
@@ -51,16 +74,27 @@ function GameScene:ctor()
     Boss_blood = Boss.blood
 
     birthplace_blood = result.birthplace_blood
-    
+
     Money = result.money.init --金币数,通过点击开辟道路获取
-    
+
     _WarriorLifeTime = result.Warrior_LiftTime  --勇士生存时间值
-    
+
     soldierTab={}  -- 小兵集合
-    
+
     warriorTab = {}   --勇士小兵集合
     
+    trapTab    = {} 
+
     soldierKey = 30000  -- 小兵的key
+    
+    --随机陷阱
+    cteateTrap()
+end
+
+function GameScene:ctor()
+    self.visibleSize = cc.Director:getInstance():getVisibleSize()
+    screeWidth,screeHeight=self.visibleSize.width,self.visibleSize.height
+    print(screeWidth,screeHeight)
 end
 
 
@@ -88,11 +122,14 @@ function GameScene:createMap()
     local warriorSpace = 0 ;
     local enemySoldierSpace = 0
     
+    --陷阱产生
+    local jj = trapTab
+    local trap = require("src/view/trapView").create(map)
+    map:addChild(trap,0,400)
+    
     ---添加出生地血量
     local birth_blood = brithplace.create(soldierPoint.x,soldierPoint.y)
     map:addChild(birth_blood,0,250)
-  
-    math.randomseed(os.time()) 
     
     --上级菜单
     local upmenu = upMenu.create(60,600)
@@ -166,6 +203,7 @@ function GameScene:createMap()
         ---更新upMenu
         updateMenu.upMenu(upmenu)
         updateMenu.leftMenu(leftmenu)
+        
        
         --小兵数量result.SoldierNum，创建小兵       
         if(table.getn(soldierTab)< result.SoldierNum and birthplace_blood > 0)then

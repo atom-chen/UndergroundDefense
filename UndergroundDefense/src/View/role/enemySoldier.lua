@@ -50,7 +50,7 @@ function enemySoldierLayer.create(x,y)
     blood_txt:setPosition(x,y+30)
     layer:addChild(blood_txt,1,103)
     
-    local soldier_model  = soldierModel.create(layer,true,0,{},false,result.enemySoldier.blood,soldierKey,false,false,result.enemySoldier.hurt,result.enemySoldier.blood)
+    local soldier_model  = soldierModel.create(layer,true,0,{},false,result.enemySoldier.blood,soldierKey,false,result.enemySoldier.hurt,result.enemySoldier.blood)
     table.insert(warriorTab,soldier_model)
 
     return layer

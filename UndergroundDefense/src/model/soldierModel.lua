@@ -12,7 +12,7 @@ local soldierModel = class(
     "soldierModel"
 )
 
-function soldierModel.create(layer,isPatrol,moveNum,path,isStop,remaindBlood,tag,isBeaten,isBit,hurt,blood)
+function soldierModel.create(layer,isPatrol,moveNum,path,isStop,remaindBlood,tag,isBit,hurt,blood)
     local mySoldier    = {}
 
     mySoldier.layer         = layer            --表示物体视图
@@ -28,8 +28,6 @@ function soldierModel.create(layer,isPatrol,moveNum,path,isStop,remaindBlood,tag
     mySoldier.remaindBlood  = remaindBlood     --剩余血量
 
     mySoldier.tag           = tag              --view的tag
-
-    mySoldier.isBeaten      = isBeaten         --是否遭受攻击
 
     mySoldier.isBit         = isBit            --是否在攻击状态
 
