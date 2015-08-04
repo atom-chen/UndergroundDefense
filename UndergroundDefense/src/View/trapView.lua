@@ -18,6 +18,7 @@ local function randomPosition(map)
 	
     print(item_x,item_y)
 	local item ={ x = item_x ,y = item_y}	
+	
     local point = require("src/util/coordinate").getPoint(map,item)
     
     return point
