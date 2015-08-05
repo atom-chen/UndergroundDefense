@@ -58,9 +58,9 @@ function attackBoss.bitBoss(map)
                         blood_txtok:setString(Warrior_P[2].. "/" .. Warrior.blood)
                     end
                 else
-                    Boss_blood = Boss_blood - Warrior.hurt 
+                    Boss_blood = Boss_blood - Warrior_P[8] 
                     --显示扣血效果
-                    local Bosstip =  gameTip.create(progress,"-"..Warrior.hurt,map,1001,4)
+                    local Bosstip =  gameTip.create(progress,"-"..Warrior_P[8],map,1001,4)
                     map:addChild(Bosstip,0,1001)
                 end
                 

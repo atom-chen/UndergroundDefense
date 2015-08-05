@@ -1,8 +1,8 @@
+
+
 local  gameTip= class("gameTip",function()
     return cc.Layer:create()
 end)
-
-
 
 function gameTip.create(node,tip,map,key,type)
 
@@ -46,7 +46,7 @@ function gameTip.skill(node,tip,map,key)
     local x = node:getPositionX()
     local y = node:getPositionY() + 55  
    
-    local blood_tip = cc.Label:createWithTTF(tip,"fonts/menu_format.ttf",12)
+    local blood_tip = cc.Label:createWithTTF(tip,"fonts/menu_format.ttf",10)
     blood_tip:setColor(cc.c3b(0,125,0))
     blood_tip:setPosition(x,y)
     blood_tip:setScale(0.1)

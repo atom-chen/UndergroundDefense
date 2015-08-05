@@ -15,7 +15,7 @@ function updateMenu.upMenu(menu)
       timeSpace = timeSpace + 0.2
     end
     ---没有在规定时间内杀死勇士，游戏失败
-    if(_WarriorLifeTime <= 0)then
+    if(WarriorLifeTime <= 0)then
         cc.Director:getInstance():getScheduler():unscheduleScriptEntry(schedulerId)
         gameResult = false
         local scene = require("ResultScene")
@@ -28,8 +28,8 @@ function updateMenu.upMenu(menu)
         warrior_txt:setString(whichWarrior)
         
         if(timeSpace >= 1)then
-            _WarriorLifeTime = _WarriorLifeTime - 1
-            time_txt:setString(_WarriorLifeTime)
+            WarriorLifeTime = WarriorLifeTime - 1
+            time_txt:setString(WarriorLifeTime)
             timeSpace = 0
         end
     end

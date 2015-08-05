@@ -27,8 +27,6 @@ object=require("Util.getObjectLayerData")-- 加载地图对象层属性获取类
 tiled=require("Util/getTiledData") -- 加载地图指定point图块是否能移动
 
 
-currentWarrior = nil     --现在的勇士
-
 soldierTab     = {}      -- 魔王小兵集合
 
 warriorTab     = {}      --勇士小兵集合

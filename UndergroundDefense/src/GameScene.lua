@@ -77,7 +77,7 @@ function GameScene:init()
 
     Money = result.money.init --金币数,通过点击开辟道路获取
 
-    _WarriorLifeTime = result.Warrior_LiftTime  --勇士生存时间值
+    WarriorLifeTime = result.Warrior_LiftTime  --勇士生存时间值
 
     soldierTab={}  -- 小兵集合
 
@@ -123,7 +123,6 @@ function GameScene:createMap()
     local enemySoldierSpace = 0
     
     --陷阱产生
-    local jj = trapTab
     local trap = require("src/view/trapView").create(map)
     map:addChild(trap,0,400)
     
@@ -204,6 +203,7 @@ function GameScene:createMap()
         updateMenu.upMenu(upmenu)
         updateMenu.leftMenu(leftmenu)
         
+        require("src/controller/touchTrap").trigger(map)
        
         --小兵数量result.SoldierNum，创建小兵       
         if(table.getn(soldierTab)< result.SoldierNum and birthplace_blood > 0)then
@@ -245,7 +245,7 @@ function GameScene:createMap()
                     local warrior = warriorView.create(warriorPoint.x,warriorPoint.y, math.mod(whichWarrior,2))
                     map:addChild(warrior,0,5000)           
                     isExistWarrior=true --存在勇士
-                    _WarriorLifeTime = result.Warrior_LiftTime  --更新勇士生存时间值
+                    WarriorLifeTime = result.Warrior_LiftTime  --更新勇士生存时间值
                     --移动勇士
                     warriorView.move(map)
 

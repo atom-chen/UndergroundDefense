@@ -54,11 +54,21 @@ function WarriorLayer.create(x,y,type)
 
     layer:addChild(blood_txt,0,1003)
     
-    ---剩余血量，类型,是否在运动,是否在攻击小兵
-    Warrior_P={layer,Warrior.blood,type,false,false}
+    ---剩余血量，类型,是否在运动,是否在攻击小兵,陷阱的debuff时间
+    Warrior_P={layer,Warrior.blood,type,false,false,0,Warrior.speed,Warrior.hurt}
     --currentWarrior = warriorModel.create(layer,type,Warrior.blood,Warrior.blood,false,false)
     
     return layer
+end
+
+--更新血量
+function WarriorLayer.updateBlood()
+    if(isExistWarrior)then
+        local blooding = Warrior_P[1]:getChildByTag(1002)
+        local blood_txt = Warrior_P[1]:getChildByTag(1003)
+        blooding:setPercentage(math.floor(Warrior_P[2]/Warrior.blood*100))
+        blood_txt:setString(Warrior_P[2].. "/" .. Warrior.blood)
+    end
 end
 
 ---勇士移动
@@ -113,10 +123,10 @@ function WarriorLayer.move(map,targetItem)
         local function Noderun(node ,path )
         	if(actionNum < table.getn(path))then
                 actionNum = actionNum + 1
-                blood:runAction(cc.MoveTo:create(Warrior.speed,cc.p(path[actionNum].x,path[actionNum].y+55)))
-                blooding:runAction(cc.MoveTo:create(Warrior.speed,cc.p(path[actionNum].x,path[actionNum].y+55)))
-                blood_txt:runAction(cc.MoveTo:create(Warrior.speed,cc.p(path[actionNum].x,path[actionNum].y+65)))
-                local action =cc.Sequence:create(cc.MoveTo:create(Warrior.speed,path[actionNum]),
+                blood:runAction(cc.MoveTo:create(Warrior_P[7],cc.p(path[actionNum].x,path[actionNum].y+55)))
+                blooding:runAction(cc.MoveTo:create(Warrior_P[7],cc.p(path[actionNum].x,path[actionNum].y+55)))
+                blood_txt:runAction(cc.MoveTo:create(Warrior_P[7],cc.p(path[actionNum].x,path[actionNum].y+65)))
+                local action =cc.Sequence:create(cc.MoveTo:create(Warrior_P[7],path[actionNum]),
                     cc.CallFunc:create(Noderun,path))
                 action:setTag(1010)
                 warrior:runAction(action)

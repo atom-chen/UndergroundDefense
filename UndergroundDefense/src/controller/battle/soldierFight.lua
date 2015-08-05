@@ -136,7 +136,7 @@ function soldierFight.warriorVsSoldier(map)
                     blood_txt:setString(Warrior_P[2].. "/" .. Warrior.blood)
                end
              else   --普攻            
-                fight_soldier.remaindBlood = fight_soldier.remaindBlood - Warrior.hurt ;
+                fight_soldier.remaindBlood = fight_soldier.remaindBlood - Warrior_P[8] ;
                 remaind:setPercentage(math.floor(fight_soldier.remaindBlood/fight_soldier.blood*100))
                 txt:setString(fight_soldier.remaindBlood.. "/" .. fight_soldier.blood)
              end

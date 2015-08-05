@@ -54,9 +54,9 @@ function attackBirth.soldierBirth(map)
                         blood_txt1:setString(Warrior_P[2].. "/" .. Warrior.blood)
                       end
                   else
-                     birthplace_blood = birthplace_blood - Warrior.hurt
+                     birthplace_blood = birthplace_blood - Warrior_P[8]
                      --显示扣血效果
-                     local Birthtip =  gameTip.create(progress,"-"..Warrior.hurt,map,666,4)
+                    local Birthtip =  gameTip.create(progress,"-"..Warrior_P[8],map,666,4)
                      map:addChild(Birthtip,0,666) 
                   end
                   if(birthplace_blood > 0)then

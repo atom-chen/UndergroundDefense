@@ -7,14 +7,15 @@
 --  Comment     :
 --  *********************************************************************
 
-
+local minPositionX , maxPositionX = 4 , 84
+local maxPositionY , minPositionY = 4 , 54
 local  trapView= class("trapView",function()
     return cc.Layer:create()
 end)
 
 local function randomPosition(map)
-	local item_x = math.random(1,88)
-	local item_y = math.random(1,58)
+    local item_x = math.random(minPositionX,maxPositionX)
+    local item_y = math.random(maxPositionY,minPositionY)
 	
     print(item_x,item_y)
 	local item ={ x = item_x ,y = item_y}	
