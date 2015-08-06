@@ -43,7 +43,7 @@
   	"trapNum":20,
   	"trap1":{
   		"name":"Slow attack speed and move speed" ,
-  		"downmove":0.2,
+  		"downmove":0.8,
   		"downhurt": 100,
   		"time":5
   	},
