@@ -28,7 +28,8 @@ function touchTrap.trigger(map)
                 if(trap.type == 1)then                   
                     Warrior_P[6] = result.trap.trap1.time --每次踩到更新为时间
                     time  = 0
-                    --require("src/view/gameTip").skill(Warrior_P[1]:getChildByTag(1000),result.trap.trap1.name,map,666)
+                    local tarpTip = require("src/view/gameTip").warriorTip(result.trap.trap1.name,map,300,10,cc.c3b(0,125,0))
+                    map:addChild(tarpTip,0,300)
                     if(Warrior_P[7] == Warrior.speed)then -- 还没被debuff
                         Warrior_P[7] = Warrior_P[7] + result.trap.trap1.downmove
                         Warrior_P[8] = Warrior_P[8] - result.trap.trap1.downhurt
@@ -37,7 +38,8 @@ function touchTrap.trigger(map)
                 if(trap.type == 2)then
                     Warrior_P[2] = Warrior_P[2] - result.trap.trap2.hurt                    
                     require("src/View/role/warrior").updateBlood() -- 更新血条
-                    --require("src/View/gameTip").skill(Warrior_P[1]:getChildByTag(1000),result.trap.trap2.name,map,666)
+                    local tarpTip = require("src/view/gameTip").warriorTip(result.trap.trap2.name,map,300,10,cc.c3b(0,125,0))
+                    map:addChild(tarpTip,0,300)
                 end
                 local trapLayer = map:getChildByTag(400)                
                 trapLayer:removeChildByTag(trap.tag)

@@ -34,8 +34,8 @@ function attackBirth.soldierBirth(map)
                      
                       if(type == 1)then
                       --显示技能名
-                        local skill_tip =  gameTip.skill(Warrior_P[1]:getChildByTag(1000),"暴击-"..Warrior.skill_type1 ,map,123)
-                        map:addChild(skill_tip,0,123)
+                        local skill_tip = gameTip.warriorTip("暴击-"..Warrior.skill_type1,map,300,10,cc.c3b(0,125,0))
+                        map:addChild(skill_tip,0,300)
 
                         birthplace_blood = birthplace_blood - Warrior.skill_type1 ;
                         progress:setPercentage(math.floor(birthplace_blood/result.birthplace_blood*100))
@@ -43,8 +43,8 @@ function attackBirth.soldierBirth(map)
                         
                       else
                         --显示技能名
-                        local skill_tip =  gameTip.skill(Warrior_P[1]:getChildByTag(1000),"治疗术+".. Warrior.skill_type2,map,123)
-                        map:addChild(skill_tip,0,123)
+                        local skill_tip = gameTip.warriorTip("治疗术+".. Warrior.skill_type2,map,300,10,cc.c3b(0,125,0))
+                        map:addChild(skill_tip,0,300)
                         Warrior_P [2] = Warrior_P [2] + Warrior.skill_type2
                         
                         local warriorLayer = map:getChildByTag(5000)

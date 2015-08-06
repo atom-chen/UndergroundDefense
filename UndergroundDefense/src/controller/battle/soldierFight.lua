@@ -89,8 +89,7 @@ function soldierFight.warriorVsSoldier(map)
                             local tip =  gameTip.create(Warrior_P[1]:getChildByTag(1000),"-"..var.hurt,map,5555,1)
                             
                             map:addChild(tip,0,5555) 
-                            blooding:setPercentage(math.floor(Warrior_P[2]/Warrior.blood*100))
-                            blood_txt:setString(Warrior_P[2].. "/" .. Warrior.blood)
+                            require("src/View/role/warrior").updateBlood() -- 更新血条
                         end
 
                         var.layer:getChildByTag(100):runAction(cc.Sequence:create(cc.DelayTime:create(Soldier.time),
@@ -119,8 +118,8 @@ function soldierFight.warriorVsSoldier(map)
                time_space = 0
                if(type == 1)then
                     --显示技能名
-                    local skill_tip =  gameTip.skill(Warrior_P[1]:getChildByTag(1000),"暴击-"..Warrior.skill_type1 ,map,123)
-                    map:addChild(skill_tip,0,123)
+                    local skill_tip = gameTip.warriorTip("暴击-"..Warrior.skill_type1,map,300,10,cc.c3b(0,125,0))
+                    map:addChild(skill_tip,0,300)
                     
                     fight_soldier.remaindBlood = fight_soldier.remaindBlood - Warrior.skill_type1 ;
                     remaind:setPercentage(math.floor(fight_soldier.remaindBlood/fight_soldier.blood*100))
@@ -128,12 +127,10 @@ function soldierFight.warriorVsSoldier(map)
                     txt:setString(fight_soldier.remaindBlood.. "/" .. fight_soldier.blood)
                else
                     --显示技能名
-                    local skill_tip =  gameTip.skill(Warrior_P[1]:getChildByTag(1000),"治疗术+".. Warrior.skill_type2,map,123)
-                    map:addChild(skill_tip,0,123)
-                    Warrior_P [2] = Warrior_P [2] + Warrior.skill_type2
-                    
-                    blooding:setPercentage(math.floor(Warrior_P[2]/Warrior.blood*100))
-                    blood_txt:setString(Warrior_P[2].. "/" .. Warrior.blood)
+                    local skill_tip = gameTip.warriorTip("治疗术+".. Warrior.skill_type2,map,300,10,cc.c3b(0,125,0))
+                    map:addChild(skill_tip,0,300)
+                    Warrior_P [2] = Warrior_P [2] + Warrior.skill_type2                  
+                    require("src/View/role/warrior").updateBlood() -- 更新血条
                end
              else   --普攻            
                 fight_soldier.remaindBlood = fight_soldier.remaindBlood - Warrior_P[8] ;

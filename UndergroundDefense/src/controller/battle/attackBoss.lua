@@ -39,16 +39,16 @@ function attackBoss.bitBoss(map)
      
                     if(type == 1)then
                         --显示技能名
-                        local skill_tip =  gameTip.skill(Warrior_P[1]:getChildByTag(1000),"暴击-"..Warrior.skill_type1 ,map,123)
-                        map:addChild(skill_tip,0,123)
+                        local skill_tip = gameTip.warriorTip("暴击-"..Warrior.skill_type1,map,300,10,cc.c3b(0,125,0))
+                        map:addChild(skill_tip,0,300)
                    
                         Boss_blood = Boss_blood - Warrior.skill_type1 ;
                         progress:setPercentage(math.floor(Boss_blood/Boss.blood*100))
                         txt:setString(Boss_blood.. "/" .. Boss.blood)
                     else
                         --显示技能名
-                        local skill_tip =  gameTip.skill(Warrior_P[1]:getChildByTag(1000),"治疗术+".. Warrior.skill_type2,map,123)
-                        map:addChild(skill_tip,0,123)
+                        local skill_tip = gameTip.warriorTip("治疗术+".. Warrior.skill_type2,map,300,10,cc.c3b(0,125,0))
+                        map:addChild(skill_tip,0,300)
                         Warrior_P [2] = Warrior_P [2] + Warrior.skill_type2
 
                         local warriorLayer = map:getChildByTag(5000)
@@ -86,11 +86,6 @@ function attackBoss.bitBoss(map)
             attack()
 
             ---Boss打勇士
-            local warriorLayer = map:getChildByTag(5000)
-            local warrior = warriorLayer:getChildByTag(1000)
-            local blood =warriorLayer:getChildByTag(1001)
-            local blooding =warriorLayer:getChildByTag(1002)
-            local blood_txt =warriorLayer:getChildByTag(1003)
 
             local function attackWarrior()
                 Warrior_P[2] = Warrior_P[2] - Boss.hurt
@@ -99,8 +94,8 @@ function attackBoss.bitBoss(map)
                     --显示扣血效果
                     local tip =  gameTip.create(Warrior_P[1]:getChildByTag(1000),"-"..Boss.hurt,map,585,1)
                     map:addChild(tip,0,585)
-                    blooding:setPercentage(math.floor(Warrior_P[2]/Warrior.blood*100))
-                    blood_txt:setString(Warrior_P[2].. "/" .. Warrior.blood)
+                    
+                    require("src/View/role/warrior").updateBlood() -- 更新血条
 
                     local action =cc.Sequence:create(
                         cc.DelayTime:create(Boss.time),                       
