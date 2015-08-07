@@ -37,7 +37,6 @@ function updateMenu.upMenu(menu)
 end
 
 ---更新左级菜单
-
 function updateMenu.leftMenu(menu)
 
     local monster1   =  menu:getChildByTag(1)
@@ -65,9 +64,9 @@ function updateMenu.leftMenu(menu)
     else
         monster3:setColor(cc.c3b(120,120,120))
     end
+    
+    
    
 end
-
-
 
 return updateMenu

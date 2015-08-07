@@ -84,6 +84,8 @@ function GameScene:init()
     warriorTab = {}   --勇士小兵集合
     
     trapTab    = {} 
+    
+    mosterTab  = {}
 
     soldierKey = 30000  -- 小兵的key
         
@@ -107,9 +109,10 @@ function GameScene:createMap()
     local  map = cc.TMXTiledMap:create("map/map.tmx") ---每个TMXTiledMap都被当作一个精灵
     layerMap:addChild(map, 0, 1)
     
+    --陷阱产生
+    local trap = require("src/view/trapView").create(map)
+    map:addChild(trap,0,400)
 
-    ----bos视图显示
-    --local object = require("Util.getObjectLayerData") --全局已加载
     local bospoint = object.getPoint(map,"object","Bospoint")    --加载对象层数据
     local bos = bosView.create(bospoint.x,bospoint.y)
     map:addChild(bos,0,10000)
@@ -121,11 +124,7 @@ function GameScene:createMap()
     local warriorPoint = object.getPoint(map,"object","warriorpoint")
     local warriorSpace = 0 ;
     local enemySoldierSpace = 0
-    
-    --陷阱产生
-    local trap = require("src/view/trapView").create(map)
-    map:addChild(trap,0,400)
-    
+       
     ---添加出生地血量
     local birth_blood = brithplace.create(soldierPoint.x,soldierPoint.y)
     map:addChild(birth_blood,0,250)

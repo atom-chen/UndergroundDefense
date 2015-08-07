@@ -31,7 +31,7 @@ function leftMenu.create(x,y,map)
     layer:addChild(monster3,0,3) 
     monster3:setColor(cc.c3b(120,120,120))
 
-    local whichmonster = nil   
+    local whichmonster = nil   --用来生成拖动的moster
     local tag = nil 
     local listener_left = cc.EventListenerTouchOneByOne:create()
     local function onTouchBegan_left(touche, event)       
@@ -43,7 +43,7 @@ function leftMenu.create(x,y,map)
           )then
                  
            listener_left:setSwallowTouches(true) --吞噬点击事件，不往下层传递，记得返回true
-           
+           --moster1
            if(cc.rectContainsPoint(monster1:getBoundingBox(),location))then
                 if(Money >= result.monster.monster1.cost)then
                     tag = 100
@@ -54,7 +54,7 @@ function leftMenu.create(x,y,map)
                   return false
                 end
            end
-           
+           --moster2
            if(cc.rectContainsPoint(monster2:getBoundingBox(),location))then
                 if(Money >= result.monster.monster2.cost)then
                     tag = 200
@@ -65,7 +65,7 @@ function leftMenu.create(x,y,map)
                    return false
                 end
            end
-            
+            --moster3
            if(cc.rectContainsPoint(monster3:getBoundingBox(),location))then
                 if(Money >= result.monster.monster3.cost)then
                     tag = 300
@@ -97,32 +97,28 @@ function leftMenu.create(x,y,map)
         local clonesprite
         local map_x = whichmonster:getPositionX()-map:getPositionX()
         local map_y = whichmonster:getPositionY()-map:getPositionY()
+        --创建moster
         if(tag == 100)then
-            clonesprite = soldierView.create(map_x,map_y,"monster/monster1.png",result.monster.monster1.blood,result.monster.monster1.hurt)
-            
+            clonesprite = soldierView.create(map_x,map_y,"monster/monster1.png",result.monster.monster1.blood,result.monster.monster1.hurt,1)            
             Money = Money - result.monster.monster1.cost
+            table.insert(mosterTab,1)
         end
         if(tag == 200)then
-            clonesprite = soldierView.create(map_x,map_y,"monster/monster2.png",result.monster.monster2.blood,result.monster.monster2.hurt)
+            clonesprite = soldierView.create(map_x,map_y,"monster/monster2.png",result.monster.monster2.blood,result.monster.monster2.hurt,2)
             Money =Money - result.monster.monster2.cost
+            table.insert(mosterTab,2)
         end
         
         if(tag == 300)then
-            clonesprite = soldierView.create(map_x,map_y,"monster/RobotRun3.png",result.monster.monster3.blood,result.monster.monster3.hurt)
-            
+            clonesprite = soldierView.create(map_x,map_y,"monster/RobotRun3.png",result.monster.monster3.blood,result.monster.monster3.hurt,3)            
             Money = Money - result.monster.monster3.cost
+            table.insert(mosterTab,3)
         end        
-        map:addChild(clonesprite,0,soldierKey)
+        map:addChild(clonesprite,0,soldierKey)--添加到map上
         soldierKey =soldierKey +1
-        layer:removeChildByTag(tag)
-       
-        ----把该怪兽添加到士兵集合
-        
-        
+        layer:removeChildByTag(tag) --移除拖动的moster
+
     end
-
-    
-
     ----监听leftMenu       
     listener_left:registerScriptHandler(onTouchBegan_left,cc.Handler.EVENT_TOUCH_BEGAN )
     listener_left:registerScriptHandler(onTouchEnd_left,cc.Handler.EVENT_TOUCH_ENDED )
@@ -136,31 +132,14 @@ end
 function leftMenu.createMonster3(x,y)
      local sprite = cc.Sprite:create("monster/RobotRun3.png")
      
-     sprite:setPosition(x,y)
-     
+     sprite:setPosition(x,y)     
      sprite:setScale(0.3)
---     local animation =cc.Animation:create()  
---     animation:addSpriteFrameWithFile("monster/RobotRun1.png")
---     animation:addSpriteFrameWithFile("monster/RobotRun2.png")
---     animation:addSpriteFrameWithFile("monster/RobotRun3.png")
---     animation:addSpriteFrameWithFile("monster/RobotRun4.png")
---     animation:addSpriteFrameWithFile("monster/RobotRun5.png")
---     animation:addSpriteFrameWithFile("monster/RobotRun6.png")
---     
---     animation:setDelayPerUnit(0.15)          --设置两个帧播放时间                      ⑥  
---     animation:setRestoreOriginalFrame(true)    --动画执行后还原初始状态   
---     
---     local action =cc.Animate:create(animation)                                                              
---     sprite:runAction(cc.RepeatForever:create(action))  
-     
      return sprite     
 end
 
 function leftMenu.createMonster1(x,y)
     local sprite = cc.Sprite:create("monster/monster1.png")
-
     sprite:setPosition(x,y)
-
     sprite:setScale(0.6)
     
     return sprite     
@@ -170,7 +149,6 @@ function leftMenu.createMonster2(x,y)
     local sprite = cc.Sprite:create("monster/monster2.png")
 
     sprite:setPosition(x,y)
-
     sprite:setScale(0.6)
 
     return sprite     

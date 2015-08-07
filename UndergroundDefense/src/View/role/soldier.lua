@@ -8,7 +8,7 @@ local soldierLayer = class("soldiersLayer",function()
     return cc.Layer:create()
 end)
 
-function soldierLayer.create(x,y,sprite,blood_num,hurt)
+function soldierLayer.create(x,y,sprite,blood_num,hurt,type)
     
     local layer = soldierLayer.new()
         
@@ -60,11 +60,11 @@ function soldierLayer.create(x,y,sprite,blood_num,hurt)
     layer:addChild(blood_txt,1,103)
     
     local soldier_model
-    if(sprite)then 
-        soldier_model = soldierModel.create(layer,true,0,{},false,blood_num,soldierKey,false,hurt,blood_num)
+    if(sprite)then   --moster
+        soldier_model = soldierModel.create(layer,true,0,{},false,blood_num,soldierKey,false,hurt,blood_num,type)
         table.insert(soldierTab,soldier_model)
-    else
-        soldier_model = soldierModel.create(layer,true,0,{},false,Soldier.blood,soldierKey,false,Soldier.hurt,Soldier.blood)
+    else --soldier的type为0
+        soldier_model = soldierModel.create(layer,true,0,{},false,Soldier.blood,soldierKey,false,Soldier.hurt,Soldier.blood,0)
         table.insert(soldierTab,soldier_model)      
     end 
 	

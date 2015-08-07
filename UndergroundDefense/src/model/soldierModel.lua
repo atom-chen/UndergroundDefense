@@ -8,11 +8,12 @@
 --  *********************************************************************
 
 
-local soldierModel = class(
-    "soldierModel"
-)
+--local soldierModel = class(
+--    "soldierModel"
+--)
+local soldierModel = {}
 
-function soldierModel.create(layer,isPatrol,moveNum,path,isStop,remaindBlood,tag,isBit,hurt,blood)
+function soldierModel.create(layer,isPatrol,moveNum,path,isStop,remaindBlood,tag,isBit,hurt,blood,type)
     local mySoldier    = {}
 
     mySoldier.layer         = layer            --表示物体视图
@@ -34,6 +35,8 @@ function soldierModel.create(layer,isPatrol,moveNum,path,isStop,remaindBlood,tag
     mySoldier.hurt          = hurt             --攻击伤害值
 
     mySoldier.blood         = blood            --总血量
+    
+    mySoldier.type          = type             --士兵类型,0士兵，1-moster1,2-moster2,3-moster3
 
     return mySoldier
 end
