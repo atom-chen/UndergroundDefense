@@ -42,13 +42,13 @@
   "trap":{
   	"trapNum":20,
   	"trap1":{
-  		"name":"Slow attack speed and move speed" ,
+  		"description":"speed -100 move -0.8" ,
   		"downmove":0.8,
   		"downhurt": 100,
-  		"time":5
+  		"time":10
   	},
   	"trap2":{
-  		"name":"Cause damage",
+  		"description":"blood -500",
   		"hurt": 500
   	}
   }, 
@@ -58,21 +58,35 @@
   }, 
   "monster":{
   	"monster1":{
+  	    "description":"strengthen soldier",
   		"blood": 1500,
-        "hurt": 350,
-       
-        "cost" : 150
+        "hurt": 300,        
+        "cost" : 300,
+        "cd" : 90,
+        "number":2,
+        "soldierBlood":200,
+        "soldierHurt":50
   	},
   	"monster2":{
+  		"description":"weak enemysoldier",
   		"blood": 1500,
-        "hurt": 350,
-       
-        "cost" : 150
+        "hurt": 350,       
+        "cost" : 350,
+        "cd" : 90,
+        "number":2,
+        "enemysoldierBlood":150,
+        "enemysoldierHurt":50
   	},
   	"monster3":{
-  		"blood": 2000,
-        "hurt": 400,
-        "cost" : 230
+  		"description":"weak warrior",
+  		"blood": 1500,
+        "hurt": 300,
+        "cost" : 550,
+         "cd" : 120,
+        "number":1,
+        "warriorSpeed":0.4,
+        "warriorHurt":80,
+        "warriorBlood":300
   	}
   },
   "SoldierPoint":[
