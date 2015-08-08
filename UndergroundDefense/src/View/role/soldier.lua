@@ -8,7 +8,7 @@ local soldierLayer = class("soldiersLayer",function()
     return cc.Layer:create()
 end)
 
-function soldierLayer.create(x,y,sprite,blood_num,hurt,type)
+function soldierLayer.create(x,y,sprite,blood_num,hurt,type,speed)
     
     local layer = soldierLayer.new()
         
@@ -61,10 +61,10 @@ function soldierLayer.create(x,y,sprite,blood_num,hurt,type)
     
     local soldier_model
     if(sprite)then   --moster
-        soldier_model = soldierModel.create(layer,true,0,{},false,blood_num,soldierKey,false,hurt,blood_num,type)
+        soldier_model = soldierModel.create(layer,true,0,{},false,blood_num,soldierKey,false,hurt,blood_num,type,speed)
         table.insert(soldierTab,soldier_model)
     else --soldier的type为0
-        soldier_model = soldierModel.create(layer,true,0,{},false,Soldier.blood,soldierKey,false,Soldier.hurt,Soldier.blood,0)
+        soldier_model = soldierModel.create(layer,true,0,{},false,Soldier.blood,soldierKey,false,Soldier.hurt,Soldier.blood,0,Soldier.speed)
         table.insert(soldierTab,soldier_model)      
     end 
 	
@@ -75,14 +75,14 @@ end
 local function Noderun(var,node)
     if(node.moveNum< table.getn(node.path))then
         node.moveNum = node.moveNum +1 ;       
-        node.layer:getChildByTag(101):runAction(cc.MoveTo:create(Soldier.speed,
+        node.layer:getChildByTag(101):runAction(cc.MoveTo:create(node.speed,
             cc.p(node.path[node.moveNum].x,node.path[node.moveNum].y+20)))
-        node.layer:getChildByTag(102):runAction(cc.MoveTo:create(Soldier.speed,
+        node.layer:getChildByTag(102):runAction(cc.MoveTo:create(node.speed,
             cc.p(node.path[node.moveNum].x,node.path[node.moveNum].y+20)))
-        node.layer:getChildByTag(103):runAction(cc.MoveTo:create(Soldier.speed,
+        node.layer:getChildByTag(103):runAction(cc.MoveTo:create(node.speed,
             cc.p(node.path[node.moveNum].x,node.path[node.moveNum].y+30)))
         node.layer:getChildByTag(100):runAction(cc.Sequence:create(
-            cc.MoveTo:create(Soldier.speed,node.path[node.moveNum]),cc.CallFunc:create(Noderun,node)))                                --第一个参数是回调的方法，第二个参数可以是开发者自定义的table
+            cc.MoveTo:create(node.speed,node.path[node.moveNum]),cc.CallFunc:create(Noderun,node)))                                --第一个参数是回调的方法，第二个参数可以是开发者自定义的table
     else   
         node.moveNum = 0;
         node.isPatrol = true

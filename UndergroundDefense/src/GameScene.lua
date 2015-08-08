@@ -89,6 +89,9 @@ function GameScene:init()
         
     --随机陷阱
     cteateTrap()
+    
+    require("src/model/monsterModel"):init()
+    require("src/model/monsterModel"):printData()
 end
 
 function GameScene:ctor()

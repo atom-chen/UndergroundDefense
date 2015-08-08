@@ -60,7 +60,8 @@
   	"monster1":{
   	    "description":"strengthen soldier",
   		"blood": 1500,
-        "hurt": 300,        
+        "hurt": 300,
+        "speed": 0.4,        
         "cost" : 300,
         "cd" : 90,
         "maxNum":2,
@@ -70,7 +71,8 @@
   	"monster2":{
   		"description":"weak enemysoldier",
   		"blood": 1500,
-        "hurt": 350,       
+        "hurt": 350,
+        "speed": 0.4,       
         "cost" : 350,
         "cd" : 90,
         "maxNum":2,
@@ -81,6 +83,7 @@
   		"description":"weak warrior",
   		"blood": 1500,
         "hurt": 300,
+        "speed": 0.4,
         "cost" : 550,
          "cd" : 120,
         "maxNum":1,

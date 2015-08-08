@@ -99,18 +99,18 @@ function leftMenu.create(x,y,map)
         local map_y = whichmonster:getPositionY()-map:getPositionY()
         --创建moster
         if(tag == 100)then
-            clonesprite = soldierView.create(map_x,map_y,"monster/monster1.png",result.monster.monster1.blood,result.monster.monster1.hurt,1)            
+            clonesprite = soldierView.create(map_x,map_y,"monster/monster1.png",result.monster.monster1.blood,result.monster.monster1.hurt,1,result.monster.monster1.speed)            
             Money = Money - result.monster.monster1.cost
  
         end
         if(tag == 200)then
-            clonesprite = soldierView.create(map_x,map_y,"monster/monster2.png",result.monster.monster2.blood,result.monster.monster2.hurt,2)
+            clonesprite = soldierView.create(map_x,map_y,"monster/monster2.png",result.monster.monster2.blood,result.monster.monster2.hurt,2,result.monster.monster2.speed)
             Money =Money - result.monster.monster2.cost
     
         end
         
         if(tag == 300)then
-            clonesprite = soldierView.create(map_x,map_y,"monster/RobotRun3.png",result.monster.monster3.blood,result.monster.monster3.hurt,3)            
+            clonesprite = soldierView.create(map_x,map_y,"monster/RobotRun3.png",result.monster.monster3.blood,result.monster.monster3.hurt,3,result.monster.monster3.speed)            
             Money = Money - result.monster.monster3.cost
         end        
         map:addChild(clonesprite,0,soldierKey)--添加到map上

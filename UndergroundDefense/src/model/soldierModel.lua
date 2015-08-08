@@ -13,7 +13,7 @@
 --)
 local soldierModel = {}
 
-function soldierModel.create(layer,isPatrol,moveNum,path,isStop,remaindBlood,tag,isBit,hurt,blood,type)
+function soldierModel.create(layer,isPatrol,moveNum,path,isStop,remaindBlood,tag,isBit,hurt,blood,type,speed)
     local mySoldier    = {}
 
     mySoldier.layer         = layer            --表示物体视图
@@ -37,6 +37,8 @@ function soldierModel.create(layer,isPatrol,moveNum,path,isStop,remaindBlood,tag
     mySoldier.blood         = blood            --总血量
     
     mySoldier.type          = type             --士兵类型,0士兵，1-moster1,2-moster2,3-moster3
+    
+    mySoldier.speed         = speed            --移动速度
 
     return mySoldier
 end
