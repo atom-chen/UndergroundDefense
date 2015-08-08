@@ -1,10 +1,10 @@
+
 local soldierView = require("src/view/role/soldier")
+local monsterModel = require("src/model/monsterModel")
 
 local  leftMenu= class("leftMenu",function()
     return cc.LayerColor:create()
 end)
-
-
 
 function leftMenu.create(x,y,map)
 
@@ -14,8 +14,15 @@ function leftMenu.create(x,y,map)
     monster1:setScale(1.5)
     monster1:setPosition(x,y)
     layer:addChild(monster1,0,1)   
-
     monster1:setColor(cc.c3b(120,120,120))
+    
+    local monster1Time = cc.Label:createWithTTF("time","fonts/arial.ttf",13)
+    monster1Time:setPosition(x,y)
+    layer:addChild(monster1Time,0,11)
+    
+    local monster1Max = cc.Label:createWithTTF("MAX","fonts/arial.ttf",13)
+    monster1Max:setPosition(x,y)
+    layer:addChild(monster1Max,0,12)    
 
     --------妖怪2
     local monster2 = cc.Sprite:create("monster/monster_head2.png")
@@ -42,48 +49,54 @@ function leftMenu.create(x,y,map)
                cc.rectContainsPoint(monster3:getBoundingBox(),location)
           )then
                  
-           listener_left:setSwallowTouches(true) --吞噬点击事件，不往下层传递，记得返回true
-           --moster1
-           if(cc.rectContainsPoint(monster1:getBoundingBox(),location))then
-                if(Money >= result.monster.monster1.cost)then
-                    tag = 100
-                    whichmonster = leftMenu.createMonster1(monster1:getPositionX(),monster1:getPositionY())
-                    whichmonster:setOpacity(120)
-                    layer:addChild(whichmonster,0,tag)
+            listener_left:setSwallowTouches(true) --吞噬点击事件，不往下层传递，记得返回true
+            --moster1
+           if(cc.rectContainsPoint(monster1:getBoundingBox(),location))then 
+                 --钱够，冷却时间到，没达到最大数量
+                if(Money >= result.monster.monster1.cost and 
+                   monsterModel.monsterTab.monster1.cd <= 0 and 
+                   monsterModel.monsterTab.monster1.currentMosterNum < monsterModel.monsterTab.monster1.maxNum)then
+                        tag = 100
+                        whichmonster = leftMenu.createMonster1(monster1:getPositionX(),monster1:getPositionY())
+                        whichmonster:setOpacity(120)
+                        layer:addChild(whichmonster,0,tag)
                 else
                   return false
                 end
            end
            --moster2
            if(cc.rectContainsPoint(monster2:getBoundingBox(),location))then
-                if(Money >= result.monster.monster2.cost)then
-                    tag = 200
-                    whichmonster = leftMenu.createMonster2(monster2:getPositionX(),monster2:getPositionY())
-                    whichmonster:setOpacity(120)
-                    layer:addChild(whichmonster,0,tag)
+                if(Money >= result.monster.monster2.cost and 
+                   monsterModel.monsterTab.monster2.cd <= 0 and  
+                   monsterModel.monsterTab.monster2.currentMosterNum < monsterModel.monsterTab.monster2.maxNum)then
+                        tag = 200
+                        whichmonster = leftMenu.createMonster2(monster2:getPositionX(),monster2:getPositionY())
+                        whichmonster:setOpacity(120)
+                        layer:addChild(whichmonster,0,tag)
                 else
                    return false
                 end
            end
             --moster3
            if(cc.rectContainsPoint(monster3:getBoundingBox(),location))then
-                if(Money >= result.monster.monster3.cost)then
-                    tag = 300
-                    whichmonster = leftMenu.createMonster3(monster3:getPositionX(),monster3:getPositionY())
-                    whichmonster:setOpacity(120)
-                    layer:addChild(whichmonster,0,tag)
+                if(Money >= result.monster.monster3.cost and 
+                   monsterModel.monsterTab.monster3.cd <= 0  and 
+                   monsterModel.monsterTab.monster3.currentMosterNum < monsterModel.monsterTab.monster3.maxNum)then
+                        tag = 300
+                        whichmonster = leftMenu.createMonster3(monster3:getPositionX(),monster3:getPositionY())
+                        whichmonster:setOpacity(120)
+                        layer:addChild(whichmonster,0,tag)
                 else
-                    return false
+                   return false
                 end
            end
            
             return true  ---setSwallowTouches能吞噬触屏，记得要返回true才行
         else
            
-            return false -- 不触发move，end       
+            return false -- 不触发move，end
         end
-              
-        
+                      
     end
     
     local function onTouchesMove_left(touche, event)
@@ -97,12 +110,28 @@ function leftMenu.create(x,y,map)
         local clonesprite
         local map_x = whichmonster:getPositionX()-map:getPositionX()
         local map_y = whichmonster:getPositionY()-map:getPositionY()
+       
         --创建moster
         if(tag == 100)then
             clonesprite = soldierView.create(map_x,map_y,"monster/monster1.png",result.monster.monster1.blood,result.monster.monster1.hurt,1,result.monster.monster1.speed)            
             Money = Money - result.monster.monster1.cost
- 
+            
+            monsterModel:addMoster("monster1")
+            monsterModel:flushCD("monster1")
+            monsterModel:printData()
+            if(monsterModel.monsterTab.monster1.currentMosterNum == 1)then               
+                --激活monster1的效果:soldier blood + 200 hurt + 50
+                for key, soldier in ipairs(soldierTab) do  --soldierTab存有怪兽
+                	if(soldier.type == 0)then
+                        soldier.hurt = soldier.hurt + result.monster.monster1.soldierHurt
+                        soldier.remaindBlood = soldier.remaindBlood + result.monster.monster1.soldierBlood
+                        soldier.blood = soldier.blood + result.monster.monster1.soldierBlood
+                	end
+                end            
+                soldierView.updateBlood()  
+            end                    
         end
+        
         if(tag == 200)then
             clonesprite = soldierView.create(map_x,map_y,"monster/monster2.png",result.monster.monster2.blood,result.monster.monster2.hurt,2,result.monster.monster2.speed)
             Money =Money - result.monster.monster2.cost

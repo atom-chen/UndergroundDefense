@@ -50,7 +50,7 @@ function enemySoldierLayer.create(x,y)
     blood_txt:setPosition(x,y+30)
     layer:addChild(blood_txt,1,103)
     
-    local soldier_model  = soldierModel.create(layer,true,0,{},false,result.enemySoldier.blood,soldierKey,false,result.enemySoldier.hurt,result.enemySoldier.blood)
+    local soldier_model  = soldierModel.create(layer,true,0,{},false,result.enemySoldier.blood,soldierKey,false,result.enemySoldier.hurt,result.enemySoldier.blood,4,result.enemySoldier.speed)
     table.insert(warriorTab,soldier_model)
 
     return layer
@@ -59,19 +59,30 @@ end
 local function Noderun(var,node)
     if(node.moveNum< table.getn(node.path))then
         node.moveNum = node.moveNum +1 ;       
-        node.layer:getChildByTag(101):runAction(cc.MoveTo:create(Soldier.speed,
+        node.layer:getChildByTag(101):runAction(cc.MoveTo:create(node.speed,
             cc.p(node.path[node.moveNum].x,node.path[node.moveNum].y+20)))
-        node.layer:getChildByTag(102):runAction(cc.MoveTo:create(Soldier.speed,
+        node.layer:getChildByTag(102):runAction(cc.MoveTo:create(node.speed,
             cc.p(node.path[node.moveNum].x,node.path[node.moveNum].y+20)))
-        node.layer:getChildByTag(103):runAction(cc.MoveTo:create(Soldier.speed,
+        node.layer:getChildByTag(103):runAction(cc.MoveTo:create(node.speed,
             cc.p(node.path[node.moveNum].x,node.path[node.moveNum].y+30)))
         node.layer:getChildByTag(100):runAction(cc.Sequence:create(
-            cc.MoveTo:create(Soldier.speed,node.path[node.moveNum]),cc.CallFunc:create(Noderun,node)))                                --第一个参数是回调的方法，第二个参数可以是开发者自定义的table
+            cc.MoveTo:create(node.speed,node.path[node.moveNum]),cc.CallFunc:create(Noderun,node)))                                --第一个参数是回调的方法，第二个参数可以是开发者自定义的table
     else   
         node.moveNum = 0;
         node.isPatrol = true
     end
 end   
+
+function enemySoldierLayer.updateBlood()
+    for key, soldier in ipairs(warriorTab) do
+        local remaind = soldier.layer:getChildByTag(102)
+        local txt = soldier.layer:getChildByTag(103) 
+
+        remaind:setPercentage(math.floor(soldier.remaindBlood/soldier.blood*100))
+        txt:setString(soldier.remaindBlood.. "/" .. soldier.blood)
+    end
+end
+
 
 function enemySoldierLayer.move(map)  
 

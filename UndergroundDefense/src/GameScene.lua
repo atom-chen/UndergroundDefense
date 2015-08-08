@@ -88,16 +88,15 @@ function GameScene:init()
     soldierKey = 30000  -- 小兵的key
         
     --随机陷阱
-    cteateTrap()
+    cteateTrap()    
     
     require("src/model/monsterModel"):init()
-    require("src/model/monsterModel"):printData()
 end
 
 function GameScene:ctor()
     self.visibleSize = cc.Director:getInstance():getVisibleSize()
     screeWidth,screeHeight=self.visibleSize.width,self.visibleSize.height
-    print(screeWidth,screeHeight)
+
 end
 
 

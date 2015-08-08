@@ -3,6 +3,7 @@
 local A_start = require("src/util/A_start")
 local coordinate = require("src/util/coordinate")
 local soldierModel = require("src/model/soldierModel")
+local monsterModel = require("src/model/monsterModel")
 
 local soldierLayer = class("soldiersLayer",function()
     return cc.Layer:create()
@@ -46,11 +47,23 @@ function soldierLayer.create(x,y,sprite,blood_num,hurt,type,speed)
     progress1:setScaleX(0.5)
     layer:addChild(progress1,0,102)
     
+    local soldierBlood ,soldierHurt
     local bd_txt
-    if(blood_num)then
+    
+    if(blood_num)then --monster
+        soldierBlood = blood_num
+        soldierHurt  = hurt
         bd_txt = blood_num .."/" ..blood_num
     else
-        bd_txt = Soldier.blood .. "/".. Soldier.blood
+        soldierBlood = Soldier.blood
+        soldierHurt  = Soldier.hurt
+        --moster1 effect
+        if(monsterModel.monsterTab.monster1.currentMosterNum > 0) then
+            soldierBlood = soldierBlood + result.monster.monster1.soldierBlood
+            soldierHurt  =  soldierHurt + result.monster.monster1.soldierHurt
+        end
+        
+        bd_txt = soldierBlood .. "/".. soldierBlood
     end
     
     ----添加血量文字
@@ -61,10 +74,10 @@ function soldierLayer.create(x,y,sprite,blood_num,hurt,type,speed)
     
     local soldier_model
     if(sprite)then   --moster
-        soldier_model = soldierModel.create(layer,true,0,{},false,blood_num,soldierKey,false,hurt,blood_num,type,speed)
+        soldier_model = soldierModel.create(layer,true,0,{},false,soldierBlood,soldierKey,false,soldierHurt,soldierBlood,type,speed)
         table.insert(soldierTab,soldier_model)
     else --soldier的type为0
-        soldier_model = soldierModel.create(layer,true,0,{},false,Soldier.blood,soldierKey,false,Soldier.hurt,Soldier.blood,0,Soldier.speed)
+        soldier_model = soldierModel.create(layer,true,0,{},false,soldierBlood,soldierKey,false,soldierHurt,soldierBlood,0,Soldier.speed)
         table.insert(soldierTab,soldier_model)      
     end 
 	
@@ -87,7 +100,20 @@ local function Noderun(var,node)
         node.moveNum = 0;
         node.isPatrol = true
     end
-end      
+end  
+
+--更新小兵血量
+function soldierLayer.updateBlood()
+    for key, soldier in ipairs(soldierTab) do
+		if soldier.type == 0 then 
+            local remaind = soldier.layer:getChildByTag(102)
+            local txt = soldier.layer:getChildByTag(103) 
+            
+            remaind:setPercentage(math.floor(soldier.remaindBlood/soldier.blood*100))
+            txt:setString(soldier.remaindBlood.. "/" .. soldier.blood)
+		end
+	end
+end
 
 ----小兵移动--查岗
 function soldierLayer.move(map)	 

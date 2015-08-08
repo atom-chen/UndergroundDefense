@@ -144,11 +144,27 @@ function soldierFight.warriorVsSoldier(map)
                     warrior:runAction(w_action) 
              else
                   --小兵被打死
+                  --判断是否失去monster的effect
+                  if( fight_soldier.type == 1)then
+                     local monsterModel = require("src/model/monsterModel")
+                     monsterModel:killMoster("monster1")
+                     if(monsterModel.monsterTab.monster1.currentMosterNum == 0 )then
+                         for key, soldier in ipairs(soldierTab) do
+                         	  if(soldier.type == 0) then
+                                soldier.hurt = soldier.hurt - result.monster.monster1.soldierHurt
+                                soldier.remaindBlood = soldier.remaindBlood - result.monster.monster1.soldierBlood
+                                soldier.blood = soldier.blood - result.monster.monster1.soldierBlood
+                         	  end
+                         end
+                         
+                        soldierView.updateBlood()
+                     end
+                  end
                   warrior:stopActionByTag(888);   
                   map:removeChildByTag(fight_soldier.tag) --从地图移除
                   table.remove(soldierTab,hitkey) -- 移除该小兵                  
                   Warrior_P[5] = false 
-                  hitkey = -1                                                            
+                  hitkey = -1                                                                          
              end                     
         end  
               

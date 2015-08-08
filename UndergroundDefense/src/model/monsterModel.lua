@@ -1,3 +1,12 @@
+--  ********************************************************************
+--  Copyright(c) KingSoft
+--  FileName    : monsterModel.lua
+--  Creator     : HuangZhiLong
+--  Date        : 2015年8月8日 下午10:29:25
+--  Contact     : huangzhilong1@kingsoft.com
+--  Comment     :
+--  *********************************************************************
+
 
 local monsterModel = {}
 
@@ -12,7 +21,6 @@ function monsterModel:init()
         print(key)
 		var.currentMosterNum = 0		
         var.maxNum = result.monster[key].maxNum
-        var.cd = result.monster[key].cd
 	end
 end
 
@@ -28,9 +36,35 @@ function monsterModel:killMoster(monsterType)
     monster.currentMosterNum = monster.currentMosterNum - 1
 end
 
+function monsterModel:flushCD(monsterType)
+    local monster = self.monsterTab[monsterType]
+    if(monsterType == "monster1")then
+        monster.cd = result.monster.monster1.cd
+    end
+    if(monsterType == "monster2")then
+        monster.cd = result.monster.monster2.cd
+    end
+    if(monsterType == "monster2")then
+        monster.cd = result.monster.monster2.cd
+    end
+end
+
+function monsterModel:downCD(monsterType)
+    local monster = self.monsterTab[monsterType]
+    if(monsterType == "monster1")then
+        monster.cd = monster.cd - 1
+    end
+    if(monsterType == "monster2")then
+        monster.cd = monster.cd - 1
+    end
+    if(monsterType == "monster2")then
+        monster.cd = monster.cd - 1
+    end
+end
+
 function monsterModel:printData()
     for key, var in pairs(self.monsterTab) do 
-        print(key.."    currentMosterNum :" ..var.currentMosterNum.."   maxNum:  "..var.maxNum)
+        print(key.."    currentMosterNum :" ..var.currentMosterNum.."   maxNum:  "..var.maxNum .. "CD : ".. var.cd)
     end
 end
 
