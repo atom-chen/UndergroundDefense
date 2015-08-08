@@ -63,7 +63,7 @@
         "hurt": 300,        
         "cost" : 300,
         "cd" : 90,
-        "number":2,
+        "maxNum":2,
         "soldierBlood":200,
         "soldierHurt":50
   	},
@@ -73,7 +73,7 @@
         "hurt": 350,       
         "cost" : 350,
         "cd" : 90,
-        "number":2,
+        "maxNum":2,
         "enemysoldierBlood":150,
         "enemysoldierHurt":50
   	},
@@ -83,7 +83,7 @@
         "hurt": 300,
         "cost" : 550,
          "cd" : 120,
-        "number":1,
+        "maxNum":1,
         "warriorSpeed":0.4,
         "warriorHurt":80,
         "warriorBlood":300

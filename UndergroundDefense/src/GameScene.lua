@@ -85,8 +85,6 @@ function GameScene:init()
     
     trapTab    = {} 
     
-    mosterTab  = {}
-
     soldierKey = 30000  -- 小兵的key
         
     --随机陷阱

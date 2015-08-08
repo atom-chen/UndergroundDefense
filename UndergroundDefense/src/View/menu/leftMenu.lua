@@ -101,18 +101,17 @@ function leftMenu.create(x,y,map)
         if(tag == 100)then
             clonesprite = soldierView.create(map_x,map_y,"monster/monster1.png",result.monster.monster1.blood,result.monster.monster1.hurt,1)            
             Money = Money - result.monster.monster1.cost
-            table.insert(mosterTab,1)
+ 
         end
         if(tag == 200)then
             clonesprite = soldierView.create(map_x,map_y,"monster/monster2.png",result.monster.monster2.blood,result.monster.monster2.hurt,2)
             Money =Money - result.monster.monster2.cost
-            table.insert(mosterTab,2)
+    
         end
         
         if(tag == 300)then
             clonesprite = soldierView.create(map_x,map_y,"monster/RobotRun3.png",result.monster.monster3.blood,result.monster.monster3.hurt,3)            
             Money = Money - result.monster.monster3.cost
-            table.insert(mosterTab,3)
         end        
         map:addChild(clonesprite,0,soldierKey)--添加到map上
         soldierKey =soldierKey +1
