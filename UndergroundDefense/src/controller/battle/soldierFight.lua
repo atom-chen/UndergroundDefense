@@ -143,7 +143,7 @@ function soldierFight.warriorVsSoldier(map)
                     w_action:setTag(888)
                     warrior:runAction(w_action) 
              else
-                  --小兵被打死
+                  --小兵被打死,不知道血量是否恢复回来
                   --判断是否失去monster的effect
                   if( fight_soldier.type == 1)then
                      local monsterModel = require("src/model/monsterModel")
@@ -152,14 +152,35 @@ function soldierFight.warriorVsSoldier(map)
                          for key, soldier in ipairs(soldierTab) do
                          	  if(soldier.type == 0) then
                                 soldier.hurt = soldier.hurt - result.monster.monster1.soldierHurt
-                                soldier.remaindBlood = soldier.remaindBlood - result.monster.monster1.soldierBlood
-                                soldier.blood = soldier.blood - result.monster.monster1.soldierBlood
+                                --soldier.remaindBlood = soldier.remaindBlood - result.monster.monster1.soldierBlood
+                                --soldier.blood = soldier.blood - result.monster.monster1.soldierBlood
                          	  end
                          end
                          
-                        soldierView.updateBlood()
+                        --soldierView.updateBlood()
                      end
                   end
+                  
+                if( fight_soldier.type == 2)then
+                    local monsterModel = require("src/model/monsterModel")
+                    monsterModel:killMoster("monster2")
+                    if(monsterModel.monsterTab.monster2.currentMosterNum == 0 )then
+                        for key, soldier in ipairs(warriorTab) do
+                            soldier.hurt = soldier.hurt + result.monster.monster2.enemysoldierHurt
+                            --soldier.remaindBlood = soldier.remaindBlood + result.monster.monster2.enemysoldierBlood
+                        end
+                    end
+                end
+               
+                if( fight_soldier.type == 3)then
+                    local monsterModel = require("src/model/monsterModel")
+                    monsterModel:killMoster("monster3")
+                    if(monsterModel.monsterTab.monster3.currentMosterNum == 0 )then
+                        Warrior_P[8] = Warrior_P[8] + result.monster.monster3.warriorHurt
+                        Warrior_P[2] = Warrior_P[2] + result.monster.monster3.warriorBlood
+                        Warrior_P[7] = Warrior_P[7] - result.monster.monster3.warriorSpeed      
+                    end
+                end
                   warrior:stopActionByTag(888);   
                   map:removeChildByTag(fight_soldier.tag) --从地图移除
                   table.remove(soldierTab,hitkey) -- 移除该小兵                  

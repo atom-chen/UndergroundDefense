@@ -50,12 +50,13 @@ function attackBoss.bitBoss(map)
                         local skill_tip = gameTip.warriorTip("治疗术+".. Warrior.skill_type2,map,300,10,cc.c3b(0,125,0))
                         map:addChild(skill_tip,0,300)
                         Warrior_P [2] = Warrior_P [2] + Warrior.skill_type2
-
-                        local warriorLayer = map:getChildByTag(5000)
-                        local blooding_ok =warriorLayer:getChildByTag(1002)
-                        local blood_txtok =warriorLayer:getChildByTag(1003)
-                        blooding_ok:setPercentage(math.floor(Warrior_P[2]/Warrior.blood*100))
-                        blood_txtok:setString(Warrior_P[2].. "/" .. Warrior.blood)
+                        require("src/View/role/warrior").updateBlood() -- 更新血条
+--                        local warriorLayer = map:getChildByTag(5000)
+--                        local blooding_ok =warriorLayer:getChildByTag(1002)
+--                        local blood_txtok =warriorLayer:getChildByTag(1003)
+--                        blooding_ok:setPercentage(math.floor(Warrior_P[2]/Warrior.blood*100))
+--                        blood_txtok:setString(Warrior_P[2].. "/" .. Warrior.blood)
+                          
                     end
                 else
                     Boss_blood = Boss_blood - Warrior_P[8] 

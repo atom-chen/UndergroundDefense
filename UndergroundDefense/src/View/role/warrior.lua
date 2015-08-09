@@ -3,6 +3,8 @@
 local A_start = require("src/util/A_start")
 local coordinate = require("src/util/coordinate")
 local warriorModel = require("src/model/warriorModel")
+local monsterModel = require("src/model/monsterModel")
+
 local WarriorLayer = class("WarriorLayer",function()
     return cc.Layer:create()
 end)
@@ -45,7 +47,17 @@ function WarriorLayer.create(x,y,type)
     progress1:setPosition(x,y+55)   
     layer:addChild(progress1,0,1002)
     
-    local bd_txt = Warrior.blood .. "/".. Warrior.blood
+    local warriorBlood = Warrior.blood
+    local warriorHurt  = Warrior.hurt
+    local warriorSpeed = Warrior.speed
+    
+    if(monsterModel.monsterTab.monster3.currentMosterNum > 0)then
+        warriorHurt  = warriorHurt  - result.monster.monster3.warriorHurt
+        warriorBlood = warriorBlood - result.monster.monster3.warriorBlood
+        warriorSpeed = warriorSpeed + result.monster.monster3.warriorSpeed  
+    end   
+    
+    local bd_txt = warriorBlood .. "/".. Warrior.blood
     ----添加血量文字
     local blood_txt = cc.Label:createWithTTF(bd_txt,"fonts/arial.ttf",10)
     
@@ -54,8 +66,8 @@ function WarriorLayer.create(x,y,type)
 
     layer:addChild(blood_txt,0,1003)
     
-    ---剩余血量，类型,是否在运动,是否在攻击小兵,陷阱的debuff时间
-    Warrior_P={layer,Warrior.blood,type,false,false,0,Warrior.speed,Warrior.hurt}
+    ---剩余血量，类型,是否在运动,是否在攻击小兵,陷阱的debuff,移动速度，伤害，总血量
+    Warrior_P={layer,warriorBlood,type,false,false,false,warriorSpeed,warriorHurt,Warrior.blood}
     --currentWarrior = warriorModel.create(layer,type,Warrior.blood,Warrior.blood,false,false)
     
     return layer
@@ -66,8 +78,8 @@ function WarriorLayer.updateBlood()
     if(isExistWarrior)then
         local blooding = Warrior_P[1]:getChildByTag(1002)
         local blood_txt = Warrior_P[1]:getChildByTag(1003)
-        blooding:setPercentage(math.floor(Warrior_P[2]/Warrior.blood*100))
-        blood_txt:setString(Warrior_P[2].. "/" .. Warrior.blood)
+        blooding:setPercentage(math.floor(Warrior_P[2]/Warrior_P[9]*100))
+        blood_txt:setString(Warrior_P[2].. "/" .. Warrior_P[9])
     end
 end
 

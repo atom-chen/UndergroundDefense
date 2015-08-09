@@ -11,6 +11,7 @@
 local A_start = require("src/util/A_start")
 local coordinate = require("src/util/coordinate")
 local soldierModel = require("src/model/soldierModel")
+local monsterModel = require("src/model/monsterModel")
 
 local enemySoldierLayer = class("enemySoldierLayer",function()
     return cc.Layer:create()
@@ -41,8 +42,16 @@ function enemySoldierLayer.create(x,y)
     progress1:setPosition(x,y+20)   
     progress1:setScaleX(0.5)
     layer:addChild(progress1,0,102)
+    
+    local soldierBlood = result.enemySoldier.blood
+    local soldierHurt  = result.enemySoldier.hurt
+    
+    if(monsterModel.monsterTab.monster2.currentMosterNum > 0)then
+        soldierBlood = soldierBlood - result.monster.monster2.enemysoldierBlood
+        soldierHurt  = soldierHurt  - result.monster.monster2.enemysoldierHurt
+    end
 
-    local bd_txt = result.enemySoldier.blood .. "/".. result.enemySoldier.blood
+    local bd_txt = soldierBlood .. "/".. result.enemySoldier.blood
     
     ----添加血量文字
     local blood_txt = cc.Label:createWithTTF(bd_txt,"fonts/arial.ttf",10)
@@ -50,7 +59,7 @@ function enemySoldierLayer.create(x,y)
     blood_txt:setPosition(x,y+30)
     layer:addChild(blood_txt,1,103)
     
-    local soldier_model  = soldierModel.create(layer,true,0,{},false,result.enemySoldier.blood,soldierKey,false,result.enemySoldier.hurt,result.enemySoldier.blood,4,result.enemySoldier.speed)
+    local soldier_model  = soldierModel.create(layer,true,0,{},false,soldierBlood,soldierKey,false,soldierHurt,result.enemySoldier.blood,4,result.enemySoldier.speed)
     table.insert(warriorTab,soldier_model)
 
     return layer

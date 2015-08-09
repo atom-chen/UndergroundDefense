@@ -197,7 +197,8 @@ function GameScene:createMap()
     
           
     --更新方法
-    local function update()    
+    local function update()   
+
         ---更新upMenu
         updateMenu.upMenu(upmenu)
         updateMenu.leftMenu(leftmenu)

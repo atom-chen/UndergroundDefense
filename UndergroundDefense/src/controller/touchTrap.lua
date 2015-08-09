@@ -11,13 +11,15 @@
 local touchTrap = class("touchTrap")
 
 local time = 0
+
 function touchTrap.trigger(map)
     --debuff的time控制
     time = time + 0.2 
-    if(time >= result.trap.trap1.time and Warrior_P[7] ~= Warrior.speed)then --解除debuff
-        Warrior_P[7] = Warrior.speed
-        Warrior_P[8] = Warrior.hurt
+    if(time >= result.trap.trap1.time and Warrior_P[6])then --解除debuff
+        Warrior_P[7] = Warrior_P[7] - result.trap.trap1.downmove
+        Warrior_P[8] = Warrior_P[8] + result.trap.trap1.downhurt
         time = 0
+        Warrior_P[6] = false
     end
     
     if(isExistWarrior)then
@@ -25,12 +27,12 @@ function touchTrap.trigger(map)
         for key, trap in ipairs(trapTab) do
             local trapRect = trap.sprite:getBoundingBox()
             if(cc.rectIntersectsRect(warriorRect,trapRect))then
-                if(trap.type == 1)then                   
-                    Warrior_P[6] = result.trap.trap1.time --每次踩到更新为时间
-                    time  = 0
+                if(trap.type == 1)then
+                    time = 0                  
+                    Warrior_P[6] = true --每次踩到更新为时间
                     local tarpTip = require("src/view/gameTip").warriorTip(result.trap.trap1.description,map,300,10,cc.c3b(0,125,0))
                     map:addChild(tarpTip,0,300)
-                    if(Warrior_P[7] == Warrior.speed)then -- 还没被debuff
+                    if(not Warrior_P[6])then -- 还没被debuff
                         Warrior_P[7] = Warrior_P[7] + result.trap.trap1.downmove
                         Warrior_P[8] = Warrior_P[8] - result.trap.trap1.downhurt
                     end               
