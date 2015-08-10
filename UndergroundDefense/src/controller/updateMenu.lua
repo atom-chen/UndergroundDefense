@@ -36,7 +36,9 @@ function updateMenu.upMenu(menu)
     
 end
 
-local updateCD = 0
+local updateCD1 = 0
+local updateCD2 = 0
+local updateCD3 = 0
 
 ---更新左级菜单
 function updateMenu.leftMenu(menu)
@@ -46,9 +48,10 @@ function updateMenu.leftMenu(menu)
     local monster3   =  menu:getChildByTag(3)
     
     local monsterModel = require("src/model/monsterModel")
+    
+    --点亮怪兽1
     local monster1Time = menu:getChildByTag(11)
     local monster1Max  = menu:getChildByTag(12)
-    --点亮怪兽1
     monster1:setColor(cc.c3b(120,120,120))
     monster1Time:setVisible(false)
     monster1Max:setVisible(false)
@@ -61,30 +64,69 @@ function updateMenu.leftMenu(menu)
         else
             if( monsterModel.monsterTab.monster1.cd ~= 0)then
                 monster1Time:setVisible(true)
-                updateCD = updateCD + 0.2
-                if(updateCD >=1 and monsterModel.monsterTab.monster1.cd>0) then
+                updateCD1 = updateCD1 + 0.2
+                if(updateCD1 >=1 and monsterModel.monsterTab.monster1.cd>0) then
                     local cdTime = monsterModel.monsterTab.monster1.cd
                     monsterModel:downCD("monster1")
                     monster1Time:setString(""..cdTime)
-                    updateCD =0
+                    updateCD1 =0
                 end 
             end
         end
     end
     --点亮怪兽2
-    if(Money >= result.monster.monster2.cost)then
-        monster2:setColor(cc.c3b(255,255,255))
+    local monster2Time = menu:getChildByTag(21)
+    local monster2Max  = menu:getChildByTag(22)
+    monster2:setColor(cc.c3b(120,120,120))
+    monster2Time:setVisible(false)
+    monster2Max:setVisible(false)
+    --max state
+    if(monsterModel.monsterTab.monster2.currentMosterNum == monsterModel.monsterTab.monster2.maxNum)then
+        monster2Max:setVisible(true)
     else
-        monster2:setColor(cc.c3b(120,120,120))
+        if(Money >= result.monster.monster2.cost and monsterModel.monsterTab.monster2.cd <=0)then
+            monster2:setColor(cc.c3b(255,255,255))
+        else
+            if( monsterModel.monsterTab.monster2.cd ~= 0)then
+                monster2Time:setVisible(true)
+                updateCD2 = updateCD2 + 0.2
+                if(updateCD2 >=1 and monsterModel.monsterTab.monster2.cd>0) then
+                    local cdTime = monsterModel.monsterTab.monster2.cd
+                    monsterModel:downCD("monster2")
+                    monster2Time:setString(""..cdTime)
+                    updateCD2 =0
+                end 
+            end
+        end
     end
     
     
     --点亮怪兽3
-    if(Money >= result.monster.monster3.cost)then
-        monster3:setColor(cc.c3b(255,255,255))
+    local monster3Time = menu:getChildByTag(31)
+    local monster3Max  = menu:getChildByTag(32)
+    monster3:setColor(cc.c3b(120,120,120))
+    monster3Time:setVisible(false)
+    monster3Max:setVisible(false)
+    --max state
+    if(monsterModel.monsterTab.monster3.currentMosterNum == monsterModel.monsterTab.monster3.maxNum)then
+        monster3Max:setVisible(true)
     else
-        monster3:setColor(cc.c3b(120,120,120))
+        if(Money >= result.monster.monster3.cost and monsterModel.monsterTab.monster3.cd <=0)then
+            monster3:setColor(cc.c3b(255,255,255))
+        else
+            if( monsterModel.monsterTab.monster3.cd ~= 0)then
+                monster3Time:setVisible(true)
+                updateCD3 = updateCD3 + 0.2
+                if(updateCD3 >=1 and monsterModel.monsterTab.monster3.cd>0) then
+                    local cdTime = monsterModel.monsterTab.monster3.cd
+                    monsterModel:downCD("monster3")
+                    monster3Time:setString(""..cdTime)
+                    updateCD3 =0
+                end 
+            end
+        end
     end
+
     
     
    

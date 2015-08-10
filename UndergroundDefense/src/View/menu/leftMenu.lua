@@ -30,6 +30,14 @@ function leftMenu.create(x,y,map)
     monster2:setPosition(x ,y - 80)   
     layer:addChild(monster2,0,2) 
     monster2:setColor(cc.c3b(120,120,120))
+    
+    local monster2Time = cc.Label:createWithTTF("time","fonts/arial.ttf",13)
+    monster2Time:setPosition(x ,y - 80)
+    layer:addChild(monster2Time,0,21)
+
+    local monster2Max = cc.Label:createWithTTF("MAX","fonts/arial.ttf",13)
+    monster2Max:setPosition(x ,y - 80)
+    layer:addChild(monster2Max,0,22) 
 
     --------妖怪3
     local monster3 = cc.Sprite:create("monster/RobotState4.png")
@@ -37,6 +45,16 @@ function leftMenu.create(x,y,map)
     monster3:setPosition(x ,y -160)   
     layer:addChild(monster3,0,3) 
     monster3:setColor(cc.c3b(120,120,120))
+    
+    local monster3Time = cc.Label:createWithTTF("time","fonts/arial.ttf",13)
+    monster3Time:setPosition(x ,y -160)
+    layer:addChild(monster3Time,0,31)
+
+    local monster3Max = cc.Label:createWithTTF("MAX","fonts/arial.ttf",13)
+    monster3Max:setPosition(x ,y -160)
+    layer:addChild(monster3Max,0,32) 
+
+
 
     local whichmonster = nil   --用来生成拖动的moster
     local tag = nil 

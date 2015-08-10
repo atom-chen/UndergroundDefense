@@ -53,7 +53,7 @@
   	}
   }, 
   "money":{
-  	"init":10,
+  	"init":100000,
   	"block_money":50
   }, 
   "monster":{
@@ -63,7 +63,7 @@
         "hurt": 300,
         "speed": 0.4,        
         "cost" : 300,
-        "cd" : 7,
+        "cd" : 20,
         "maxNum":2,
         "soldierBlood":200,
         "soldierHurt":50
