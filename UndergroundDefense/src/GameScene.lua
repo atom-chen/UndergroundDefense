@@ -259,11 +259,9 @@ function GameScene:createMap()
         soldierView.move(map)       
         enemySoldier.move(map)
         
-        ---对战  
-        
+        ---对战         
         if(isExistWarrior) then   -- 勇士相关的战斗
             soldierFight.warriorVsSoldier(map) 
-            --
             attackBirth.soldierBirth(map)
 
             attackBoss.bitBoss(map)     

@@ -116,9 +116,8 @@ function soldierLayer.updateBlood()
 end
 
 ----小兵移动--查岗
-function soldierLayer.move(map)	 
-       
-       for key, var in ipairs(soldierTab) do
+function soldierLayer.move(map)	        
+       for key, var in ipairs(soldierTab) do        
            if(var.isPatrol)then
               var.moveNum = 0
               var.isPatrol  =  false   --防止小兵在运动是再次触发移动 

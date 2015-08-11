@@ -19,10 +19,9 @@ function soldierFight.soldierVsSoldier(map)
 	end
 end 
  
-
-
 local time_space = 0 
--- 检查勇士进入小兵视野内
+
+--warrior vs soldier
 function soldierFight.warriorVsSoldier(map)
     local warriorLayer = map:getChildByTag(5000)
     local warrior = warriorLayer:getChildByTag(1000)
@@ -38,14 +37,14 @@ function soldierFight.warriorVsSoldier(map)
        attack = false  --不打小兵
     end
    
-    
+    --solider bit warrior
     for key, var in ipairs(soldierTab) do
         if(not var.isStop)then  --没和勇士战斗的小兵
             local spointx,spointy = var.layer:getChildByTag(100):getPosition()
             --遇到勇士
             if(math.abs(spointx-wpointx)< Soldier.Viewrang and math.abs(spointy-wpointy) < Soldier.Viewrang)then
-                var.isStop = true -- 遇上勇士
-                --小兵
+                var.isStop = true 
+                ---遇上勇士停止运动
                 local soldier = var.layer:getChildByTag(100)
                 local sblood =var.layer:getChildByTag(101)
                 local sblooding =var.layer:getChildByTag(102)
@@ -63,8 +62,8 @@ function soldierFight.warriorVsSoldier(map)
                     warrior:stopActionByTag(1010);
                     Warrior_P [4] = false
                 end
-            end
-        else --和勇士战斗的小兵
+              end
+          else --和勇士战斗的小兵
             if(not var.isBit)then --还没运行攻击的小兵               
                 var.isBit =true
                 
@@ -102,8 +101,7 @@ function soldierFight.warriorVsSoldier(map)
         end
     end
     
-    --攻击小兵
-    
+    -- warrior bit soldier
     if((not Warrior_P[5]) and attack)then 
         local hitkey = -1
        
@@ -143,7 +141,6 @@ function soldierFight.warriorVsSoldier(map)
                     w_action:setTag(888)
                     warrior:runAction(w_action) 
              else
-                  --小兵被打死,不知道血量是否恢复回来
                   --判断是否失去monster的effect
                   if( fight_soldier.type == 1)then
                      local monsterModel = require("src/model/monsterModel")
@@ -191,9 +188,8 @@ function soldierFight.warriorVsSoldier(map)
               
         for key, var in ipairs(soldierTab) do
               if(var.isStop)then
-                 hitkey = key  --寻找一个周围小兵攻击
-                 Warrior_P[5] = true 
-                 --print("找到")                 
+                 hitkey = key  --寻找一个小兵进行攻击
+                 Warrior_P[5] = true                
                  bitSoldier() --攻击
                  break;
               end
@@ -203,19 +199,10 @@ function soldierFight.warriorVsSoldier(map)
              time_space = 0
              if(not Warrior_P [4])then --如果勇士是静止的
                  warriorView.move(map)
-             end
-                          
-         end
-         
-      
+             end                      
+         end     
     end 
 
 end
 
----小兵的战斗
-function soldierFight.soldierVsSoldier(map)
-
-   
- 	
-end
 return soldierFight

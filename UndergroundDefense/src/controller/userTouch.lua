@@ -23,7 +23,7 @@ function userTouch.bitBlock(layerBg, point,mapPointX,mapPointY, map)
         if(gid == 15)then --变为可走路线
             layerBg:setTileGID(34,cc.p(item[1],item[2])) --设置为可行走图块
            
-            --没解锁一块砖，加钱
+            --每解锁一块砖，加钱
             Money = Money + result.money.block_money
             
             --每次点击更新勇士的寻路路径    
@@ -38,7 +38,6 @@ function userTouch.bitBlock(layerBg, point,mapPointX,mapPointY, map)
                 local blooding =warriorLayer:getChildByTag(1002)
                 local blood_txt =warriorLayer:getChildByTag(1003)
 
-                -- print("stop actions")
                 blood:stopAllActions()
                 blooding:stopAllActions()
                 blood_txt:stopAllActions()
