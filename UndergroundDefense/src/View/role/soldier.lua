@@ -103,9 +103,9 @@ local function Noderun(var,node)
 end  
 
 --更新小兵血量
-function soldierLayer.updateBlood()
+function soldierLayer.updateBlood(tag)
     for key, soldier in ipairs(soldierTab) do
-		if soldier.type == 0 then 
+		if soldier.tag == tag then 
             local remaind = soldier.layer:getChildByTag(102)
             local txt = soldier.layer:getChildByTag(103) 
             
@@ -113,6 +113,18 @@ function soldierLayer.updateBlood()
             txt:setString(soldier.remaindBlood.. "/" .. soldier.blood)
 		end
 	end
+end
+
+function soldierLayer.deleteSoldier(tag)
+    for key, soldier in ipairs(soldierTab) do
+        if soldier.tag == tag then 
+            local remaind = soldier.layer:getChildByTag(102)
+            local txt = soldier.layer:getChildByTag(103) 
+
+            remaind:setPercentage(math.floor(soldier.remaindBlood/soldier.blood*100))
+            txt:setString(soldier.remaindBlood.. "/" .. soldier.blood)
+        end
+    end
 end
 
 ----小兵移动--查岗

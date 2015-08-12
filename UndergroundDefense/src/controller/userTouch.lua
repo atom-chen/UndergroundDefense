@@ -28,7 +28,7 @@ function userTouch.bitBlock(layerBg, point,mapPointX,mapPointY, map)
             
             --每次点击更新勇士的寻路路径    
             ---获取勇士对象
-            if(isExistWarrior )then
+            if(isExistWarrior and (not  Warrior_P[5]) )then
 
                 local warriorLayer = map:getChildByTag(5000)
 

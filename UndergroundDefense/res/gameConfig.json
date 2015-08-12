@@ -86,8 +86,8 @@
         "speed": 0.4,
         "cost" : 550,
          "cd" : 120,
-        "maxNum":1,
-        "warriorSpeed":1,
+        "maxNum":2,
+        "warriorSpeed":0.3,
         "warriorHurt":80,
         "warriorBlood":300
   	}

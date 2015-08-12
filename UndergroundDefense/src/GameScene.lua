@@ -69,7 +69,7 @@ function GameScene:init()
     ----数据初始化
     isExistWarrior = false
 
-    whichWarrior = 0      -- 第几个勇士
+    whichWarrior = 1      -- 第几个勇士
 
     Boss_blood = Boss.blood
 
@@ -259,7 +259,9 @@ function GameScene:createMap()
         soldierView.move(map)       
         enemySoldier.move(map)
         
-        ---对战         
+        ---对战
+        soldierFight.soldierBattle(map)   
+              
         if(isExistWarrior) then   -- 勇士相关的战斗
             soldierFight.warriorVsSoldier(map) 
             attackBirth.soldierBirth(map)

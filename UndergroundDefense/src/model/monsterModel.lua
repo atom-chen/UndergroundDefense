@@ -44,21 +44,53 @@ function monsterModel:flushCD(monsterType)
     if(monsterType == "monster2")then
         monster.cd = result.monster.monster2.cd
     end
-    if(monsterType == "monster2")then
-        monster.cd = result.monster.monster2.cd
+    if(monsterType == "monster3")then
+        monster.cd = result.monster.monster3.cd
     end
 end
 
 function monsterModel:downCD(monsterType)
-    local monster = self.monsterTab[monsterType]
-    if(monsterType == "monster1")then
-        monster.cd = monster.cd - 1
+    local monster = self.monsterTab[monsterType]   
+    monster.cd = monster.cd - 1
+end
+
+--判断该小兵死亡是否取消monster的影响
+function monsterModel:isDisappear(type)
+    if(type == 1)then
+        local monsterModel = require("src/model/monsterModel")
+        monsterModel:killMoster("monster1")
+        if(monsterModel.monsterTab.monster1.currentMosterNum == 0 )then
+            for key, soldier in ipairs(soldierTab) do
+                if(soldier.type == 0) then
+                    soldier.hurt = soldier.hurt - result.monster.monster1.soldierHurt
+                    --soldier.remaindBlood = soldier.remaindBlood - result.monster.monster1.soldierBlood
+                    --soldier.blood = soldier.blood - result.monster.monster1.soldierBlood
+                end
+            end
+
+            --soldierView.updateBlood()
+        end
     end
-    if(monsterType == "monster2")then
-        monster.cd = monster.cd - 1
+
+    if( type == 2)then
+        local monsterModel = require("src/model/monsterModel")
+        monsterModel:killMoster("monster2")
+        if(monsterModel.monsterTab.monster2.currentMosterNum == 0 )then
+            for key, soldier in ipairs(warriorTab) do
+                soldier.hurt = soldier.hurt + result.monster.monster2.enemysoldierHurt
+                --soldier.remaindBlood = soldier.remaindBlood + result.monster.monster2.enemysoldierBlood
+            end
+        end
     end
-    if(monsterType == "monster2")then
-        monster.cd = monster.cd - 1
+
+    if( type == 3)then
+        local monsterModel = require("src/model/monsterModel")
+        monsterModel:killMoster("monster3")
+        if(monsterModel.monsterTab.monster3.currentMosterNum == 0 )then
+            Warrior_P[8] = Warrior_P[8] + result.monster.monster3.warriorHurt
+            Warrior_P[2] = Warrior_P[2] + result.monster.monster3.warriorBlood
+            Warrior_P[7] = Warrior_P[7] - result.monster.monster3.warriorSpeed      
+        end
     end
 end
 

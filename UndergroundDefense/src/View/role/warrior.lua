@@ -66,7 +66,7 @@ function WarriorLayer.create(x,y,type)
 
     layer:addChild(blood_txt,0,1003)
     
-    ---剩余血量，类型,是否在运动,是否在攻击小兵,陷阱的debuff,移动速度，伤害，总血量
+    ---剩余血量，类型,是否在运动,是否在攻击小兵,陷阱的debuff,移动速度，伤害，总血量,
     Warrior_P={layer,warriorBlood,type,false,false,false,warriorSpeed,warriorHurt,Warrior.blood}
     --currentWarrior = warriorModel.create(layer,type,Warrior.blood,Warrior.blood,false,false)
     

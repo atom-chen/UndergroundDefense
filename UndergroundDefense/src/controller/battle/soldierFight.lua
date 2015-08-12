@@ -12,13 +12,6 @@ local skill = require("src/controller/skill")
 
 local soldierFight = class("soldierFight")
  
---小兵打小兵
-function soldierFight.soldierVsSoldier(map)
-	for key, soldier in ipairs(soldierTab) do
-	     
-	end
-end 
- 
 local time_space = 0 
 
 --warrior vs soldier
@@ -29,14 +22,13 @@ function soldierFight.warriorVsSoldier(map)
     local blooding =warriorLayer:getChildByTag(1002)
     local blood_txt =warriorLayer:getChildByTag(1003)
     local wpointx,wpointy = warrior:getPosition()
-        
+
     local wpoint = {x = wpointx , y = wpointy}
     local item = coordinate.getItem(map,wpoint)
     local attack = true  --勇士优先攻击巢穴和魔王
     if((item.x == 5 and item.y == 57)or ((item.x == 10 and item.y == 17)))then
-       attack = false  --不打小兵
-    end
-   
+        attack = false  --不打小兵
+    end   
     --solider bit warrior
     for key, var in ipairs(soldierTab) do
         if(not var.isStop)then  --没和勇士战斗的小兵
@@ -63,7 +55,7 @@ function soldierFight.warriorVsSoldier(map)
                     Warrior_P [4] = false
                 end
               end
-          else --和勇士战斗的小兵
+         else --和勇士战斗的小兵
             if(not var.isBit)then --还没运行攻击的小兵               
                 var.isBit =true
                 
@@ -74,7 +66,7 @@ function soldierFight.warriorVsSoldier(map)
                         map:removeChildByTag(5000) --移除勇士                        
                         isExistWarrior = false                                               
                         for key1, var1 in ipairs(soldierTab) do
-                        
+
                             var1.layer:getChildByTag(100):stopAllActions() --勇士死亡，停止攻击活动
                             var1.isStop = false --没遇到勇士
                             var1.isPatrol = true  --从新巡逻
@@ -86,7 +78,7 @@ function soldierFight.warriorVsSoldier(map)
                         if(map:getChildByTag(5000))then
                             --显示扣血效果
                             local tip =  gameTip.create(Warrior_P[1]:getChildByTag(1000),"-"..var.hurt,map,5555,1)
-                            
+
                             map:addChild(tip,0,5555) 
                             require("src/View/role/warrior").updateBlood() -- 更新血条
                         end
@@ -141,43 +133,7 @@ function soldierFight.warriorVsSoldier(map)
                     w_action:setTag(888)
                     warrior:runAction(w_action) 
              else
-                  --判断是否失去monster的effect
-                  if( fight_soldier.type == 1)then
-                     local monsterModel = require("src/model/monsterModel")
-                     monsterModel:killMoster("monster1")
-                     if(monsterModel.monsterTab.monster1.currentMosterNum == 0 )then
-                         for key, soldier in ipairs(soldierTab) do
-                         	  if(soldier.type == 0) then
-                                soldier.hurt = soldier.hurt - result.monster.monster1.soldierHurt
-                                --soldier.remaindBlood = soldier.remaindBlood - result.monster.monster1.soldierBlood
-                                --soldier.blood = soldier.blood - result.monster.monster1.soldierBlood
-                         	  end
-                         end
-                         
-                        --soldierView.updateBlood()
-                     end
-                  end
-                  
-                if( fight_soldier.type == 2)then
-                    local monsterModel = require("src/model/monsterModel")
-                    monsterModel:killMoster("monster2")
-                    if(monsterModel.monsterTab.monster2.currentMosterNum == 0 )then
-                        for key, soldier in ipairs(warriorTab) do
-                            soldier.hurt = soldier.hurt + result.monster.monster2.enemysoldierHurt
-                            --soldier.remaindBlood = soldier.remaindBlood + result.monster.monster2.enemysoldierBlood
-                        end
-                    end
-                end
-               
-                if( fight_soldier.type == 3)then
-                    local monsterModel = require("src/model/monsterModel")
-                    monsterModel:killMoster("monster3")
-                    if(monsterModel.monsterTab.monster3.currentMosterNum == 0 )then
-                        Warrior_P[8] = Warrior_P[8] + result.monster.monster3.warriorHurt
-                        Warrior_P[2] = Warrior_P[2] + result.monster.monster3.warriorBlood
-                        Warrior_P[7] = Warrior_P[7] - result.monster.monster3.warriorSpeed      
-                    end
-                end
+                  require("src/model/monsterModel"):isDisappear(fight_soldier.type)
                   warrior:stopActionByTag(888);   
                   map:removeChildByTag(fight_soldier.tag) --从地图移除
                   table.remove(soldierTab,hitkey) -- 移除该小兵                  
@@ -203,6 +159,76 @@ function soldierFight.warriorVsSoldier(map)
          end     
     end 
 
+end
+
+-- enemySoldier bit soldier,找到第一个相遇的攻击
+function soldierFight.soldierBattle(map)
+    for key, enemy in ipairs(warriorTab) do
+    	if(not enemy.isStop) then
+    	   local enemyX,enemyY = enemy.layer:getChildByTag(100):getPosition()
+    	   
+    	   for key, var in ipairs(soldierTab) do
+    	   	    local varX,varY = var.layer:getChildByTag(100):getPosition()
+    	   	    local absX = math.abs(varX - enemyX)
+    	   	    local absY = math.abs(varY - enemyY)
+    	   	    --遇到后停止运动
+    	   	    if(absX < Soldier.Viewrang and absY < Soldier.Viewrang)then
+    	   	        enemy.isStop = true                  
+                    local soldier = enemy.layer:getChildByTag(100)
+                    local sblood =enemy.layer:getChildByTag(101)
+                    local sblooding =enemy.layer:getChildByTag(102)
+                    local sblood_txt =enemy.layer:getChildByTag(103)
+                    sblood:stopAllActions()
+                    sblooding:stopAllActions()
+                    sblood_txt:stopAllActions()
+                    soldier:stopAllActions();
+                    
+                    local soldier1 = var.layer:getChildByTag(100)
+                    local sblood1 =var.layer:getChildByTag(101)
+                    local sblooding1 =var.layer:getChildByTag(102)
+                    local sblood_txt1 =var.layer:getChildByTag(103)
+                    if(not var.isStop)then
+                       var.isStop = true                 
+                       sblood1:stopAllActions()
+                       sblooding1:stopAllActions()
+                       sblood_txt1:stopAllActions()
+                       soldier1:stopAllActions();
+                    end                    
+                    --attack
+                    if (not enemy.isBit)then 
+                        enemy.isBit = true
+                        
+                        local function bitSoldier(node, data)
+                            key   = data.key
+                            var   = data.var
+                            enemy = data.enemy
+                        	
+                        	var.remaindBlood = var.remaindBlood - enemy.hurt
+                        	
+                        	if(var.remaindBlood <= 0)then
+                        	   map:removeChildByTag(var.tag)
+                        	   table.remove(soldierTab,key)
+                        	   
+                        	   enemy.isStop = false 
+                               enemy.isPatrol = true  
+                               enemy.isBit = false 
+                            else
+                               soldierView.updateBlood(var.tag)
+                               enemy.layer:getChildByTag(100):runAction(cc.Sequence:create(cc.DelayTime:create(result.enemySoldier.time),
+                                    cc.CallFunc:create(bitSoldier,data)))
+                        	end
+                        	
+                        end
+                    
+                        local data = { key = key, var = var, enemy = enemy}
+                        
+                        bitSoldier("" ,data)
+                    end                     
+    	   	    end   	   	    
+    	   	    break
+    	   end
+    	end
+    end
 end
 
 return soldierFight

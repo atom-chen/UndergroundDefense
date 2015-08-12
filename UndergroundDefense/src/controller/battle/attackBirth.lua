@@ -19,8 +19,10 @@ function attackBirth.soldierBirth(map)
         local point = {x = pointx, y = pointy}
 
         local item = coordinate.getItem(map,point)
-        if(item.x == 5 and item.y == 57)then --到达巢穴       
-             Warrior_P[5] =true -- 攻击巢穴状态
+        if(item.x == 5 and item.y == 57)then --到达巢穴     
+             Warrior_P[4] = false  
+             
+             Warrior_P[5] = true -- 攻击巢穴状态
              local time_space = 0
              local function bitBirth()
                   local birth = map:getChildByTag(250)

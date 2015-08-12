@@ -39,6 +39,8 @@ function soldierModel.create(layer,isPatrol,moveNum,path,isStop,remaindBlood,tag
     mySoldier.type          = type             --士兵类型,0士兵，1-moster1,2-moster2,3-moster3，4敌方小兵
     
     mySoldier.speed         = speed            --移动速度
+    
+    --mySoldier.bitTarget     = bitTagert        --攻击目标，为谁停下就攻击谁
 
     return mySoldier
 end
