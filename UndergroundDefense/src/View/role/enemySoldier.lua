@@ -82,13 +82,15 @@ local function Noderun(var,node)
     end
 end   
 
-function enemySoldierLayer.updateBlood()
+function enemySoldierLayer.updateBlood(tag)
     for key, soldier in ipairs(warriorTab) do
-        local remaind = soldier.layer:getChildByTag(102)
-        local txt = soldier.layer:getChildByTag(103) 
-
-        remaind:setPercentage(math.floor(soldier.remaindBlood/soldier.blood*100))
-        txt:setString(soldier.remaindBlood.. "/" .. soldier.blood)
+        if soldier.tag == tag then
+            local remaind = soldier.layer:getChildByTag(102)
+            local txt = soldier.layer:getChildByTag(103) 
+    
+            remaind:setPercentage(math.floor(soldier.remaindBlood/soldier.blood*100))
+            txt:setString(soldier.remaindBlood.. "/" .. soldier.blood)
+        end
     end
 end
 

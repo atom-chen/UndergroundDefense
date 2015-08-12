@@ -4,6 +4,8 @@ local warriorView = require("src/view/role/warrior")
 
 local soldierView = require("src/view/role/soldier")
 
+local enemySoldierView = require("src/view/role/enemySoldier")
+
 local gameTip = require("src/view/gameTip")
 
 local coordinate = require("src/util/coordinate")
@@ -161,13 +163,24 @@ function soldierFight.warriorVsSoldier(map)
 
 end
 
+local function removeSoldier(tab, tag)
+   
+    for key, var in ipairs(tab) do
+   	     if var.tag == tag then 
+   	        table.remove(tab,key)
+   	        return 
+   	      end
+    end
+end
+
 -- enemySoldier bit soldier,找到第一个相遇的攻击
-function soldierFight.soldierBattle(map)
+function soldierFight.bitSoldier(map)
     for key, enemy in ipairs(warriorTab) do
-    	if(not enemy.isStop) then
-    	   local enemyX,enemyY = enemy.layer:getChildByTag(100):getPosition()
-    	   
-    	   for key, var in ipairs(soldierTab) do
+    
+        if(not enemy.isStop) then   	   
+    	   local enemyX,enemyY = enemy.layer:getChildByTag(100):getPosition()    	   
+
+            for key, var in ipairs(soldierTab) do
     	   	    local varX,varY = var.layer:getChildByTag(100):getPosition()
     	   	    local absX = math.abs(varX - enemyX)
     	   	    local absY = math.abs(varY - enemyY)
@@ -193,13 +206,12 @@ function soldierFight.soldierBattle(map)
                        sblooding1:stopAllActions()
                        sblood_txt1:stopAllActions()
                        soldier1:stopAllActions();
-                    end                    
+                    end  
+                                      
                     --attack
                     if (not enemy.isBit)then 
-                        enemy.isBit = true
-                        
+                        enemy.isBit = true                                            
                         local function bitSoldier(node, data)
-                            key   = data.key
                             var   = data.var
                             enemy = data.enemy
                         	
@@ -207,28 +219,107 @@ function soldierFight.soldierBattle(map)
                         	
                         	if(var.remaindBlood <= 0)then
                         	   map:removeChildByTag(var.tag)
-                        	   table.remove(soldierTab,key)
-                        	   
+                        	   removeSoldier(soldierTab, var.tag)                        	   
                         	   enemy.isStop = false 
                                enemy.isPatrol = true  
                                enemy.isBit = false 
+                               enemy.layer:getChildByTag(100):stopActionByTag(var.tag);
                             else
-                               soldierView.updateBlood(var.tag)
-                               enemy.layer:getChildByTag(100):runAction(cc.Sequence:create(cc.DelayTime:create(result.enemySoldier.time),
-                                    cc.CallFunc:create(bitSoldier,data)))
+                                soldierView.updateBlood(var.tag)  
+                                local s_action = cc.Sequence:create(cc.DelayTime:create(result.enemySoldier.time),
+                                    cc.CallFunc:create(bitSoldier,data))
+                                s_action:setTag(var.tag)
+                                enemy.layer:getChildByTag(100):runAction(s_action)
+                                    
                         	end
                         	
                         end
                     
-                        local data = { key = key, var = var, enemy = enemy}
+                        local data = { var = var, enemy = enemy}
                         
                         bitSoldier("" ,data)
                     end                     
-    	   	    end   	   	    
     	   	    break
+    	   	    end   	   	    
     	   end
+
     	end
     end
+end
+
+
+-- soldier bit enemySoldier
+function soldierFight.bitEnemySoldier(map)
+
+	for key, soldier in ipairs(soldierTab) do
+		 if(not soldier.isStop) then       
+           local soldierX,soldierY = soldier.layer:getChildByTag(100):getPosition()                    
+           
+           for key, var in ipairs(warriorTab) do
+                local varX,varY = var.layer:getChildByTag(100):getPosition()
+                local absX = math.abs(varX - soldierX)
+                local absY = math.abs(varY - soldierY)
+                --遇到后停止运动
+                if(absX < Soldier.Viewrang and absY < Soldier.Viewrang)then
+                    soldier.isStop = true                  
+                    local soldier = soldier.layer:getChildByTag(100)
+                    local sblood  = soldier.layer:getChildByTag(101)
+                    local sblooding =soldier.layer:getChildByTag(102)
+                    local sblood_txt =soldier.layer:getChildByTag(103)
+                    sblood:stopAllActions()
+                    sblooding:stopAllActions()
+                    sblood_txt:stopAllActions()
+                    soldier:stopAllActions();
+                    
+                    local soldier1 = var.layer:getChildByTag(100)
+                    local sblood1 =var.layer:getChildByTag(101)
+                    local sblooding1 =var.layer:getChildByTag(102)
+                    local sblood_txt1 =var.layer:getChildByTag(103)
+                    if(not var.isStop)then
+                        var.isStop = true                 
+                        sblood1:stopAllActions()
+                        sblooding1:stopAllActions()
+                        sblood_txt1:stopAllActions()
+                        soldier1:stopAllActions();
+                    end
+                    
+                    --attack
+                    if (not soldier.isBit)then 
+                        soldier.isBit = true 
+                                                                   
+                        local function bitEnemySoldier(node, data)
+                            var   = data.var
+                            soldier = data.soldier
+
+                            var.remaindBlood = var.remaindBlood - soldier.hurt
+
+                            if(var.remaindBlood <= 0)then
+                                map:removeChildByTag(var.tag)
+                                removeSoldier(warriorTab, var.tag)                              
+                                soldier.isStop = false 
+                                soldier.isPatrol = true  
+                                soldier.isBit = false 
+                                soldier.layer:getChildByTag(100):stopActionByTag(var.tag);
+                            else
+                                enemySoldierView.updateBlood(var.tag)  
+                                local s_action = cc.Sequence:create(cc.DelayTime:create(result.enemySoldier.time),
+                                    cc.CallFunc:create(bitSoldier,data))
+                                s_action:setTag(var.tag)
+                                soldier.layer:getChildByTag(100):runAction(s_action)
+
+                            end
+
+                        end
+
+                        local data = { var = var, soldier = soldier}
+
+                        bitEnemySoldier("" ,data)
+                    end  
+                    break
+                end
+           end
+         end
+	end
 end
 
 return soldierFight

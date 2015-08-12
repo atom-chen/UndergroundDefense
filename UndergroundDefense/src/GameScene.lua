@@ -260,7 +260,8 @@ function GameScene:createMap()
         enemySoldier.move(map)
         
         ---对战
-        soldierFight.soldierBattle(map)   
+        soldierFight.bitSoldier(map)
+        --soldierFight.bitEnemySoldier(map)   
               
         if(isExistWarrior) then   -- 勇士相关的战斗
             soldierFight.warriorVsSoldier(map) 
