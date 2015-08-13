@@ -74,10 +74,10 @@ function soldierLayer.create(x,y,sprite,blood_num,hurt,type,speed)
     
     local soldier_model
     if(sprite)then   --moster
-        soldier_model = soldierModel.create(layer,true,0,{},false,soldierBlood,soldierKey,false,soldierHurt,soldierBlood,type,speed)
+        soldier_model = soldierModel.create(layer,true,0,{},false,soldierBlood,soldierKey,false,soldierHurt,soldierBlood,type,speed,0)
         table.insert(soldierTab,soldier_model)
     else --soldier的type为0
-        soldier_model = soldierModel.create(layer,true,0,{},false,soldierBlood,soldierKey,false,soldierHurt,soldierBlood,0,Soldier.speed)
+        soldier_model = soldierModel.create(layer,true,0,{},false,soldierBlood,soldierKey,false,soldierHurt,soldierBlood,0,Soldier.speed,0)
         table.insert(soldierTab,soldier_model)      
     end 
 	

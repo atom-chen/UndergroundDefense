@@ -261,14 +261,14 @@ function GameScene:createMap()
         
         ---对战
         soldierFight.bitSoldier(map)
-        --soldierFight.bitEnemySoldier(map)   
+        soldierFight.bitEnemySoldier(map)   
               
-        if(isExistWarrior) then   -- 勇士相关的战斗
-            soldierFight.warriorVsSoldier(map) 
-            attackBirth.soldierBirth(map)
-
-            attackBoss.bitBoss(map)     
-        end        
+--        if(isExistWarrior) then   -- 勇士相关的战斗
+--            soldierFight.warriorVsSoldier(map) 
+--            attackBirth.soldierBirth(map)
+--
+--            attackBoss.bitBoss(map)     
+--        end        
           
     end
      

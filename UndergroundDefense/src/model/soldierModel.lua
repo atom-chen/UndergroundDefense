@@ -13,7 +13,7 @@
 --)
 local soldierModel = {}
 
-function soldierModel.create(layer,isPatrol,moveNum,path,isStop,remaindBlood,tag,isBit,hurt,blood,type,speed)
+function soldierModel.create(layer,isPatrol,moveNum,path,isStop,remaindBlood,tag,isBit,hurt,blood,type,speed,bitTagert)
     local mySoldier    = {}
 
     mySoldier.layer         = layer            --表示物体视图
@@ -40,7 +40,7 @@ function soldierModel.create(layer,isPatrol,moveNum,path,isStop,remaindBlood,tag
     
     mySoldier.speed         = speed            --移动速度
     
-    --mySoldier.bitTarget     = bitTagert        --攻击目标，为谁停下就攻击谁
+    mySoldier.bitTarget     = bitTagert        --攻击目标，为谁停下就攻击谁
 
     return mySoldier
 end
