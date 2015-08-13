@@ -1,4 +1,3 @@
-local A_start=require("src/util/A_start")
 
 local warriorView = require("src/view/role/warrior")
 
@@ -174,11 +173,11 @@ local function removeSoldier(tab, tag)
 end
 
 local function getModelByTag(tab, tag)
-	for key, var in ipairs(tab) do
-		if (var.tag == tag) then
-		  return var
-		end
-	end
+    for key, var in ipairs(tab) do
+        if (var.tag == tag) then
+          return var
+        end
+    end
 end
 
 -- enemySoldier bit soldier,找到第一个相遇的攻击
