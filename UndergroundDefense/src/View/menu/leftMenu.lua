@@ -163,7 +163,7 @@ function leftMenu.create(x,y,map)
                     soldier.hurt = soldier.hurt - result.monster.monster2.enemysoldierHurt
                     soldier.remaindBlood = soldier.remaindBlood - result.monster.monster2.enemysoldierBlood
                 end          
-                require("src/View/role/enemySoldier").updateBlood()  
+                require("src/View/role/enemySoldier").updateAllBlood()  
             end         
     
         end
