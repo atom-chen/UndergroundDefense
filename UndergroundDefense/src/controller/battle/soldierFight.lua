@@ -335,7 +335,7 @@ function soldierFight.bitEnemySoldier(map)
                 end
             end
         else   --遇到enemy已经停止运到，而还没执行攻击的soldier
-            if (not soldier.isBit)then
+            if (not soldier.isBit and soldier.bitTarget ~= 5000)then
                 soldier.isBit = true
                 local function bitEnemySoldier(node, data)
                     local beaten   = data.beaten

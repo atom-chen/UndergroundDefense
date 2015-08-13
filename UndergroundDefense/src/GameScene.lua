@@ -20,6 +20,8 @@ local userTouch = require("src/controller/userTouch")
 
 local soldierFight = require("src/controller/battle/soldierFight")
 
+local warriorFight = require("src/controller/battle/warriorFight")
+
 local brithplace = require("src/view/birthplace")
 
 local gameTip = require("src/view/gameTip")
@@ -262,7 +264,11 @@ function GameScene:createMap()
         ---对战
         soldierFight.bitSoldier(map)
         soldierFight.bitEnemySoldier(map)   
-              
+        
+        if(isExistWarrior) then
+            warriorFight.bitSoldier(map)
+            warriorFight.bitWarrior(map)
+        end     
 --        if(isExistWarrior) then   -- 勇士相关的战斗
 --            soldierFight.warriorVsSoldier(map) 
 --            attackBirth.soldierBirth(map)
