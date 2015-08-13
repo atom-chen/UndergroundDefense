@@ -115,6 +115,18 @@ function soldierLayer.updateBlood(tag)
 	end
 end
 
+--更新小兵血量
+function soldierLayer.updateAllBlood()
+    for key, soldier in ipairs(soldierTab) do
+
+        local remaind = soldier.layer:getChildByTag(102)
+        local txt = soldier.layer:getChildByTag(103)
+
+        remaind:setPercentage(math.floor(soldier.remaindBlood/soldier.blood*100))
+        txt:setString(soldier.remaindBlood.. "/" .. soldier.blood)
+    end
+end
+
 function soldierLayer.deleteSoldier(tag)
     for key, soldier in ipairs(soldierTab) do
         if soldier.tag == tag then 

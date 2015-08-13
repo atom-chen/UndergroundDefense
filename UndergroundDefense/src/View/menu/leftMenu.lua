@@ -146,7 +146,7 @@ function leftMenu.create(x,y,map)
                         soldier.blood = soldier.blood + result.monster.monster1.soldierBlood
                 	end
                 end            
-                soldierView.updateBlood()  
+                soldierView.updateAllBlood()  
             end                    
         end
         
