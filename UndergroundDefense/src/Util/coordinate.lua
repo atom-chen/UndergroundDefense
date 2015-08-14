@@ -5,7 +5,7 @@ local  coordinate = class("coordinate")
 
 -----把cocos2d坐标转化为map地图对应的item
 function coordinate.getItem(map,point)
-    local point={x= math.floor(point.x/32),y = math.floor((map:getContentSize().height-point.y)/32)}  
+    local point={ x= math.floor(point.x/32),y = math.floor((map:getContentSize().height-point.y)/32)}  
     
     return point
 end

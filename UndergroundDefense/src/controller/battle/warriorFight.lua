@@ -40,7 +40,7 @@ function warriorFight.bitSoldier(map)
         local blood_txt =warriorLayer:getChildByTag(1003)
         local warriorX,warriorY = warrior:getPosition()
         
-        local warriorPoint = {x = wpointx , y = wpointy}
+        local warriorPoint = {x = warriorX , y = warriorY}
         local item = coordinate.getItem(map, warriorPoint)
         if((item.x == 5 and item.y == 57)or ((item.x == 10 and item.y == 17)))then
            return   --不打小兵
@@ -166,7 +166,7 @@ function warriorFight.bitWarrior(map)
             local function bitWarrior(node, data)
               
                 local bit = data.bit
-                print("bitTag: ".. bit.tag)
+
                 Warrior_P[2] = Warrior_P[2] - bit.hurt
                 --勇士死亡
                 if(Warrior_P[2] <= 0)then

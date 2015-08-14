@@ -18,7 +18,7 @@ function attackBirth.soldierBirth(map)
 
         local point = {x = pointx, y = pointy}
 
-        local item = coordinate.getItem(map,point)
+        local item = coordinate.getItem(map, point)
         if(item.x == 5 and item.y == 57)then --到达巢穴     
              Warrior_P[4] = false  
              
