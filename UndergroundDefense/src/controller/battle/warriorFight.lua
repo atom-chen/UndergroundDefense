@@ -5,6 +5,8 @@ local warriorView = require("src/view/role/warrior")
 
 local soldierView = require("src/view/role/soldier")
 
+local coordinate = require("src/util/coordinate")
+
 local warriorFight = class("warriorFight")
 --[[
 先调用soldierFight的小兵互斗函数，
@@ -27,11 +29,6 @@ local function getModelByTag(tab, tag)
     end
 end
 
-function warriorFight:warriorBattle(map)
-    self:bitSoldier(map)
-    self:bitWarrior(map)
-end
-
 local timeSpace = 0
 
 function warriorFight.bitSoldier(map)
@@ -42,6 +39,12 @@ function warriorFight.bitSoldier(map)
         local blooding =warriorLayer:getChildByTag(1002)
         local blood_txt =warriorLayer:getChildByTag(1003)
         local warriorX,warriorY = warrior:getPosition()
+        
+        local warriorPoint = {x = wpointx , y = wpointy}
+        local item = coordinate.getItem(map, warriorPoint)
+        if((item.x == 5 and item.y == 57)or ((item.x == 10 and item.y == 17)))then
+           return   --不打小兵
+        end
 
         for key, soldier in ipairs(soldierTab) do
             local soldierX,soldierY = soldier.layer:getChildByTag(100):getPosition()

@@ -17,8 +17,7 @@ function userTouch.bitBlock(layerBg, point,mapPointX,mapPointY, map)
     local item = tiled.getItem(map,bit_point)
     
     local gid = layerBg:getTileGIDAt(cc.p(item[1],item[2])) --获取点击方块的gid
-    
-    print("gid: ".. gid,"pointX: ".. point.x)
+   
     if(gid ~= 34 )then
         if(gid == 15)then --变为可走路线
             layerBg:setTileGID(34,cc.p(item[1],item[2])) --设置为可行走图块

@@ -268,14 +268,10 @@ function GameScene:createMap()
         if(isExistWarrior) then
             warriorFight.bitSoldier(map)
             warriorFight.bitWarrior(map)
+            
+            attackBirth.soldierBirth(map)
+            attackBoss.bitBoss(map)   
         end     
---        if(isExistWarrior) then   -- 勇士相关的战斗
---            soldierFight.warriorVsSoldier(map) 
---            attackBirth.soldierBirth(map)
---
---            attackBoss.bitBoss(map)     
---        end        
-          
     end
      
     --调度器，0代表每帧更新

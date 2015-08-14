@@ -83,8 +83,8 @@ function attackBirth.soldierBirth(map)
                     
                     if(isExistWarrior)then
                         warrior:stopActionByTag(2500)
-                        warriorView.move(map,{x = 10, y = 17})
                         Warrior_P[5] =false
+                        warriorView.move(map,{x = 10, y = 17})
                     end
                   end
              end
