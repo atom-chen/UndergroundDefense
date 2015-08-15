@@ -53,7 +53,7 @@
   	}
   }, 
   "money":{
-  	"init":100000,
+  	"init":0,
   	"block_money":50
   }, 
   "monster":{
@@ -86,7 +86,7 @@
         "speed": 0.4,
         "cost" : 550,
          "cd" : 120,
-        "maxNum":2,
+        "maxNum":1,
         "warriorSpeed":0.3,
         "warriorHurt":80,
         "warriorBlood":300
