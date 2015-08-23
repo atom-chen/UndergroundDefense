@@ -130,8 +130,6 @@ function WarriorLayer.move(map,targetItem)
         --防止回退到item中心
         path[1].x,path[1].y = warrior:getPosition()
         
-        print("要移动步数 。。 :  ".. table.getn(path))
-        
         local function Noderun(node ,path )
         	if(actionNum < table.getn(path))then
                 actionNum = actionNum + 1

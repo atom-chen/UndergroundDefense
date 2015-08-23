@@ -10,10 +10,7 @@ function tiled.getMoveable(map , point)
     local layerBg = map:getLayer("layerMap")
 
     local gid=layerBg:getTileGIDAt(point)
-
-    --print("gid :" .. gid)  
-    --local isMove = map:getPropertiesForGID(gid)--获取其图块的属性 --没属性时返回gid
-    
+       
     if(gid == 34)then   ---- gid为34的图块才能走
         return true
     end

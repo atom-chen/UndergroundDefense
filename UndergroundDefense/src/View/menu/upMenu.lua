@@ -48,9 +48,7 @@ function upMenu.create(x,y)
     soldier_txt:setColor(cc.c3b(0,0,0))
     soldier_txt:setPosition(x + 300,y)   
     layer:addChild(soldier_txt,0,4) 
-    
-    
-     
+        
     return layer
 end
 

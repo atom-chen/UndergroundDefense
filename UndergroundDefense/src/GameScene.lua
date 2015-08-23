@@ -48,8 +48,14 @@ function GameScene.create()
     math.randomseed(os.time()) 
     
     GameScene:init()
-    scene:addChild(GameScene:createMap())
     
+    local layerMap = GameScene:createMap()
+    scene:addChild(layerMap)
+    
+    local map = layerMap:getChildByTag(1)
+    map:setScale(ScaleRate)
+    
+    print(map:getContentSize().width, map:getContentSize().height) -- 2880  1920不变
     return scene
 end
 
@@ -106,7 +112,7 @@ end
 function GameScene:createMap()
 
     local layerMap=cc.Layer:create()
-    
+
     ---加载tmx显示地图
     local  map = cc.TMXTiledMap:create("map/map.tmx") ---每个TMXTiledMap都被当作一个精灵
     layerMap:addChild(map, 0, 1)
@@ -138,37 +144,14 @@ function GameScene:createMap()
     --左级菜单
     local leftmenu = leftMenu.create(45,360,map)
     layerMap:addChild(leftmenu,0,10087)
- 
-    --监听地图层 -在map上的坐标
-    local layerBg=map:getLayer("layerMap")
+
+
     local bitNode;
-    
-    
-    local function onTouchBegan(touche,event)
-        bitNode = touche:getLocation()        
-        return true
-    end   
-
-    local function onTouchEnd(touche,event)
-        local diff = touche:getLocation()
-        local x=bitNode.x-diff.x
-
-        if(x < 5 and x > -5)then    --误差5
-            userTouch.bitBlock(layerBg,diff,layerMap:getChildByTag(1):getPositionX(),
-                layerMap:getChildByTag(1):getPositionY(),map)
-        end
-    end
-
-    local listener1 = cc.EventListenerTouchOneByOne:create()
-    listener1:registerScriptHandler(onTouchBegan,cc.Handler.EVENT_TOUCH_BEGAN )
-    listener1:registerScriptHandler(onTouchEnd,cc.Handler.EVENT_TOUCH_ENDED )
-    local eventDispatcher1 = layerBg:getEventDispatcher()
-    eventDispatcher1:addEventListenerWithSceneGraphPriority(listener1, layerBg)
-
-
-
     local function onTouchBegan_map(touche, event)
-    	return true
+        bitNode = touche:getLocation()  
+--        ScaleRate = ScaleRate + 0.1  可以实现缩放
+--        map:setScale(ScaleRate)
+        return true
     end
 
     ---移动地图layer
@@ -176,28 +159,39 @@ function GameScene:createMap()
         local diff =touche:getDelta() 
         local node = layerMap:getChildByTag(1)
        
-        --print("diff: ".. touches[1]:getLocation().x,touches[1]:getLocation().y)
         local currentPosX, currentPosY= node:getPosition()
         local Mx = currentPosX + diff.x
         local My = currentPosY + diff.y
         ---不能移出边框
-        if(Mx < 0 and Mx > -1920)then
+        local mxMax = map:getContentSize().width * ScaleRate - screeWidth
+        local myMax = map:getContentSize().height * ScaleRate - screeHeight
+        if(Mx < 0 and Mx > - mxMax)then
             node:setPositionX(Mx)
         end 
-        if(My < 0 and My > -1280)then
+        if(My < 0 and My > - myMax)then
             node:setPositionY(My)
         end
 
+    end
+    
+    local function onTouchEnd_map(touche, event)
+        local diff = touche:getLocation()
+        local x=bitNode.x-diff.x
+        -- 解锁砖块
+        if(x < 5 and x > -5)then    --误差5
+            userTouch.bitBlock(diff,map:getPositionX(),
+                map:getPositionY(),map)
+        end
     end
 
     --监听地图成
     local listener = cc.EventListenerTouchOneByOne:create()
     listener:registerScriptHandler(onTouchBegan_map,cc.Handler.EVENT_TOUCH_BEGAN )
     listener:registerScriptHandler(onToucheMoved_map,cc.Handler.EVENT_TOUCH_MOVED )
+    listener:registerScriptHandler(onTouchEnd_map,cc.Handler.EVENT_TOUCH_ENDED )
     local eventDispatcher = layerMap:getEventDispatcher()
     eventDispatcher:addEventListenerWithSceneGraphPriority(listener, layerMap)
-    
-          
+             
     --更新方法
     local function update()   
 
@@ -276,10 +270,8 @@ function GameScene:createMap()
      
     --调度器，0代表每帧更新
     schedulerId = cc.Director:getInstance():getScheduler():scheduleScriptFunc(update, 0.2, false)
-    
-    
-    return layerMap      
-  
+        
+    return layerMap        
 end
 
 

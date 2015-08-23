@@ -8,12 +8,13 @@ local userTouch = class("userTouch")
 
 ----点击改变图块类型
 --
-function userTouch.bitBlock(layerBg, point,mapPointX,mapPointY, map)
+function userTouch.bitBlock( point,mapPointX,mapPointY, map)
     ---求出是地图哪一个点cc.p()
-
+    local layerBg=map:getLayer("layerMap")
+    
     local bit_point={}    
-    bit_point.x= point.x - mapPointX;
-    bit_point.y= point.y - mapPointY
+    bit_point.x= (point.x - mapPointX) / ScaleRate;
+    bit_point.y= (point.y - mapPointY) / ScaleRate
     local item = tiled.getItem(map,bit_point)
     
     local gid = layerBg:getTileGIDAt(cc.p(item[1],item[2])) --获取点击方块的gid
@@ -52,7 +53,6 @@ function userTouch.bitBlock(layerBg, point,mapPointX,mapPointY, map)
     end
     
     --layerBg:removeTileAt(cc.p(item[1],item[2])) --删除原来的图块
-
 end
 
 return userTouch

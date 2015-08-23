@@ -126,8 +126,8 @@ function leftMenu.create(x,y,map)
         whichmonster:setOpacity(255)
         
         local clonesprite
-        local map_x = whichmonster:getPositionX()-map:getPositionX()
-        local map_y = whichmonster:getPositionY()-map:getPositionY()
+        local map_x = (whichmonster:getPositionX()-map:getPositionX()) / ScaleRate
+        local map_y = (whichmonster:getPositionY()-map:getPositionY()) / ScaleRate
        
         --创建moster
         if(tag == 100)then
