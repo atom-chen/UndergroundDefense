@@ -39,6 +39,8 @@ function scaleMap.create(x,y,map)
             ScaleRate = ScaleRate + 0.1
             local scaleAction = cc.ScaleTo:create(1,ScaleRate)
             map:runAction(scaleAction)
+            
+            
         end
         
         if(cc.rectContainsPoint(scaleDown:getBoundingBox(),bitPoint) and ScaleRate >= 0.4 )then
@@ -46,6 +48,17 @@ function scaleMap.create(x,y,map)
             ScaleRate = ScaleRate - 0.1
             if ScaleRate < 0.33 then ScaleRate = 0.33 end
             local scaleAction = cc.ScaleTo:create(1,ScaleRate)
+            --解决缩小题图无法移动问题，即移动地图缩小出现黑区
+            local mapX, mapY = map:getPosition()
+            
+            if mapX < 0 or mapY < 0 then
+                local pointX = map:getContentSize().width * ScaleRate + mapX
+                local pointY = map:getContentSize().height * ScaleRate + mapY
+                
+                if pointX < 960 or pointY < 640 then
+                    scaleAction = cc.Spawn:create(cc.MoveTo:create(1,cc.p(0,0)),cc.ScaleTo:create(1,ScaleRate))
+                end
+            end
             map:runAction(scaleAction)
         end       
         return true
@@ -57,8 +70,8 @@ function scaleMap.create(x,y,map)
     
     listener:registerScriptHandler(onTouchBegan,cc.Handler.EVENT_TOUCH_BEGAN )
     listener:registerScriptHandler(onTouchEnd,cc.Handler.EVENT_TOUCH_ENDED )
-    local eventDispatcher_left = layer:getEventDispatcher()
-    eventDispatcher_left:addEventListenerWithSceneGraphPriority(listener, layer)
+    local eventDispatcher = layer:getEventDispatcher()
+    eventDispatcher:addEventListenerWithSceneGraphPriority(listener, layer)
     
     return layer
 end

@@ -33,4 +33,4 @@ warriorTab     = {}      --勇士小兵集合
 
 trapTab        = {}      --陷阱集合
 
-ScaleRate      = 0.5     --缩放因子
+ScaleRate      = 0.33     --缩放因子
