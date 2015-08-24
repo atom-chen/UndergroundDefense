@@ -144,13 +144,14 @@ function GameScene:createMap()
     --左级菜单
     local leftmenu = leftMenu.create(45,360,map)
     layerMap:addChild(leftmenu,0,10087)
-
+    
+    --放大缩小
+    local scaleMenu = require("src/View/menu/scaleMap").create(900, 450,map)
+    layerMap:addChild(scaleMenu,0,10088)
 
     local bitNode;
     local function onTouchBegan_map(touche, event)
         bitNode = touche:getLocation()  
---        ScaleRate = ScaleRate + 0.1  可以实现缩放
---        map:setScale(ScaleRate)
         return true
     end
 
