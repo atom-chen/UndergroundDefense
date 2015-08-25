@@ -24,7 +24,7 @@ function userTouch.bitBlock( point,mapPointX,mapPointY, map)
             layerBg:setTileGID(34,cc.p(item[1],item[2])) --设置为可行走图块
            
             --每解锁一块砖，加钱
-            Money = Money + result.money.block_money
+            if gameStart then Money = Money + result.money.block_money end
             
             --每次点击更新勇士的寻路路径    
             ---获取勇士对象

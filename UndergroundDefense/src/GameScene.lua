@@ -94,6 +94,8 @@ function GameScene:init()
     trapTab    = {} 
     
     soldierKey = 30000  -- 小兵的key
+    
+    gameStart  = false
         
     --随机陷阱
     cteateTrap()    
@@ -121,7 +123,7 @@ function GameScene:createMap()
     local trap = require("src/view/trapView").create(map)
     map:addChild(trap,0,400)
 
-    local bospoint = object.getPoint(map,"object","Bospoint")    --加载对象层数据
+    local bospoint = object.getPoint(map,"object","soldierpoint")    --加载对象层数据
     local bos = bosView.create(bospoint.x,bospoint.y)
     map:addChild(bos,0,10000)
 
@@ -194,81 +196,83 @@ function GameScene:createMap()
     eventDispatcher:addEventListenerWithSceneGraphPriority(listener, layerMap)
              
     --更新方法
-    local function update()   
-
+    local function update()
         ---更新upMenu
         updateMenu.upMenu(upmenu)
         updateMenu.leftMenu(leftmenu)
-        
-        require("src/controller/touchTrap").trigger(map)
-       
-        --小兵数量result.SoldierNum，创建小兵       
-        if(table.getn(soldierTab)< result.SoldierNum and birthplace_blood > 0)then
-            soldierSpace = soldierSpace + 0.5;
-            if(soldierSpace > Soldier.space)then 
-                local soldier = soldierView.create(soldierPoint.x,soldierPoint.y)
-                map:addChild(soldier,0,soldierKey)
-                soldierKey =soldierKey +1
-                soldierSpace = 0;
-            end    
-        end 
-        
-        --敌方小兵
-        if(table.getn(warriorTab)< result.enemySoldierNum and birthplace_blood > 0)then
-            enemySoldierSpace = enemySoldierSpace + 0.5;
-            if(enemySoldierSpace > result.enemySoldier.space)then 
-                local soldier = enemySoldier.create(warriorPoint.x,warriorPoint.y)
-                map:addChild(soldier,0,soldierKey)
-                soldierKey =soldierKey +1
-                enemySoldierSpace = 0;
-            end    
-        end 
-        
-                  
-        --勇士数量result.WarriorNum，地图没勇士创建勇士
-        if(not isExistWarrior )then
-            warriorSpace = warriorSpace + 0.5
-            if(warriorSpace > Warrior.space)then
-                whichWarrior = whichWarrior + 1 --表示第几个勇士
-               
-                if(whichWarrior > result.WarriorNum)then
-                    cc.Director:getInstance():getScheduler():unscheduleScriptEntry(schedulerId)
-                    gameResult = true
-                    local scene = require("ResultScene")
-                    local gameScene = scene.create()
-                    cc.Director:getInstance():replaceScene(gameScene)  
-                else
-                    ---添加勇士                 
-                    local warrior = warriorView.create(warriorPoint.x,warriorPoint.y, math.mod(whichWarrior,2))
-                    map:addChild(warrior,0,5000)           
-                    isExistWarrior=true --存在勇士
-                    WarriorLifeTime = result.Warrior_LiftTime  --更新勇士生存时间值
-                    --移动勇士
-                    warriorView.move(map)
 
-                    warriorSpace = 0
+        if gameStart then
+
+            require("src/controller/touchTrap").trigger(map)
+
+            --小兵数量result.SoldierNum，创建小兵
+            if(table.getn(soldierTab)< result.SoldierNum and birthplace_blood > 0)then
+                soldierSpace = soldierSpace + 0.5;
+                if(soldierSpace > Soldier.space)then
+                    local soldier = soldierView.create(soldierPoint.x,soldierPoint.y)
+                    map:addChild(soldier,0,soldierKey)
+                    soldierKey =soldierKey +1
+                    soldierSpace = 0;
                 end
+            end
 
+            --敌方小兵
+            if(table.getn(warriorTab)< result.enemySoldierNum and birthplace_blood > 0)then
+                enemySoldierSpace = enemySoldierSpace + 0.5;
+                if(enemySoldierSpace > result.enemySoldier.space)then
+                    local soldier = enemySoldier.create(warriorPoint.x,warriorPoint.y)
+                    map:addChild(soldier,0,soldierKey)
+                    soldierKey =soldierKey +1
+                    enemySoldierSpace = 0;
+                end
+            end
+
+
+            --勇士数量result.WarriorNum，地图没勇士创建勇士
+            if(not isExistWarrior )then
+                warriorSpace = warriorSpace + 0.5
+                if(warriorSpace > Warrior.space)then
+                    whichWarrior = whichWarrior + 1 --表示第几个勇士
+
+                    if(whichWarrior > result.WarriorNum)then
+                        cc.Director:getInstance():getScheduler():unscheduleScriptEntry(schedulerId)
+                        gameResult = true
+                        local scene = require("ResultScene")
+                        local gameScene = scene.create()
+                        cc.Director:getInstance():replaceScene(gameScene)
+                    else
+                        ---添加勇士
+                        local warrior = warriorView.create(warriorPoint.x,warriorPoint.y, math.mod(whichWarrior,2))
+                        map:addChild(warrior,0,5000)
+                        isExistWarrior=true --存在勇士
+                        WarriorLifeTime = result.Warrior_LiftTime  --更新勇士生存时间值
+                        --移动勇士
+                        warriorView.move(map)
+
+                        warriorSpace = 0
+                    end
+
+                end
+            end
+
+            ---小兵巡逻
+            soldierView.move(map)
+            enemySoldier.move(map)
+
+            ---对战
+            soldierFight.bitSoldier(map)
+            soldierFight.bitEnemySoldier(map)
+
+            if(isExistWarrior) then
+                warriorFight.bitSoldier(map)
+                warriorFight.bitWarrior(map)
+
+                attackBirth.soldierBirth(map)
+                attackBoss.bitBoss(map)
             end
         end
-        
-        ---小兵巡逻
-        soldierView.move(map)       
-        enemySoldier.move(map)
-        
-        ---对战
-        soldierFight.bitSoldier(map)
-        soldierFight.bitEnemySoldier(map)   
-        
-        if(isExistWarrior) then
-            warriorFight.bitSoldier(map)
-            warriorFight.bitWarrior(map)
-            
-            attackBirth.soldierBirth(map)
-            attackBoss.bitBoss(map)   
-        end     
     end
-     
+
     --调度器，0代表每帧更新
     schedulerId = cc.Director:getInstance():getScheduler():scheduleScriptFunc(update, 0.2, false)
         
