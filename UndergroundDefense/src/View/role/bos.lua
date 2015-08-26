@@ -13,6 +13,7 @@ function BosLayer.create(x,y)
     Bos:setScale(0.3)  
     Bos:setRotationSkewY(180)
     Bos:setPosition(x,y)
+
     local action = cc.CSLoader:createTimeline("csb/generalshark.csb")--获取帧动画活动
     action:setTag(10005)
     action:gotoFrameAndPlay(0,60,true)--设置运行0-13fps,true为无线循环
@@ -48,6 +49,49 @@ function BosLayer.create(x,y)
    
     My_Boss={layer,action,true}
     
+    
+    local listener = cc.EventListenerTouchOneByOne:create()
+    local isbitBoss = false
+    local function onTouchBegan(touche, event)
+        local bitPoint = touche:getLocation()       
+        local BossX = Bos:getPositionX() 
+        local BossY = Bos:getPositionY()
+        ---map position
+        local bit_pointx= (bitPoint.x - 0) / ScaleRate;
+        local bit_pointy= (bitPoint.y - 0) / ScaleRate
+        
+        local absX = math.abs(BossX - bitPoint.x)
+        local absY = math.abs(BossY - bitPoint.y)
+        local rang = 50
+        
+        print(bit_pointx, bit_pointy)
+        if(absX <rang and absY < rang) then
+            listener:setSwallowTouches(true) 
+            print("boskkkkkkkkkkk")
+            isbitBoss = true           
+        end
+        return true
+    end  
+    
+    local function onToucheMoved(touche, event)
+        if isbitBoss then
+            local bitPoint = touche:getLocation()
+            Bos:setPosition(bitPoint.x, bitPoint.y)
+            blood:setPosition(bitPoint.x, bitPoint.y)
+            progress1:setPosition(bitPoint.x, bitPoint.y)
+            blood_txt:setPosition(bitPoint.x, bitPoint.y)
+        end
+    end     
+
+    local function onTouchEnd(touche, event)
+        listener:setSwallowTouches(false)
+        isbitBoss = false 
+    end 
+    listener:registerScriptHandler(onTouchBegan,cc.Handler.EVENT_TOUCH_BEGAN )
+    listener:registerScriptHandler(onToucheMoved,cc.Handler.EVENT_TOUCH_MOVED )
+    listener:registerScriptHandler(onTouchEnd,cc.Handler.EVENT_TOUCH_ENDED )
+    local eventDispatcher = layer:getEventDispatcher()
+    eventDispatcher:addEventListenerWithSceneGraphPriority(listener, layer)
     
     return layer
 end

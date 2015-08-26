@@ -11,12 +11,17 @@ local  scaleMap= class("scaleMap",function()
     return cc.Layer:create()
 end)
 
+scaleMap.gameTipState = 1
 
+scaleMap.gameTipStr = {
+    bitBlock = "请敲碎砖块设计可走路径，完成后请点击右下角的确定",
+    moveBoss = "请选择移动Boss设置其位置，完成后请点击右下角的确定"
+}
 
+---游戏引导放到放大缩小的layer
 function scaleMap.create(x,y,map)
 
-    local layer = scaleMap.new()
-    
+    local layer = scaleMap.new()    
     --------放大
     local  scaleUp = cc.Sprite:create("res/scaleup.png")
     scaleUp:setScale(0.4)
@@ -28,7 +33,22 @@ function scaleMap.create(x,y,map)
     scaleDown:setScale(0.2)
     scaleDown:setPosition(x ,y - 120)   
     layer:addChild(scaleDown) 
-  
+    
+    ------引导文字
+    local x = cc.Director:getInstance():getVisibleSize().width/2
+    local y = cc.Director:getInstance():getVisibleSize().height/2
+
+    local gameTip = cc.Label:createWithTTF(scaleMap.gameTipStr.bitBlock, "fonts/menu_format.ttf", 25)
+    gameTip:setPosition(x,y)
+    --gameTip:setScale(0.1)
+    layer:addChild(gameTip, 0, 100)
+    
+    -----确定按钮
+    local button = cc.Sprite:create("res/ok.png")
+    button:setPosition(810, 100)
+    button:setScale(0.5)
+    layer:addChild(button)
+
     local listener = cc.EventListenerTouchOneByOne:create()
     
     local function onTouchBegan(touche, event)
@@ -38,9 +58,7 @@ function scaleMap.create(x,y,map)
             listener:setSwallowTouches(true) --吞噬点击事件，不往下层传递，记得返回true
             ScaleRate = ScaleRate + 0.1
             local scaleAction = cc.ScaleTo:create(1,ScaleRate)
-            map:runAction(scaleAction)
-            
-            
+            map:runAction(scaleAction)                       
         end
         
         if(cc.rectContainsPoint(scaleDown:getBoundingBox(),bitPoint) and ScaleRate >= 0.4 )then
@@ -50,7 +68,7 @@ function scaleMap.create(x,y,map)
             local scaleAction = cc.ScaleTo:create(1,ScaleRate)
             --解决缩小题图无法移动问题，即移动地图缩小出现黑区
             local mapX, mapY = map:getPosition()
-            
+
             if mapX < 0 or mapY < 0 then
                 local pointX = map:getContentSize().width * ScaleRate + mapX
                 local pointY = map:getContentSize().height * ScaleRate + mapY
@@ -61,6 +79,11 @@ function scaleMap.create(x,y,map)
             end
             map:runAction(scaleAction)
         end       
+
+        if(cc.rectContainsPoint(button:getBoundingBox(),bitPoint)) then
+            listener:setSwallowTouches(true) --吞噬点击事件，不往下层传递，记得返回true
+            scaleMap.clickButton(layer)                    
+        end
         return true
     end       
     
@@ -76,5 +99,12 @@ function scaleMap.create(x,y,map)
     return layer
 end
 
+function scaleMap.clickButton(layer)
+	if scaleMap.gameTipState == 2 then
+	   local textStr = layer:getChildByTag(100)
+	   textStr:setString(scaleMap.gameTipStr.moveBoss)
+	   textStr:setVisible(true)
+	end
+end
 
 return scaleMap

@@ -12,6 +12,7 @@ function userTouch.bitBlock( point,mapPointX,mapPointY, map)
     ---求出是地图哪一个点cc.p()
     local layerBg=map:getLayer("layerMap")
     
+    print("jjjjjjjjjjjj")
     local bit_point={}    
     bit_point.x= (point.x - mapPointX) / ScaleRate;
     bit_point.y= (point.y - mapPointY) / ScaleRate
@@ -27,7 +28,6 @@ function userTouch.bitBlock( point,mapPointX,mapPointY, map)
             if gameStart then Money = Money + result.money.block_money end
             
             --每次点击更新勇士的寻路路径    
-            ---获取勇士对象
             if(isExistWarrior and (not  Warrior_P[5]) )then
 
                 local warriorLayer = map:getChildByTag(5000)
@@ -49,6 +49,20 @@ function userTouch.bitBlock( point,mapPointX,mapPointY, map)
             end
         else
             layerBg:setTileGID(15,cc.p(item[1],item[2])) 
+            
+            --游戏引导
+            local gameTipState = require("src/View/menu/scaleMap").gameTipState
+            if gameTipState == 1 then
+                local layerMap = map:getParent()
+                local scaleMap = layerMap:getChildByTag(10088)
+                
+                local textStr = scaleMap:getChildByTag(100)
+                textStr:setVisible(false) 
+                               
+                require("src/View/menu/scaleMap").gameTipState = gameTipState + 1
+                
+                print(require("src/View/menu/scaleMap").gameTipState)
+            end
         end 
     end
     
