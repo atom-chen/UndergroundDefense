@@ -4,7 +4,7 @@ local BosLayer = class("BosLayer",function()
     return cc.Layer:create()
 end)
 
-function BosLayer.create(x,y)
+function BosLayer.create(x,y, map)
     
     local layer = BosLayer.new()
     -----把cocosStudio生成的csb和资源图片导入的res目录下
@@ -52,19 +52,30 @@ function BosLayer.create(x,y)
     
     local listener = cc.EventListenerTouchOneByOne:create()
     local isbitBoss = false
+    
     local function onTouchBegan(touche, event)
-        local bitPoint = touche:getLocation()       
+        local gameTipState = require("src/View/menu/scaleMap").gameTipState
+        if gameTipState == 2 then
+            local layerMap = map:getParent()
+            local scaleMap = layerMap:getChildByTag(10088)
+
+            local textStr = scaleMap:getChildByTag(100)
+            textStr:setVisible(false)   
+            
+            require("src/View/menu/scaleMap").gameTipState = require("src/View/menu/scaleMap").gameTipState + 1                           
+        end
+        
+        local bitPoint = touche:getLocation()  
+        local mapX, mapY= map:getPosition()     
         local BossX = Bos:getPositionX() 
         local BossY = Bos:getPositionY()
         ---map position
-        local bit_pointx= (bitPoint.x - 0) / ScaleRate;
-        local bit_pointy= (bitPoint.y - 0) / ScaleRate
+        local bit_pointX= (bitPoint.x - mapX) / ScaleRate;
+        local bit_pointY= (bitPoint.y - mapY) / ScaleRate
         
-        local absX = math.abs(BossX - bitPoint.x)
-        local absY = math.abs(BossY - bitPoint.y)
-        local rang = 50
-        
-        print(bit_pointx, bit_pointy)
+        local absX = math.abs(BossX - bit_pointX)
+        local absY = math.abs(BossY - bit_pointY)
+        local rang = 50 / ScaleRate
         if(absX <rang and absY < rang) then
             listener:setSwallowTouches(true) 
             print("boskkkkkkkkkkk")
@@ -74,12 +85,17 @@ function BosLayer.create(x,y)
     end  
     
     local function onToucheMoved(touche, event)
-        if isbitBoss then
+        local gameTipState = require("src/View/menu/scaleMap").gameTipState
+        if isbitBoss and gameTipState == 3 then
             local bitPoint = touche:getLocation()
-            Bos:setPosition(bitPoint.x, bitPoint.y)
-            blood:setPosition(bitPoint.x, bitPoint.y)
-            progress1:setPosition(bitPoint.x, bitPoint.y)
-            blood_txt:setPosition(bitPoint.x, bitPoint.y)
+            local mapX, mapY= map:getPosition() 
+            local bit_pointX= (bitPoint.x - mapX) / ScaleRate;
+            local bit_pointY= (bitPoint.y - mapY) / ScaleRate
+            
+            Bos:setPosition(bit_pointX, bit_pointY)
+            blood:setPosition(bit_pointX , bit_pointY + 120)
+            progress1:setPosition(bit_pointX, bit_pointY +120 )
+            blood_txt:setPosition(bit_pointX, bit_pointY + 130)
         end
     end     
 

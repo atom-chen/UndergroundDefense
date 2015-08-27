@@ -15,7 +15,8 @@ scaleMap.gameTipState = 1
 
 scaleMap.gameTipStr = {
     bitBlock = "请敲碎砖块设计可走路径，完成后请点击右下角的确定",
-    moveBoss = "请选择移动Boss设置其位置，完成后请点击右下角的确定"
+    moveBoss = "请选择移动boss设置其位置，完成后请点击右下角的确定",
+    statrGame= "点击开始按钮开始游戏"
 }
 
 ---游戏引导放到放大缩小的layer
@@ -99,12 +100,26 @@ function scaleMap.create(x,y,map)
     return layer
 end
 
-function scaleMap.clickButton(layer)
+function scaleMap.clickButton(layer)   
 	if scaleMap.gameTipState == 2 then
+	   print("start game")
+	   
 	   local textStr = layer:getChildByTag(100)
-	   textStr:setString(scaleMap.gameTipStr.moveBoss)
-	   textStr:setVisible(true)
+       textStr:setString(scaleMap.gameTipStr.startGame)
+       textStr:setVisible(true)
 	end
+	
+    if scaleMap.gameTipState == 1 then
+        scaleMap.gameTipState = scaleMap.gameTipState + 1
+        local textStr = layer:getChildByTag(100)
+        textStr:setString(scaleMap.gameTipStr.moveBoss)
+        textStr:setVisible(true)
+    end
+    
+    if scaleMap.gameTipState == 3  then
+    
+        print("startGame")
+    end
 end
 
 return scaleMap

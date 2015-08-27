@@ -57,11 +57,7 @@ function userTouch.bitBlock( point,mapPointX,mapPointY, map)
                 local scaleMap = layerMap:getChildByTag(10088)
                 
                 local textStr = scaleMap:getChildByTag(100)
-                textStr:setVisible(false) 
-                               
-                require("src/View/menu/scaleMap").gameTipState = gameTipState + 1
-                
-                print(require("src/View/menu/scaleMap").gameTipState)
+                textStr:setVisible(false)                              
             end
         end 
     end

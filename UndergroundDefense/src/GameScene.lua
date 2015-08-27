@@ -124,7 +124,7 @@ function GameScene:createMap()
     map:addChild(trap,0,400)
 
     local bospoint = object.getPoint(map,"object","soldierpoint")    --加载对象层数据
-    local bos = bosView.create(bospoint.x,bospoint.y)
+    local bos = bosView.create(bospoint.x,bospoint.y, map)
     map:addChild(bos,0,10000)
 
 
