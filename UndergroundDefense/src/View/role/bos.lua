@@ -75,7 +75,7 @@ function BosLayer.create(x,y, map)
         
         local absX = math.abs(BossX - bit_pointX)
         local absY = math.abs(BossY - bit_pointY)
-        local rang = 50 / ScaleRate
+        local rang = (blooding:getContentSize().width)/2 / ScaleRate
         if(absX <rang and absY < rang) then
             listener:setSwallowTouches(true) 
             print("boskkkkkkkkkkk")

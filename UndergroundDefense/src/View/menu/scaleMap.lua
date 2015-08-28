@@ -83,7 +83,7 @@ function scaleMap.create(x,y,map)
 
         if(cc.rectContainsPoint(button:getBoundingBox(),bitPoint)) then
             listener:setSwallowTouches(true) --吞噬点击事件，不往下层传递，记得返回true
-            scaleMap.clickButton(layer)                    
+            scaleMap.clickButton(layer, map)                    
         end
         return true
     end       
@@ -100,7 +100,7 @@ function scaleMap.create(x,y,map)
     return layer
 end
 
-function scaleMap.clickButton(layer)   
+function scaleMap.clickButton(layer, map)   
 	if scaleMap.gameTipState == 2 then
 	   print("start game")
 	   
@@ -117,8 +117,22 @@ function scaleMap.clickButton(layer)
     end
     
     if scaleMap.gameTipState == 3  then
-    
+        local bossLayer = map:getChildByTag(10000)
+        local boss = bossLayer:getChildByTag(1000)
+        local bossX,bossY = boss:getPosition()
+        
+        local soldierPoint = object.getPoint(map,"object","soldierpoint")
+        
+        local coordinate = require("src/util/coordinate")
+        local bossPoint = cc.p(bossX, bossY)           
+        local endItem = coordinate.getItem(map, bossPoint)
+        local startItem = coordinate.getItem(map, soldierPoint)
+        
+        local result = require("src/Util/A_start").findPath(startItem,endItem,map)
+        if result == 0 then print("kkkkkkkkkkkkkkkkkkkkkkkkk")
+        else 
         print("startGame")
+        end
     end
 end
 
