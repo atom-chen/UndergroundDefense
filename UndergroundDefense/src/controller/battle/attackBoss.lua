@@ -21,7 +21,7 @@ function attackBoss.bitBoss(map)
         local point = {x = pointx, y = pointy}
 
         local item = coordinate.getItem(map,point)
-        if(item.x == 10 and item.y == 17)then --到达Boss
+        if(item.x == BossItem.x  and item.y == BossItem.y)then --到达Boss
             Warrior_P[5] =true -- 攻击Boss状态
             local time_space = 0
             local bossLayer = map:getChildByTag(10000)
@@ -97,7 +97,6 @@ function attackBoss.bitBoss(map)
                         cc.CallFunc:create(attackWarrior,{})
                     )
                     action:setTag(1008)
-                    --print("" ..Boss.hurt)
                     boss:runAction(action)
                                    
                 else

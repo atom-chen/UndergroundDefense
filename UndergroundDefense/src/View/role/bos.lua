@@ -55,15 +55,6 @@ function BosLayer.create(x,y, map)
     
     local function onTouchBegan(touche, event)
         local gameTipState = require("src/View/menu/scaleMap").gameTipState
-        if gameTipState == 2 then
-            local layerMap = map:getParent()
-            local scaleMap = layerMap:getChildByTag(10088)
-
-            local textStr = scaleMap:getChildByTag(100)
-            textStr:setVisible(false)   
-            
-            require("src/View/menu/scaleMap").gameTipState = require("src/View/menu/scaleMap").gameTipState + 1                           
-        end
         
         local bitPoint = touche:getLocation()  
         local mapX, mapY= map:getPosition()     
@@ -79,14 +70,24 @@ function BosLayer.create(x,y, map)
         if(absX <rang and absY < rang) then
             listener:setSwallowTouches(true) 
             print("boskkkkkkkkkkk")
-            isbitBoss = true           
+            isbitBoss = true      
+                
+            if gameTipState == 3 then
+                local layerMap = map:getParent()
+                local scaleMap = layerMap:getChildByTag(10088)
+
+                local textStr = scaleMap:getChildByTag(100)
+                textStr:setVisible(false)   
+
+                require("src/View/menu/scaleMap").gameTipState = require("src/View/menu/scaleMap").gameTipState + 1                           
+            end 
         end
         return true
     end  
     
     local function onToucheMoved(touche, event)
         local gameTipState = require("src/View/menu/scaleMap").gameTipState
-        if isbitBoss and gameTipState == 3 then
+        if isbitBoss and gameTipState == 4 then
             local bitPoint = touche:getLocation()
             local mapX, mapY= map:getPosition() 
             local bit_pointX= (bitPoint.x - mapX) / ScaleRate;

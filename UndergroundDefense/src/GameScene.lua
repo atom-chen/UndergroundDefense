@@ -77,7 +77,7 @@ function GameScene:init()
     ----数据初始化
     isExistWarrior = false
 
-    whichWarrior = 1      -- 第几个勇士
+    whichWarrior = 0      -- 第几个勇士
 
     Boss_blood = Boss.blood
 
@@ -96,6 +96,8 @@ function GameScene:init()
     soldierKey = 30000  -- 小兵的key
     
     gameStart  = false
+    
+    BossItem   = nil
         
     --随机陷阱
     cteateTrap()    
@@ -123,7 +125,7 @@ function GameScene:createMap()
     local trap = require("src/view/trapView").create(map)
     map:addChild(trap,0,400)
 
-    local bospoint = object.getPoint(map,"object","soldierpoint")    --加载对象层数据
+    local bospoint = object.getPoint(map,"object","Bosspoint")    --加载对象层数据
     local bos = bosView.create(bospoint.x,bospoint.y, map)
     map:addChild(bos,0,10000)
 

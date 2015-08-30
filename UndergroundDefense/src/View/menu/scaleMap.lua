@@ -7,6 +7,8 @@
 --  Comment     :
 --  *********************************************************************
 
+---实现游戏开始引导流程
+
 local  scaleMap= class("scaleMap",function()
     return cc.Layer:create()
 end)
@@ -16,7 +18,8 @@ scaleMap.gameTipState = 1
 scaleMap.gameTipStr = {
     bitBlock = "请敲碎砖块设计可走路径，完成后请点击右下角的确定",
     moveBoss = "请选择移动boss设置其位置，完成后请点击右下角的确定",
-    statrGame= "点击开始按钮开始游戏"
+    cannotAvrrive = "魔王位置需要与勇士巢穴连通",
+    setSuccess = "设置成功，游戏即将开始"
 }
 
 ---游戏引导放到放大缩小的layer
@@ -47,8 +50,8 @@ function scaleMap.create(x,y,map)
     -----确定按钮
     local button = cc.Sprite:create("res/ok.png")
     button:setPosition(810, 100)
-    button:setScale(0.5)
-    layer:addChild(button)
+    button:setScale(0.6)
+    layer:addChild(button,0, 101)
 
     local listener = cc.EventListenerTouchOneByOne:create()
     
@@ -81,8 +84,9 @@ function scaleMap.create(x,y,map)
             map:runAction(scaleAction)
         end       
 
+        ---确定按钮
         if(cc.rectContainsPoint(button:getBoundingBox(),bitPoint)) then
-            listener:setSwallowTouches(true) --吞噬点击事件，不往下层传递，记得返回true
+            listener:setSwallowTouches(true) 
             scaleMap.clickButton(layer, map)                    
         end
         return true
@@ -101,27 +105,20 @@ function scaleMap.create(x,y,map)
 end
 
 function scaleMap.clickButton(layer, map)   
-	if scaleMap.gameTipState == 2 then
-	   print("start game")
-	   
-	   local textStr = layer:getChildByTag(100)
-       textStr:setString(scaleMap.gameTipStr.startGame)
-       textStr:setVisible(true)
-	end
-	
-    if scaleMap.gameTipState == 1 then
+
+    if scaleMap.gameTipState == 2 then
         scaleMap.gameTipState = scaleMap.gameTipState + 1
         local textStr = layer:getChildByTag(100)
         textStr:setString(scaleMap.gameTipStr.moveBoss)
         textStr:setVisible(true)
     end
     
-    if scaleMap.gameTipState == 3  then
+    if scaleMap.gameTipState == 4  then
         local bossLayer = map:getChildByTag(10000)
         local boss = bossLayer:getChildByTag(1000)
         local bossX,bossY = boss:getPosition()
         
-        local soldierPoint = object.getPoint(map,"object","soldierpoint")
+        local soldierPoint = object.getPoint(map,"object","soldierpoint")--勇士出生点
         
         local coordinate = require("src/util/coordinate")
         local bossPoint = cc.p(bossX, bossY)           
@@ -129,9 +126,49 @@ function scaleMap.clickButton(layer, map)
         local startItem = coordinate.getItem(map, soldierPoint)
         
         local result = require("src/Util/A_start").findPath(startItem,endItem,map)
-        if result == 0 then print("kkkkkkkkkkkkkkkkkkkkkkkkk")
+        if result == 0 then --不连通
+            local textStr = layer:getChildByTag(100)
+            textStr:setString(scaleMap.gameTipStr.cannotAvrrive)
+            textStr:setVisible(true)
+            scaleMap.gameTipState = scaleMap.gameTipState - 1
         else 
-        print("startGame")
+            scaleMap.gameTipState = scaleMap.gameTipState +1 
+            BossItem = endItem -- 设置Boss位置
+            
+            print("BossItem.................",BossItem.x, BossItem.y)
+            
+            print("游戏开始。。。。。。。")
+            local textStr = layer:getChildByTag(100)
+            textStr:setString(scaleMap.gameTipStr.setSuccess)
+            textStr:setVisible(true)
+            
+            local button =layer:getChildByTag(101)
+            button:setVisible(false)
+            --button:setEnable(false)
+            
+            local  countDown = 5 
+            local callAction = cc.Sequence:create(
+                cc.CallFunc:create(
+                    function()
+                        textStr:setString(countDown)
+                        textStr:setScale(2)
+                        countDown = countDown - 1
+                    end
+                    
+                ),
+                cc.DelayTime:create(1)
+            )
+            local repeatAction = cc.Repeat:create(callAction, countDown)
+        
+            local startGameAction = cc.CallFunc:create(
+                function()
+                    layer:removeChild(textStr)
+                    gameStart = true
+                end
+            )
+            
+            local squenceAction = cc.Sequence:create(cc.DelayTime:create(2), repeatAction, startGameAction)
+            layer:runAction(squenceAction)
         end
     end
 end
