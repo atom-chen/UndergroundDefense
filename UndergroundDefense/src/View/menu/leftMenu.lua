@@ -132,7 +132,9 @@ function leftMenu.create(x,y,map)
         --创建moster
         if(tag == 100)then
             clonesprite = soldierView.create(map_x,map_y,"monster/monster1.png",result.monster.monster1.blood,result.monster.monster1.hurt,1,result.monster.monster1.speed,0)            
-            Money = Money - result.monster.monster1.cost
+            --Money = Money - result.monster.monster1.cost
+            local moneyControl = require("src/util/money")
+            moneyControl.costMoney("monster1")
             
             monsterModel:addMoster("monster1")
             monsterModel:flushCD("monster1")
@@ -152,7 +154,10 @@ function leftMenu.create(x,y,map)
         
         if(tag == 200)then
             clonesprite = soldierView.create(map_x,map_y,"monster/monster2.png",result.monster.monster2.blood,result.monster.monster2.hurt,2,result.monster.monster2.speed,0)
-            Money =Money - result.monster.monster2.cost
+            --Money =Money - result.monster.monster2.cost
+            
+            local moneyControl = require("src/util/money")
+            moneyControl.costMoney("monster2")
             
             monsterModel:addMoster("monster2")
             monsterModel:flushCD("monster2")
@@ -163,14 +168,16 @@ function leftMenu.create(x,y,map)
                     soldier.hurt = soldier.hurt - result.monster.monster2.enemysoldierHurt
                     soldier.remaindBlood = soldier.remaindBlood - result.monster.monster2.enemysoldierBlood
                 end          
-                require("src/View/role/enemySoldier").updateAllBlood()  
+                require("src/view/role/enemySoldier").updateAllBlood()  
             end         
     
         end
         
         if(tag == 300)then
             clonesprite = soldierView.create(map_x,map_y,"monster/RobotRun3.png",result.monster.monster3.blood,result.monster.monster3.hurt,3,result.monster.monster3.speed,0)            
-            Money = Money - result.monster.monster3.cost
+            --Money = Money - result.monster.monster3.cost
+            local moneyControl = require("src/util/money")
+            moneyControl.costMoney("monster3")
             
             monsterModel:addMoster("monster3")
             monsterModel:flushCD("monster3")
@@ -180,7 +187,7 @@ function leftMenu.create(x,y,map)
                 Warrior_P[8] = Warrior_P[8] - result.monster.monster3.warriorHurt
                 Warrior_P[2] = Warrior_P[2] - result.monster.monster3.warriorBlood
                 Warrior_P[7] = Warrior_P[7] + result.monster.monster3.warriorSpeed           
-                require("src/View/role/warrior").updateBlood()  
+                require("src/view/role/warrior").updateBlood()  
                 
             end        
         end        

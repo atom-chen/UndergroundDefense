@@ -28,18 +28,18 @@ function touchTrap.trigger(map)
             local trapRect = trap.sprite:getBoundingBox()
             if(cc.rectIntersectsRect(warriorRect,trapRect))then
                 if(trap.type == 1)then
-                    time = 0       --每次踩到更新为时间           
-                    Warrior_P[6] = true 
-                    local tarpTip = require("src/view/gameTip").warriorTip(result.trap.trap1.description,map,300,10,cc.c3b(0,125,0))
-                    map:addChild(tarpTip,0,300)
+                    time = 0       --每次踩到更新为时间         
                     if(not Warrior_P[6])then -- 还没被debuff
                         Warrior_P[7] = Warrior_P[7] + result.trap.trap1.downmove
                         Warrior_P[8] = Warrior_P[8] - result.trap.trap1.downhurt
-                    end               
+                    end     
+                    Warrior_P[6] = true 
+                    local tarpTip = require("src/view/gameTip").warriorTip(result.trap.trap1.description,map,300,10,cc.c3b(0,125,0))
+                    map:addChild(tarpTip,0,300)            
                 end
                 if(trap.type == 2)then
                     Warrior_P[2] = Warrior_P[2] - result.trap.trap2.hurt                    
-                    require("src/View/role/warrior").updateBlood() -- 更新血条
+                    require("src/view/role/warrior").updateBlood() -- 更新血条
                     local tarpTip = require("src/view/gameTip").warriorTip(result.trap.trap2.description,map,300,10,cc.c3b(0,125,0))
                     map:addChild(tarpTip,0,300)
                 end

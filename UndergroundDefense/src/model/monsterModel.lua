@@ -59,39 +59,61 @@ function monsterModel:isDisappear(type)
     if(type == 1)then
         local monsterModel = require("src/model/monsterModel")
         monsterModel:killMoster("monster1")
+        
+        --增加魔将金币
+        local moneyControl = require("src/util/money")
+        moneyControl.addMoney("monster1")
+        
         if(monsterModel.monsterTab.monster1.currentMosterNum == 0 )then
             for key, soldier in ipairs(soldierTab) do
-                if(soldier.type == 0) then
+                if(soldier.type == 0) then -- 消除魔将debuff，恢复小兵原攻击力
                     soldier.hurt = soldier.hurt - result.monster.monster1.soldierHurt
                     --soldier.remaindBlood = soldier.remaindBlood - result.monster.monster1.soldierBlood
                     --soldier.blood = soldier.blood - result.monster.monster1.soldierBlood
                 end
-            end
-
+            end         
             --soldierView.updateBlood()
         end
+        
+        return true
     end
 
     if( type == 2)then
         local monsterModel = require("src/model/monsterModel")
         monsterModel:killMoster("monster2")
+        
+        --增加魔将金币
+        local moneyControl = require("src/util/money")
+        moneyControl.addMoney("monster2")
+        
         if(monsterModel.monsterTab.monster2.currentMosterNum == 0 )then
             for key, soldier in ipairs(warriorTab) do
                 soldier.hurt = soldier.hurt + result.monster.monster2.enemysoldierHurt
                 --soldier.remaindBlood = soldier.remaindBlood + result.monster.monster2.enemysoldierBlood
             end
         end
+        
+        return true
     end
 
     if( type == 3)then
         local monsterModel = require("src/model/monsterModel")
         monsterModel:killMoster("monster3")
+        
+        --增加魔将金币
+        local moneyControl = require("src/util/money")
+        moneyControl.addMoney("monster3")
+        
         if(monsterModel.monsterTab.monster3.currentMosterNum == 0 )then
             Warrior_P[8] = Warrior_P[8] + result.monster.monster3.warriorHurt
             Warrior_P[2] = Warrior_P[2] + result.monster.monster3.warriorBlood
             Warrior_P[7] = Warrior_P[7] - result.monster.monster3.warriorSpeed      
         end
+        
+        return true
     end
+    
+    return false
 end
 
 function monsterModel:printData()

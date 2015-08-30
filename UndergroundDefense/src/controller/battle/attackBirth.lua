@@ -81,6 +81,9 @@ function attackBirth.soldierBirth(map)
                     layerBg:removeTileAt(cc.p(4,56)) --删除图块 
                     layerBg:removeTileAt(cc.p(4,57)) --删除图块 
                     
+                    local moneyControl = require("src/util/money")
+                    moneyControl.addMoney("birth")
+                    
                     if(isExistWarrior)then
                         warrior:stopActionByTag(2500)
                         Warrior_P[5] =false

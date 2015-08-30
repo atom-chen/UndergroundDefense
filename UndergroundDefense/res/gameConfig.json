@@ -3,7 +3,7 @@
   "SoldierNum": 15, 
   "enemySoldierNum": 10,
   "WarriorNum": 15,  
-  "Warrior_LiftTime":101,
+  "Warrior_LiftTime":100000,
   
   "birthplace_blood":4000,
   "Boss": {
@@ -54,7 +54,13 @@
   }, 
   "money":{
   	"init":0,
-  	"block_money":50
+  	"soldier":10,
+  	"enemySoldier":10,
+  	"warrior":50,
+  	"monster1":40,
+  	"monster2":50,
+  	"monster3":60,
+  	"birth":100
   }, 
   "monster":{
   	"monster1":{
@@ -62,7 +68,7 @@
   		"blood": 1500,
         "hurt": 300,
         "speed": 0.4,        
-        "cost" : 300,
+        "cost" : 250,
         "cd" : 20,
         "maxNum":2,
         "soldierBlood":200,
@@ -73,7 +79,7 @@
   		"blood": 1500,
         "hurt": 350,
         "speed": 0.4,       
-        "cost" : 350,
+        "cost" : 300,
         "cd" : 90,
         "maxNum":2,
         "enemysoldierBlood":150,
@@ -84,7 +90,7 @@
   		"blood": 1500,
         "hurt": 300,
         "speed": 0.4,
-        "cost" : 550,
+        "cost" : 450,
          "cd" : 120,
         "maxNum":1,
         "warriorSpeed":0.3,

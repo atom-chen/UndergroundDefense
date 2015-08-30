@@ -9,7 +9,7 @@ local coordinate = require("src/util/coordinate")
 
 local warriorFight = class("warriorFight")
 --[[
-先调用soldierFight的小兵互斗函数，
+先调用soldierFight的小兵互斗函数，主要顺序，不然会影响战斗逻辑
 ]]
 
 local function removeSoldier(tab, tag)
@@ -95,7 +95,7 @@ function warriorFight.bitSoldier(map)
                                 local skill_tip = gameTip.warriorTip("治疗术+".. Warrior.skill_type2,map,300,10,cc.c3b(0,125,0))
                                 map:addChild(skill_tip,0,300)
                                 Warrior_P [2] = Warrior_P [2] + Warrior.skill_type2
-                                require("src/View/role/warrior").updateBlood() -- 更新血条
+                                require("src/view/role/warrior").updateBlood() -- 更新血条
                             end
                         else   --普攻
                             beaten.remaindBlood = beaten.remaindBlood - Warrior_P[8] ;
@@ -109,13 +109,21 @@ function warriorFight.bitSoldier(map)
                             w_action:setTag(888)
                             warrior:runAction(w_action)
                         else
-                            require("src/model/monsterModel"):isDisappear(beaten.type)
+                        --检查是否魔将
+                            local isDiss = require("src/model/monsterModel"):isDisappear(beaten.type)
                             warrior:stopActionByTag(888);
                             map:removeChildByTag(beaten.tag)
                             removeSoldier(soldierTab, beaten.tag) -- 移除该小兵
+                            --不是魔将
+                            if not isDiss then
+                                local moneyControl = require("src/util/money")
+                                moneyControl.addMoney("soldier")
+                            end
+                            
                             Warrior_P[5] = false
                             
-                            warriorView.move(map) -- move会死Warrior_P[4]=false
+                            warriorView.move(map) -- move会使Warrior_P[4]=false
+                                                   
                         end
                     end
 
@@ -181,6 +189,9 @@ function warriorFight.bitWarrior(map)
                             var1.bitTarget = 0
                         end
                     end
+                    local moneyControl = require("src/util/money")
+                    moneyControl.addMoney("warrior")
+                    
                     soldierView.move(map)
                 else
 
@@ -188,7 +199,7 @@ function warriorFight.bitWarrior(map)
                     local tip =  gameTip.create(Warrior_P[1]:getChildByTag(1000),"-"..bit.hurt,map,5555,1)
 
                     map:addChild(tip,0,5555)
-                    require("src/View/role/warrior").updateBlood() -- 更新血条
+                    require("src/view/role/warrior").updateBlood() -- 更新血条
 
                     bit.layer:getChildByTag(100):runAction(cc.Sequence:create(cc.DelayTime:create(Soldier.time),
                         cc.CallFunc:create(bitWarrior,data)))

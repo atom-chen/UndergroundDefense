@@ -23,9 +23,6 @@ function userTouch.bitBlock( point,mapPointX,mapPointY, map)
     if(gid ~= 34 )then
         if(gid == 15)then --变为可走路线
             layerBg:setTileGID(34,cc.p(item[1],item[2])) --设置为可行走图块
-           
-            --每解锁一块砖，加钱
-            if gameStart then Money = Money + result.money.block_money end
             
             --每次点击更新勇士的寻路路径    
             if(isExistWarrior and (not  Warrior_P[5]) )then
@@ -51,7 +48,7 @@ function userTouch.bitBlock( point,mapPointX,mapPointY, map)
             layerBg:setTileGID(15,cc.p(item[1],item[2])) 
             
             --游戏引导
-            local gameTipState = require("src/View/menu/scaleMap").gameTipState
+            local gameTipState = require("src/view/menu/scaleMap").gameTipState
             if gameTipState == 1 then
                 local layerMap = map:getParent()
                 local scaleMap = layerMap:getChildByTag(10088)
@@ -59,7 +56,7 @@ function userTouch.bitBlock( point,mapPointX,mapPointY, map)
                 local textStr = scaleMap:getChildByTag(100)
                 textStr:setVisible(false) 
                 
-                require("src/View/menu/scaleMap").gameTipState = require("src/View/menu/scaleMap").gameTipState + 1                             
+                require("src/view/menu/scaleMap").gameTipState = require("src/view/menu/scaleMap").gameTipState + 1                             
             end
         end 
     end

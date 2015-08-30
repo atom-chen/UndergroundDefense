@@ -50,7 +50,7 @@ function attackBoss.bitBoss(map)
                         local skill_tip = gameTip.warriorTip("治疗术+".. Warrior.skill_type2,map,300,10,cc.c3b(0,125,0))
                         map:addChild(skill_tip,0,300)
                         Warrior_P [2] = Warrior_P [2] + Warrior.skill_type2
-                        require("src/View/role/warrior").updateBlood() -- 更新血条                          
+                        require("src/view/role/warrior").updateBlood() -- 更新血条                          
                     end
                 else
                     Boss_blood = Boss_blood - Warrior_P[8] 
@@ -90,7 +90,7 @@ function attackBoss.bitBoss(map)
                     local tip =  gameTip.create(Warrior_P[1]:getChildByTag(1000),"-"..Boss.hurt,map,585,1)
                     map:addChild(tip,0,585)
                     
-                    require("src/View/role/warrior").updateBlood() -- 更新血条
+                    require("src/view/role/warrior").updateBlood() -- 更新血条
 
                     local action =cc.Sequence:create(
                         cc.DelayTime:create(Boss.time),                       
@@ -103,6 +103,9 @@ function attackBoss.bitBoss(map)
                     boss:stopActionByTag(1008)
                     map:removeChildByTag(5000) --移除勇士
                     isExistWarrior = false
+                    
+                    local moneyControl = require("src/util/money")
+                    moneyControl.addMoney("warrior")
                 end
 
             end

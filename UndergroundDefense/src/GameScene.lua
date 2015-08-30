@@ -150,7 +150,7 @@ function GameScene:createMap()
     layerMap:addChild(leftmenu,0,10087)
     
     --放大缩小
-    local scaleMenu = require("src/View/menu/scaleMap").create(900, 450,map)
+    local scaleMenu = require("src/view/menu/scaleMap").create(900, 450,map)
     layerMap:addChild(scaleMenu,0,10088)
 
     local bitNode;
