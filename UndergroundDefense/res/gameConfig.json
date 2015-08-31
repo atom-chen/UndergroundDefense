@@ -3,7 +3,7 @@
   "SoldierNum": 15, 
   "enemySoldierNum": 10,
   "WarriorNum": 15,  
-  "Warrior_LiftTime":100000,
+  "Warrior_LiftTime":0,
   
   "birthplace_blood":4000,
   "Boss": {

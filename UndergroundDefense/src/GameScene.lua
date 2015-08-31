@@ -247,7 +247,7 @@ function GameScene:createMap()
                         local warrior = warriorView.create(warriorPoint.x,warriorPoint.y, math.mod(whichWarrior,2))
                         map:addChild(warrior,0,5000)
                         isExistWarrior=true --存在勇士
-                        WarriorLifeTime = result.Warrior_LiftTime  --更新勇士生存时间值
+                        --WarriorLifeTime = result.Warrior_LiftTime  --更新勇士生存时间值
                         --移动勇士
                         warriorView.move(map)
 

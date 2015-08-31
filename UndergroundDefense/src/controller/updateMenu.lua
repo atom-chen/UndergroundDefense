@@ -5,17 +5,16 @@ local timeSpace = 0;
 
 ----更新upMenu
 function updateMenu.upMenu(menu)
-   
     local money_txt   =  menu:getChildByTag(1)
     local time_txt    =  menu:getChildByTag(2)
-    local warrior_txt =  menu:getChildByTag(3)
+    local warrior_txt =  menu:getChildByTag(3)    
     local soldier_txt =  menu:getChildByTag(4)
     
     if(isExistWarrior)then
       timeSpace = timeSpace + 0.2
     end
     ---没有在规定时间内杀死勇士，游戏失败
-    if(WarriorLifeTime <= 0)then
+    if(WarriorLifeTime < 0)then
         cc.Director:getInstance():getScheduler():unscheduleScriptEntry(schedulerId)
         gameResult = false
         local scene = require("ResultScene")
@@ -28,8 +27,17 @@ function updateMenu.upMenu(menu)
         warrior_txt:setString(whichWarrior)
         
         if(timeSpace >= 1)then
-            WarriorLifeTime = WarriorLifeTime - 1
-            time_txt:setString(WarriorLifeTime)
+            WarriorLifeTime = WarriorLifeTime + 1
+            
+            local min = math.floor(WarriorLifeTime / 60 )
+            local second = WarriorLifeTime % 60
+            
+            local minStr = tostring(min)
+            local secondStr =tostring(second)
+            if min < 10 then  minStr = "0" .. minStr end
+            if second < 10 then secondStr = "0" .. secondStr end
+            
+            time_txt:setString(minStr .. ":" .. secondStr)
             timeSpace = 0
         end
     end

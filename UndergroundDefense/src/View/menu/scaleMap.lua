@@ -22,7 +22,7 @@ scaleMap.gameTipStr = {
     setSuccess = "设置成功，游戏即将开始"
 }
 
----游戏引导放到放大缩小的layer
+---游戏引导放到放大缩小的layer--最上层
 function scaleMap.create(x,y,map)
 
     local layer = scaleMap.new()    
@@ -49,9 +49,15 @@ function scaleMap.create(x,y,map)
     
     -----确定按钮
     local button = cc.Sprite:create("res/ok.png")
-    button:setPosition(810, 100)
+    button:setPosition(810, 50)
     button:setScale(0.6)
     layer:addChild(button,0, 101)
+    
+    ----查看属性文字按钮
+    local textCheck = cc.Label:createWithTTF("查看人物属性", "fonts/menu_format.ttf", 20)
+    textCheck:setPosition(x, textCheck:getContentSize().height+ 10)
+    textCheck:setColor(cc.c3b(0, 0 ,0))
+    layer:addChild(textCheck, 0, 102)
 
     local listener = cc.EventListenerTouchOneByOne:create()
     
@@ -85,10 +91,16 @@ function scaleMap.create(x,y,map)
         end       
 
         ---确定按钮
-        if(cc.rectContainsPoint(button:getBoundingBox(),bitPoint)) then
+        if(cc.rectContainsPoint(button:getBoundingBox(),bitPoint) and scaleMap.gameTipState < 5) then
             listener:setSwallowTouches(true) 
             scaleMap.clickButton(layer, map)                    
         end
+        
+        --查看属性
+        if(cc.rectContainsPoint(textCheck:getBoundingBox(),bitPoint))then
+            listener:setSwallowTouches(true) 
+            scaleMap.clickTextCheck(layer, map)   
+        end 
         return true
     end       
     
@@ -112,14 +124,14 @@ function scaleMap.clickButton(layer, map)
         textStr:setString(scaleMap.gameTipStr.moveBoss)
         textStr:setVisible(true)
     end
-    
+
     if scaleMap.gameTipState == 4  then
         local bossLayer = map:getChildByTag(10000)
         local boss = bossLayer:getChildByTag(1000)
         local bossX,bossY = boss:getPosition()
-        
+
         local soldierPoint = object.getPoint(map,"object","soldierpoint")--勇士出生点
-        
+
         local coordinate = require("src/util/coordinate")
         local bossPoint = cc.p(bossX, bossY)           
         local endItem = coordinate.getItem(map, bossPoint)
@@ -171,6 +183,30 @@ function scaleMap.clickButton(layer, map)
             layer:runAction(squenceAction)
         end
     end
+end
+
+local function initLayer(detilLayer)
+	local width = detilLayer:getContentSize().width
+	local height = detilLayer:getContentSize().height	
+    
+    local textOK = cc.Label:createWithTTF("确定", "fonts/menu_format.ttf", 20)
+    textOK:setPosition(width / 2, textOK:getContentSize().height+ 10)
+    detilLayer:addChild(textOK, 0, 104)
+   
+end
+
+function scaleMap.clickTextCheck(layer, map)
+    local ok = layer:getChildByName("detilLayer")
+    if ok then return end
+    
+	local detilLayer = cc.LayerColor:create(cc.c4b(0, 0, 0, 188), 760, 440)
+	local x = cc.Director:getInstance():getVisibleSize().width/2
+    local y = cc.Director:getInstance():getVisibleSize().height/2
+	detilLayer:setPosition(100, 100)
+	detilLayer:setName("detilLayer")
+	layer:addChild(detilLayer)
+	
+	initLayer(detilLayer)
 end
 
 return scaleMap
