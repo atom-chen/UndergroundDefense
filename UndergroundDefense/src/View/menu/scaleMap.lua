@@ -185,28 +185,17 @@ function scaleMap.clickButton(layer, map)
     end
 end
 
-local function initLayer(detilLayer)
-	local width = detilLayer:getContentSize().width
-	local height = detilLayer:getContentSize().height	
-    
-    local textOK = cc.Label:createWithTTF("确定", "fonts/menu_format.ttf", 20)
-    textOK:setPosition(width / 2, textOK:getContentSize().height+ 10)
-    detilLayer:addChild(textOK, 0, 104)
-   
-end
-
 function scaleMap.clickTextCheck(layer, map)
     local ok = layer:getChildByName("detilLayer")
     if ok then return end
     
-	local detilLayer = cc.LayerColor:create(cc.c4b(0, 0, 0, 188), 760, 440)
+	local detilLayer = require("src/view/attributeView").create(layer, map)
 	local x = cc.Director:getInstance():getVisibleSize().width/2
     local y = cc.Director:getInstance():getVisibleSize().height/2
 	detilLayer:setPosition(100, 100)
 	detilLayer:setName("detilLayer")
 	layer:addChild(detilLayer)
 	
-	initLayer(detilLayer)
 end
 
 return scaleMap
