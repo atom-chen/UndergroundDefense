@@ -139,6 +139,8 @@ function leftMenu.create(x,y,map)
             monsterModel:addMoster("monster1")
             monsterModel:flushCD("monster1")
             monsterModel:printData()
+            local layerMap = map:getParent()
+            local message = "创建魔将1"
             if(monsterModel.monsterTab.monster1.currentMosterNum == 1)then               
                 --激活monster1的效果:soldier blood + 200 hurt + 50
                 for key, soldier in ipairs(soldierTab) do  --soldierTab存有怪兽
@@ -147,9 +149,12 @@ function leftMenu.create(x,y,map)
                         soldier.remaindBlood = soldier.remaindBlood + result.monster.monster1.soldierBlood
                         soldier.blood = soldier.blood + result.monster.monster1.soldierBlood
                 	end
-                end            
+                end        
+                message = "创建魔将1，强化我方小兵"    
                 soldierView.updateAllBlood()  
-            end                    
+            end   
+            
+            require("src/view/menu/scaleMap").showMessage(message, layerMap)                 
         end
         
         if(tag == 200)then
@@ -162,15 +167,20 @@ function leftMenu.create(x,y,map)
             monsterModel:addMoster("monster2")
             monsterModel:flushCD("monster2")
             monsterModel:printData()
+            
+            local layerMap = map:getParent()
+            local message = "创建魔将2"
+
             if(monsterModel.monsterTab.monster2.currentMosterNum == 1)then               
                 --激活monster2的效果:enemysoldier blood - 150 hurt - 50
                 for key, soldier in ipairs(warriorTab) do  --soldierTab存有怪兽
                     soldier.hurt = soldier.hurt - result.monster.monster2.enemysoldierHurt
                     soldier.remaindBlood = soldier.remaindBlood - result.monster.monster2.enemysoldierBlood
                 end          
+                message = "创建魔将2，弱化敌方小兵"
                 require("src/view/role/enemySoldier").updateAllBlood()  
             end         
-    
+            require("src/view/menu/scaleMap").showMessage(message, layerMap)
         end
         
         if(tag == 300)then
@@ -182,14 +192,19 @@ function leftMenu.create(x,y,map)
             monsterModel:addMoster("monster3")
             monsterModel:flushCD("monster3")
             monsterModel:printData()
+            
+            local layerMap = map:getParent()
+            local message = "创建魔将3"
+
             if(monsterModel.monsterTab.monster3.currentMosterNum == 1 and isExistWarrior)then               
                 --激活monster3的效果:weak warrior  speed - 0.4 blood -300 hurt - 80
                 Warrior_P[8] = Warrior_P[8] - result.monster.monster3.warriorHurt
                 Warrior_P[2] = Warrior_P[2] - result.monster.monster3.warriorBlood
                 Warrior_P[7] = Warrior_P[7] + result.monster.monster3.warriorSpeed           
                 require("src/view/role/warrior").updateBlood()  
-                
-            end        
+                message = "创建魔将3，弱化敌方勇士"
+            end     
+            require("src/view/menu/scaleMap").showMessage(message, layerMap)   
         end        
         map:addChild(clonesprite,0,soldierKey)--添加到map上
         soldierKey =soldierKey +1

@@ -19,7 +19,8 @@ scaleMap.gameTipStr = {
     bitBlock = "请敲碎砖块设计可走路径，完成后请点击右下角的确定",
     moveBoss = "请选择移动boss设置其位置，完成后请点击右下角的确定",
     cannotAvrrive = "魔王位置需要与勇士巢穴连通",
-    setSuccess = "设置成功，游戏即将开始"
+    setSuccess = "设置成功，游戏即将开始",
+    soldierLaunch = "我方小兵出击"
 }
 
 ---游戏引导放到放大缩小的layer--最上层
@@ -162,19 +163,24 @@ function scaleMap.clickButton(layer, map)
             local callAction = cc.Sequence:create(
                 cc.CallFunc:create(
                     function()
-                        textStr:setString(countDown)
-                        textStr:setScale(2)
+                        if countDown <= 0 then
+                            textStr:setString(scaleMap.gameTipStr.soldierLaunch) --提示我方士兵出击
+                            textStr:setScale(1)
+                        else
+                            textStr:setString(countDown)
+                            textStr:setScale(2)
+                        end
                         countDown = countDown - 1
                     end
                     
                 ),
                 cc.DelayTime:create(1)
             )
-            local repeatAction = cc.Repeat:create(callAction, countDown)
-        
+            local repeatAction = cc.Repeat:create(callAction, countDown + 1)
+            
             local startGameAction = cc.CallFunc:create(
                 function()
-                    layer:removeChild(textStr)
+                    textStr:setVisible(false)
                     gameStart = true
                 end
             )
@@ -185,17 +191,36 @@ function scaleMap.clickButton(layer, map)
     end
 end
 
+--查看人物属性
 function scaleMap.clickTextCheck(layer, map)
     local ok = layer:getChildByName("detilLayer")
     if ok then return end
     
-	local detilLayer = require("src/view/attributeView").create(layer, map)
-	local x = cc.Director:getInstance():getVisibleSize().width/2
+    local detilLayer = require("src/view/attributeView").create(layer, map)
+    local x = cc.Director:getInstance():getVisibleSize().width/2
     local y = cc.Director:getInstance():getVisibleSize().height/2
 	detilLayer:setPosition(100, 100)
 	detilLayer:setName("detilLayer")
 	layer:addChild(detilLayer)
 	
+end
+
+--显示提示的函数
+function scaleMap.showMessage(message, map)
+	
+	local layer = map:getChildByTag(10088)
+	
+	local textStr = layer:getChildByTag(100)
+	
+	textStr:setString(message)
+	textStr:setVisible(true)
+	
+	local squenceAction = cc.Sequence:create(cc.DelayTime:create(2), cc.CallFunc:create(
+	   function()
+	       textStr:setVisible(false)
+	   end
+	))
+	textStr:runAction(squenceAction)
 end
 
 return scaleMap

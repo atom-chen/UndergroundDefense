@@ -85,7 +85,7 @@ function GameScene:init()
 
     Money = result.money.init --金币数,通过点击开辟道路获取
 
-    WarriorLifeTime = result.Warrior_LiftTime  --勇士生存时间值
+    attackTime = result.attackTime  --进攻时间      
 
     soldierTab={}  -- 小兵集合
 
@@ -97,7 +97,9 @@ function GameScene:init()
     
     gameStart  = false
     
-    BossItem   = nil
+    BossItem   = nil    --boss位置
+    
+    WarriorType = 0     --勇士类型
         
     --随机陷阱
     cteateTrap()    
@@ -134,8 +136,8 @@ function GameScene:createMap()
     local soldierSpace = 0;
     
     local warriorPoint = object.getPoint(map,"object","warriorpoint")
-    local warriorSpace = 0 ;
     local enemySoldierSpace = 0
+    local enemyNum          = 0
        
     ---添加出生地血量
     local birth_blood = brithplace.create(soldierPoint.x,soldierPoint.y)
@@ -149,9 +151,10 @@ function GameScene:createMap()
     local leftmenu = leftMenu.create(45,360,map)
     layerMap:addChild(leftmenu,0,10087)
     
-    --放大缩小
+    --放大缩小--游戏引导流程显示在这个layer
     local scaleMenu = require("src/view/menu/scaleMap").create(900, 450,map)
     layerMap:addChild(scaleMenu,0,10088)
+    require("src/view/menu/scaleMap").gameTipState = 1   
 
     local bitNode;
     local function onTouchBegan_map(touche, event)
@@ -202,11 +205,10 @@ function GameScene:createMap()
         ---更新upMenu
         updateMenu.upMenu(upmenu)
         updateMenu.leftMenu(leftmenu)
-
+        
+        --gameState 表示游戏是否开始
         if gameStart then
-
-            require("src/controller/touchTrap").trigger(map)
-
+  
             --小兵数量result.SoldierNum，创建小兵
             if(table.getn(soldierTab)< result.SoldierNum and birthplace_blood > 0)then
                 soldierSpace = soldierSpace + 0.5;
@@ -217,46 +219,57 @@ function GameScene:createMap()
                     soldierSpace = 0;
                 end
             end
-
+            
+            --敌人死亡，下一波进攻开始
+            if  table.getn(warriorTab) == 0 and (not isExistWarrior) and whichWarrior > 0 then
+                attackTime = 0
+            end
+            
             --敌方小兵
-            if(table.getn(warriorTab)< result.enemySoldierNum and birthplace_blood > 0)then
+            if(enemyNum <= result.enemySoldierNum and attackTime == 0 and whichWarrior < result.WarriorNum)then  --下一波时间到
                 enemySoldierSpace = enemySoldierSpace + 0.5;
+                
+                local message = "第" .. whichWarrior + 1 .."波敌人进攻，注意防守"
                 if(enemySoldierSpace > result.enemySoldier.space)then
-                    local soldier = enemySoldier.create(warriorPoint.x,warriorPoint.y)
+                    if  enemyNum == 0 then         
+                        whichWarrior = whichWarrior + 1 --表示第几波攻击   
+                        require("src/view/menu/scaleMap").showMessage(message, layerMap)
+                    end
+                    
+                    local soldier = enemySoldier.create(warriorPoint.x, warriorPoint.y)
                     map:addChild(soldier,0,soldierKey)
                     soldierKey =soldierKey +1
                     enemySoldierSpace = 0;
-                end
-            end
-
-
-            --勇士数量result.WarriorNum，地图没勇士创建勇士
-            if(not isExistWarrior )then
-                warriorSpace = warriorSpace + 0.5
-                if(warriorSpace > Warrior.space)then
-                    whichWarrior = whichWarrior + 1 --表示第几个勇士
-
-                    if(whichWarrior > result.WarriorNum)then
-                        cc.Director:getInstance():getScheduler():unscheduleScriptEntry(schedulerId)
-                        gameResult = true
-                        local scene = require("ResultScene")
-                        local gameScene = scene.create()
-                        cc.Director:getInstance():replaceScene(gameScene)
-                    else
-                        ---添加勇士
-                        local warrior = warriorView.create(warriorPoint.x,warriorPoint.y, math.mod(whichWarrior,2))
-                        map:addChild(warrior,0,5000)
-                        isExistWarrior=true --存在勇士
-                        --WarriorLifeTime = result.Warrior_LiftTime  --更新勇士生存时间值
-                        --移动勇士
-                        warriorView.move(map)
-
-                        warriorSpace = 0
+                    enemyNum = enemyNum + 1
+                    
+                    if enemyNum > result.enemySoldierNum then -- 是否生成勇士
+                        if not isExistWarrior then
+                            ---添加勇士
+                            WarriorType = WarriorType +1
+                            local warrior = warriorView.create(warriorPoint.x,warriorPoint.y, math.mod(WarriorType, 2))
+          
+                            map:addChild(warrior,0,5000)
+                            isExistWarrior=true --存在勇士
+                            --移动勇士
+                            warriorView.move(map)
+                            message = "刷新勇士，注意防守！！"
+                            require("src/view/menu/scaleMap").showMessage(message, layerMap)
+                        end
+                        attackTime = result.attackTime 
+                        enemyNum = 0
                     end
-
                 end
             end
 
+            --达到最大波数且勇士已死亡
+            if(whichWarrior >= result.WarriorNum and  (not isExistWarrior) )then
+                cc.Director:getInstance():getScheduler():unscheduleScriptEntry(schedulerId)
+                gameResult = true
+                local scene = require("ResultScene")
+                local gameScene = scene.create()
+                cc.Director:getInstance():replaceScene(gameScene)
+            end
+            
             ---小兵巡逻
             soldierView.move(map)
             enemySoldier.move(map)
@@ -266,6 +279,9 @@ function GameScene:createMap()
             soldierFight.bitEnemySoldier(map)
 
             if(isExistWarrior) then
+
+                require("src/controller/touchTrap").trigger(map)
+
                 warriorFight.bitSoldier(map)
                 warriorFight.bitWarrior(map)
 
