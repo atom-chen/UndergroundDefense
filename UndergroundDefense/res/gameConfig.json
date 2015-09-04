@@ -2,7 +2,7 @@
 	
   "SoldierNum": 15, 
   "enemySoldierNum": 10,
-  "WarriorNum": 5,  
+  "WarriorNum": 10,  
   "attackTime": 40,
   
   "birthplace_blood":4000,
