@@ -1,41 +1,41 @@
 {	
 	
-  "SoldierNum": 15, 
+  "SoldierNum": 20, 
   "enemySoldierNum": 10,
-  "WarriorNum": 10,  
+  "WarriorNum": 4,  
   "attackTime": 40,
   
-  "birthplace_blood":4000,
+  "birthplace_blood":500,
   "Boss": {
-    "blood": 9000,
-    "hurt": 700,
-    "time" : 3,
+    "blood": 3000,
+    "hurt": 200,
+    "time" : 2,
     "rang": 32    
   },
   "enemySoldier": {
-    "blood": 800,
-    "hurt": 200,
+    "blood": 100,
+    "hurt": 25,
     "Viewrang": 40,
     "time" : 2,    
     "speed": 0.4,
-    "space": 6
+    "space": 1
   },
   "Soldier": {
-    "blood": 800,
-    "hurt": 250,
+    "blood": 100,
+    "hurt": 25,
     "Viewrang": 40,
     "time" : 2,    
     "speed": 0.4,
     "space": 3
   },
   "Warrior": {
-    "blood": 3000,
-    "hurt": 300,
+    "blood": 4000,
+    "hurt": 40,
     "rang": 32, 
-    "time" : 1.8,
+    "time" : 2,
     "skill_time": 6,
-    "skill_type1":1000,
-    "skill_type2":800,
+    "skill_type1":80,
+    "skill_type2":200,
     "speed": 0.5 ,
     "space": 3  
   },
@@ -54,21 +54,21 @@
   }, 
   "money":{
   	"init":0,
-  	"soldier":10,
-  	"enemySoldier":10,
-  	"warrior":50,
-  	"monster1":40,
-  	"monster2":50,
-  	"monster3":60,
-  	"birth":100
+  	"soldier":1,
+  	"enemySoldier":1,
+  	"warrior":5,
+  	"monster1":1,
+  	"monster2":1,
+  	"monster3":1,
+  	"birth":10
   }, 
   "monster":{
   	"monster1":{
   	    "description":"strengthen soldier",
-  		"blood": 1500,
-        "hurt": 300,
-        "speed": 0.4,        
-        "cost" : 250,
+  		"blood": 1250,
+        "hurt": 25,
+        "speed": 0.5,        
+        "cost" : 10,
         "cd" : 20,
         "maxNum":2,
         "soldierBlood":200,
@@ -76,26 +76,26 @@
   	},
   	"monster2":{
   		"description":"weak enemysoldier",
-  		"blood": 1500,
-        "hurt": 350,
-        "speed": 0.4,       
-        "cost" : 300,
-        "cd" : 90,
+  		"blood": 875,
+        "hurt": 50,
+        "speed": 0.7,       
+        "cost" : 10,
+        "cd" : 20,
         "maxNum":2,
         "enemysoldierBlood":150,
         "enemysoldierHurt":50
   	},
   	"monster3":{
   		"description":"weak warrior",
-  		"blood": 1500,
-        "hurt": 300,
-        "speed": 0.4,
+  		"blood": 2500,
+        "hurt": 30,
+        "speed": 0.3,
         "cost" : 450,
-         "cd" : 120,
+         "cd" : 60,
         "maxNum":1,
         "warriorSpeed":0.3,
-        "warriorHurt":80,
-        "warriorBlood":300
+        "warriorHurt":8,
+        "warriorBlood":30
   	}
   },
   "SoldierPoint":[
