@@ -51,11 +51,11 @@ function GameScene.create()
     
     local layerMap = GameScene:createMap()
     scene:addChild(layerMap)
-    
-    local map = layerMap:getChildByTag(1)
-    map:setScale(ScaleRate)
-    
-    print(map:getContentSize().width, map:getContentSize().height) -- 2880  1920不变
+--    
+--    local map = layerMap:getChildByTag(1)
+--    map:setScale(ScaleRate)
+--    
+--    print(map:getContentSize().width, map:getContentSize().height) -- 2880  1920不变
     return scene
 end
 
