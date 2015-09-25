@@ -64,6 +64,7 @@ local function cteateTrap()
     for var=1, result.trap.trapNum do
         tag = tag + 1 
         local trap = nil 
+		
     	if(math.random(1,2) == 1)then
             trap = require("src/model/trapModel").create(cc.Sprite:create("res/trap1.png"),tag,1)                
         else
