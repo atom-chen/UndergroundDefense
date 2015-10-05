@@ -12,7 +12,6 @@ function userTouch.bitBlock( point,mapPointX,mapPointY, map)
     ---求出是地图哪一个点cc.p()
     local layerBg=map:getLayer("layerMap")
     
-    print("jjjjjjjjjjjj")
     local bit_point={}    
     bit_point.x= (point.x - mapPointX) / ScaleRate;
     bit_point.y= (point.y - mapPointY) / ScaleRate
@@ -56,7 +55,7 @@ function userTouch.bitBlock( point,mapPointX,mapPointY, map)
                 local textStr = scaleMap:getChildByTag(100)
                 textStr:setVisible(false) 
                 
-                require("src/view/menu/scaleMap").gameTipState = require("src/view/menu/scaleMap").gameTipState + 1                             
+                --require("src/view/menu/scaleMap").gameTipState = require("src/view/menu/scaleMap").gameTipState + 1                             
             end
         end 
     end

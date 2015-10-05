@@ -7,10 +7,6 @@ local node = require("src/model/node")
 local cost_stargiht =1 ; --直线移动花费
 
 local cost_diag=1.414; --对角线移动花费
-
-local MapY = 59 --地图y坐标最大值
-
-local MapX = 89 --地图x坐标最大值
   
 local _open = {}; --代考察表
 
@@ -54,6 +50,10 @@ function A_start.findPath(startPoint, endPoint, map)
   _open = {}; --初始化
 
   _close = {}; --初始化
+  
+  local MapY = MapY_Item - 1 --地图y坐标最大值
+
+  local MapX = MapX_Item - 1 --地图x坐标最大值
     
   --起始点
   local point = node.create(startPoint.x,startPoint.y,map)

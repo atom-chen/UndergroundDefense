@@ -40,6 +40,10 @@ local function main()
     require("src/model/getConfig")  --读取配置文件
     
     --cc.Director:getInstance():getOpenGLView():setFrameSize(960,640)
+    ScreeWidth  = cc.Director:getInstance():getVisibleSize().width
+    ScreeHeight = cc.Director:getInstance():getVisibleSize().height
+    
+    KUtil = require("src/util/KUtil")
     --create scene 
     local scene = require("GameScene")
     local gameScene = scene.create()

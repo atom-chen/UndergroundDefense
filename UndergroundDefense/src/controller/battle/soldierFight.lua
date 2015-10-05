@@ -79,9 +79,9 @@ function soldierFight.bitSoldier(map)
 
                             beaten.remaindBlood = beaten.remaindBlood - bit.hurt
 
-                            if(beaten.remaindBlood <= 0)then -- 死亡
+                            if(beaten.remaindBlood <= 0 and map:getChildByTag(beaten.tag))then -- 死亡
                             --检查魔将特效是否消失
-                                local isDiss = require("src/model/monsterModel"):isDisappear(beaten.type)                                                              
+                                local isDiss = require("src/model/monsterModel"):isDisappear(beaten.type, map)                                                              
                                 removeSoldier(soldierTab, beaten.tag)
                                 map:removeChildByTag(beaten.tag)
 
@@ -92,7 +92,7 @@ function soldierFight.bitSoldier(map)
                                 bit.layer:getChildByTag(100):stopActionByTag(bit.tag);
                                 if not isDiss then -- 死的不是魔将
                                     local moneyControl = require("src/util/money")
-                                    moneyControl.addMoney("soldier")
+                                    moneyControl.addMoney("soldier", bit.layer:getChildByTag(100), map)
                                 end
                             else
                                 soldierView.updateBlood(beaten.tag)
@@ -167,7 +167,7 @@ function soldierFight.bitEnemySoldier(map)
 
                             beaten.remaindBlood = beaten.remaindBlood - bit.hurt
 
-                            if(beaten.remaindBlood <= 0)then  --死亡
+                            if(beaten.remaindBlood <= 0 and map:getChildByTag(beaten.tag))then  --死亡
 
                                 removeSoldier(warriorTab, beaten.tag)
                                 map:removeChildByTag(beaten.tag)
@@ -178,7 +178,7 @@ function soldierFight.bitEnemySoldier(map)
                                 bit.layer:getChildByTag(100):stopActionByTag(bit.tag);
                                 
                                 local moneyControl = require("src/util/money")
-                                moneyControl.addMoney("enemySoldier")
+                                moneyControl.addMoney("enemySoldier",  bit.layer:getChildByTag(100), map)
                             else
                                 enemySoldierView.updateBlood(beaten.tag)
                                 local s_action = cc.Sequence:create(cc.DelayTime:create(result.enemySoldier.time),
@@ -204,8 +204,7 @@ function soldierFight.bitEnemySoldier(map)
 
                     beaten.remaindBlood = beaten.remaindBlood - bit.hurt
 
-                    if(beaten.remaindBlood <= 0)then
-
+                    if(beaten.remaindBlood <= 0 and map:getChildByTag(beaten.tag))then
                         removeSoldier(warriorTab, beaten.tag)
                         map:removeChildByTag(beaten.tag)
                         bit.isStop = false
@@ -215,7 +214,7 @@ function soldierFight.bitEnemySoldier(map)
                         bit.layer:getChildByTag(100):stopActionByTag(bit.tag);
                         
                         local moneyControl = require("src/util/money")
-                        moneyControl.addMoney("enemySoldier")
+                        moneyControl.addMoney("enemySoldier", bit.layer:getChildByTag(100), map)
                     else
                         enemySoldierView.updateBlood(beaten.tag)
                         local s_action = cc.Sequence:create(cc.DelayTime:create(result.enemySoldier.time),

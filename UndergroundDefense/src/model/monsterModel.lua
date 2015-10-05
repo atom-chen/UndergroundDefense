@@ -55,14 +55,14 @@ function monsterModel:downCD(monsterType)
 end
 
 --判断该小兵死亡是否取消monster的影响
-function monsterModel:isDisappear(type)
+function monsterModel:isDisappear(type, map)
     if(type == 1)then
         local monsterModel = require("src/model/monsterModel")
         monsterModel:killMoster("monster1")
         
         --增加魔将金币
         local moneyControl = require("src/util/money")
-        moneyControl.addMoney("monster1")
+        moneyControl.addMoney("monster1", Warrior_P[1]:getChildByTag(1000), map)
         
         if(monsterModel.monsterTab.monster1.currentMosterNum == 0 )then
             for key, soldier in ipairs(soldierTab) do
@@ -84,7 +84,7 @@ function monsterModel:isDisappear(type)
         
         --增加魔将金币
         local moneyControl = require("src/util/money")
-        moneyControl.addMoney("monster2")
+        moneyControl.addMoney("monster2" ,Warrior_P[1]:getChildByTag(1000), map)
         
         if(monsterModel.monsterTab.monster2.currentMosterNum == 0 )then
             for key, soldier in ipairs(warriorTab) do
@@ -102,7 +102,7 @@ function monsterModel:isDisappear(type)
         
         --增加魔将金币
         local moneyControl = require("src/util/money")
-        moneyControl.addMoney("monster3")
+        moneyControl.addMoney("monster3",  Warrior_P[1]:getChildByTag(1000), map)
         
         if(monsterModel.monsterTab.monster3.currentMosterNum == 0 )then
             Warrior_P[8] = Warrior_P[8] + result.monster.monster3.warriorHurt

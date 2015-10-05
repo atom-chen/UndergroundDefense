@@ -33,4 +33,12 @@ warriorTab     = {}      --勇士小兵集合
 
 trapTab        = {}      --陷阱集合
 
-ScaleRate      = 0.33     --缩放因子
+--   --缩放因子
+ScaleRate      = nil
+ScaleRateMin   = nil
+ScaleRateMax   = 1
+
+BlockWidth     = 32
+
+MapY           = 59      --地图y坐标最大值
+MapX           = 89      --地图x坐标最大值

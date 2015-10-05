@@ -19,7 +19,7 @@ function attackBirth.soldierBirth(map)
         local point = {x = pointx, y = pointy}
 
         local item = coordinate.getItem(map, point)
-        if(item.x == 5 and item.y == 57)then --到达巢穴     
+        if(item.x == soldierItem.x and item.y == soldierItem.y)then --到达巢穴     
              Warrior_P[4] = false  
              
              Warrior_P[5] = true -- 攻击巢穴状态
@@ -74,16 +74,27 @@ function attackBirth.soldierBirth(map)
                      --摧毁巢穴
                     local distroy =  gameTip.brith(progress,"巢穴被摧毁!!",map,666)
                     map:addChild(distroy,0,666)  
-                    map:removeChildByTag(250)
-                    local layerBg=map:getLayer("layerMap")               
-                    layerBg:removeTileAt(cc.p(3,56)) --删除图块 
-                    layerBg:removeTileAt(cc.p(3,57)) --删除图块 
-                    layerBg:removeTileAt(cc.p(4,56)) --删除图块 
-                    layerBg:removeTileAt(cc.p(4,57)) --删除图块 
                     
                     local moneyControl = require("src/util/money")
-                    moneyControl.addMoney("birth")
+                    moneyControl.addMoney("birth", progress, map)
                     
+                    map:removeChildByTag(250)
+                    local layerBg=map:getLayer("layerMap")    
+                    
+                    if soldierState == "left" then
+                        layerBg:removeTileAt(cc.p(item.x - 1, item.y)) 
+                        layerBg:removeTileAt(cc.p(item.x - 2, item.y)) 
+                        layerBg:removeTileAt(cc.p(item.x - 1, item.y - 1)) 
+                        layerBg:removeTileAt(cc.p(item.x - 2, item.y - 1)) 
+                    end
+
+                    if soldierState == "right" then
+                        layerBg:removeTileAt(cc.p(item.x + 1, item.y)) 
+                        layerBg:removeTileAt(cc.p(item.x + 2, item.y)) 
+                        layerBg:removeTileAt(cc.p(item.x + 1, item.y - 1)) 
+                        layerBg:removeTileAt(cc.p(item.x + 2, item.y - 1))
+                    end
+
                     if(isExistWarrior)then
                         warrior:stopActionByTag(2500)
                         Warrior_P[5] =false
@@ -96,6 +107,5 @@ function attackBirth.soldierBirth(map)
         end
     end
 end
-
 
 return attackBirth

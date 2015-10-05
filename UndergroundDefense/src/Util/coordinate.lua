@@ -5,13 +5,15 @@ local  coordinate = class("coordinate")
 
 -----把cocos2d坐标转化为map地图对应的item
 function coordinate.getItem(map,point)
-    local point={ x= math.floor(point.x/32),y = math.floor((map:getContentSize().height-point.y)/32)}  
+    local point={ x= math.floor(point.x/BlockWidth),y = math.floor((map:getContentSize().height-point.y)/BlockWidth)}  
     
     return point
 end
 
 function coordinate.getPoint(map,item)
-    local point={x= item.x*32 + 16 , y= (60-item.y-1)*32 + 16 }
+    local lenght = BlockWidth / 2
+
+    local point={x= item.x * BlockWidth + lenght , y= (MapY_Item- item.y -1) * BlockWidth + lenght }
     
     return cc.p(point.x,point.y)
 end

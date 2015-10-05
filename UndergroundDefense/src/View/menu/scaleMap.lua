@@ -16,8 +16,7 @@ end)
 scaleMap.gameTipState = 1
 
 scaleMap.gameTipStr = {
-    bitBlock = "请敲碎砖块设计可走路径，完成后请点击右下角的确定",
-    moveBoss = "请选择移动boss设置其位置，完成后请点击右下角的确定",
+    setGame = "请设计可走路径和boss位置，完成后请点击右下角的确定",
     cannotAvrrive = "魔王位置需要与勇士巢穴连通",
     setSuccess = "设置成功，游戏即将开始",
     soldierLaunch = "我方小兵出击"
@@ -43,7 +42,7 @@ function scaleMap.create(x,y,map)
     local x = cc.Director:getInstance():getVisibleSize().width/2
     local y = cc.Director:getInstance():getVisibleSize().height/2
 
-    local gameTip = cc.Label:createWithTTF(scaleMap.gameTipStr.bitBlock, "fonts/menu_format.ttf", 25)
+    local gameTip = cc.Label:createWithTTF(scaleMap.gameTipStr.setGame, "fonts/menu_format.ttf", 25)
     gameTip:setPosition(x,y)
     --gameTip:setScale(0.1)
     layer:addChild(gameTip, 0, 100)
@@ -62,21 +61,23 @@ function scaleMap.create(x,y,map)
 
     local listener = cc.EventListenerTouchOneByOne:create()
     
+    local scaleSpeed = 0.8
     local function onTouchBegan(touche, event)
         local bitPoint = touche:getLocation()
         
-        if(cc.rectContainsPoint(scaleUp:getBoundingBox(),bitPoint) and ScaleRate <= 1 )then
+        if(cc.rectContainsPoint(scaleUp:getBoundingBox(),bitPoint) and ScaleRate <= ScaleRateMax )then
             listener:setSwallowTouches(true) --吞噬点击事件，不往下层传递，记得返回true
             ScaleRate = ScaleRate + 0.1
-            local scaleAction = cc.ScaleTo:create(1,ScaleRate)
+            local scaleAction = cc.ScaleTo:create(scaleSpeed, ScaleRate)
             map:runAction(scaleAction)                       
         end
         
-        if(cc.rectContainsPoint(scaleDown:getBoundingBox(),bitPoint) and ScaleRate >= 0.4 )then
+        if(cc.rectContainsPoint(scaleDown:getBoundingBox(),bitPoint) and ScaleRate > ScaleRateMin )then
             listener:setSwallowTouches(true)
             ScaleRate = ScaleRate - 0.1
-            if ScaleRate < 0.33 then ScaleRate = 0.33 end
-            local scaleAction = cc.ScaleTo:create(1,ScaleRate)
+            if ScaleRate < ScaleRateMin then ScaleRate =ScaleRateMin end
+            local scaleAction = cc.ScaleTo:create(scaleSpeed, ScaleRate)
+            
             --解决缩小题图无法移动问题，即移动地图缩小出现黑区
             local mapX, mapY = map:getPosition()
 
@@ -84,8 +85,8 @@ function scaleMap.create(x,y,map)
                 local pointX = map:getContentSize().width * ScaleRate + mapX
                 local pointY = map:getContentSize().height * ScaleRate + mapY
                 
-                if pointX < 960 or pointY < 640 then
-                    scaleAction = cc.Spawn:create(cc.MoveTo:create(1,cc.p(0,0)),cc.ScaleTo:create(1,ScaleRate))
+                if pointX < ScreeWidth or pointY < ScreeHeight then
+                    scaleAction = cc.Spawn:create(cc.MoveTo:create(scaleSpeed, cc.p(0,0)),cc.ScaleTo:create(scaleSpeed, ScaleRate))
                 end
             end
             map:runAction(scaleAction)
@@ -119,31 +120,24 @@ end
 
 function scaleMap.clickButton(layer, map)   
 
-    if scaleMap.gameTipState == 2 then
-        scaleMap.gameTipState = scaleMap.gameTipState + 1
-        local textStr = layer:getChildByTag(100)
-        textStr:setString(scaleMap.gameTipStr.moveBoss)
-        textStr:setVisible(true)
-    end
-
-    if scaleMap.gameTipState == 4  then
+    if scaleMap.gameTipState == 1  then
         local bossLayer = map:getChildByTag(10000)
         local boss = bossLayer:getChildByTag(1000)
         local bossX,bossY = boss:getPosition()
 
-        local soldierPoint = object.getPoint(map,"object","soldierpoint")--勇士出生点
+        local warriorPoint = object.getPoint(map,"object","warriorpoint")--勇士出生点
 
         local coordinate = require("src/util/coordinate")
         local bossPoint = cc.p(bossX, bossY)           
         local endItem = coordinate.getItem(map, bossPoint)
-        local startItem = coordinate.getItem(map, soldierPoint)
+        local startItem = coordinate.getItem(map, warriorPoint)
         
         local result = require("src/Util/A_start").findPath(startItem,endItem,map)
         if result == 0 then --不连通
             local textStr = layer:getChildByTag(100)
             textStr:setString(scaleMap.gameTipStr.cannotAvrrive)
             textStr:setVisible(true)
-            scaleMap.gameTipState = scaleMap.gameTipState - 1
+            --scaleMap.gameTipState = scaleMap.gameTipState - 1
         else 
             scaleMap.gameTipState = scaleMap.gameTipState +1 
             BossItem = endItem -- 设置Boss位置

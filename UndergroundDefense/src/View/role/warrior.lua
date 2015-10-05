@@ -104,7 +104,8 @@ function WarriorLayer.move(map,targetItem)
        endItem = targetItem
     else
         if(math.mod(WarriorType, 2) == 0 and birthplace_blood >0)then
-            endItem = {x = 5, y = 57}
+            --endItem = {x = 5, y = 57}
+            endItem = soldierItem
         else
             endItem = BossItem
         end 

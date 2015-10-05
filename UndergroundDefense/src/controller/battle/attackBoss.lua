@@ -100,12 +100,12 @@ function attackBoss.bitBoss(map)
                     boss:runAction(action)
                                    
                 else
+                    local moneyControl = require("src/util/money")
+                    moneyControl.addMoney("warrior", Warrior_P[1]:getChildByTag(1000), map)
+                    
                     boss:stopActionByTag(1008)
                     map:removeChildByTag(5000) --移除勇士
                     isExistWarrior = false
-                    
-                    local moneyControl = require("src/util/money")
-                    moneyControl.addMoney("warrior")
                 end
 
             end

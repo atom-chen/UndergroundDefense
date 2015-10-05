@@ -151,7 +151,7 @@ function soldierLayer.move(map)
               local startItem = coordinate.getItem(map,point)
              
               --print("start: " .. startItem.x .. "  " ..startItem.y)
-            
+           
               --获取巡逻终点的item
               local ram = math.random(1,table.getn(result.SoldierPoint)) 
                        
@@ -159,15 +159,14 @@ function soldierLayer.move(map)
   
               --print("end : ".. endItem.x,endItem.y)
                --A_start寻路
-              local result = A_start.findPath(startItem,endItem,map)
+              local result = A_start.findPath(startItem, endItem, map)
                ---路径查找到
               if(result ~= 0)then
                  var.path = {} --path{}先清零
-                 table.insert(var.path,1,coordinate.getPoint(map,endItem)) -- 插入终点
+                 table.insert(var.path,1,coordinate.getPoint(map, endItem)) -- 插入终点
                  --位置数组
                  while(result.x)do
                     local item = {x =result.x, y=result.y}  
-                    
                     --print(item.x,item.y)                 
                     table.insert(var.path ,  1 , coordinate.getPoint(map,item))
                  

@@ -128,7 +128,17 @@ function leftMenu.create(x,y,map)
         local clonesprite
         local map_x = (whichmonster:getPositionX()-map:getPositionX()) / ScaleRate
         local map_y = (whichmonster:getPositionY()-map:getPositionY()) / ScaleRate
-       
+        
+        local item  = KUtil.getItem(map, cc.p(map_x, map_y))
+        local layerBg=map:getLayer("layerMap")
+        local gid = layerBg:getTileGIDAt(cc.p(item.x, item.y))
+        if gid ~= 34 then
+            local layerMap = map:getParent()
+            layer:removeChildByTag(tag) --移除拖动的moster
+            require("src/view/menu/scaleMap").showMessage("魔将只能放置在道路上", layerMap)  
+            
+            return
+        end
         --创建moster
         if(tag == 100)then
             clonesprite = soldierView.create(map_x,map_y,"monster/monster1.png",result.monster.monster1.blood,result.monster.monster1.hurt,1,result.monster.monster1.speed,0)            
