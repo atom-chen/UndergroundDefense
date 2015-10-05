@@ -3,7 +3,7 @@
   "SoldierNum": 5, 
   "enemySoldierNum": 1,
   "WarriorNum": 4,  
-  "attackTime": 10,
+  "attackTime": 40,
   
   "birthplace_blood":500,
   "Boss": {
@@ -40,7 +40,7 @@
     "space": 3  
   },
   "trap":{
-  	"trapNum":20,
+  	"trapNum":10,
   	"trap1":{
   		"description":"speed -100 move -0.8" ,
   		"downmove":0.8,
