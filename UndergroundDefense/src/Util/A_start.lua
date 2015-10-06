@@ -87,7 +87,7 @@ function A_start.findPath(startPoint, endPoint, map)
         	else
         	     --计算此点的代价
                  local g = cost_stargiht+ point.g    -- G值等同于上一步的G值 + 从上一步到这里的成本          
-                 local h = calculateH(var,endPoint)
+                 local h = calculateH(var, endPoint)
                  local f = g + h
                   --该点不在open列表内
                  if(not isOpen(var))then

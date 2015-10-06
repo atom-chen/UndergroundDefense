@@ -1,9 +1,9 @@
 {	
 	
-  "SoldierNum": 5, 
+  "SoldierNum": 10, 
   "enemySoldierNum": 1,
-  "WarriorNum": 4,  
-  "attackTime": 40,
+  "WarriorNum": 8,  
+  "attackTime": 15,
   
   "birthplace_blood":500,
   "Boss": {
@@ -53,7 +53,7 @@
   	}
   }, 
   "money":{
-  	"init":100,
+  	"init": 0,
   	"soldier":1,
   	"enemySoldier":1,
   	"warrior":5,

@@ -109,23 +109,21 @@ function warriorFight.bitSoldier(map)
                             w_action:setTag(888)
                             warrior:runAction(w_action)
                         else
+                            --检查是否魔将
                             if map:getChildByTag(beaten.tag) then
-                                --检查是否魔将
                                 local isDiss = require("src/model/monsterModel"):isDisappear(beaten.type, map)
-                                warrior:stopActionByTag(888);
-                                map:removeChildByTag(beaten.tag)
-                                removeSoldier(soldierTab, beaten.tag) -- 移除该小兵
-                                --不是魔将
+                                
                                 if not isDiss then
                                     local moneyControl = require("src/util/money")
                                     moneyControl.addMoney("soldier", Warrior_P[1]:getChildByTag(1000),map)
                                 end
-
-                                Warrior_P[5] = false
-
-                                warriorView.move(map) -- move会使Warrior_P[4]=false
+                                map:removeChildByTag(beaten.tag)
+                                removeSoldier(soldierTab, beaten.tag) -- 移除该小兵
                             end
-                                                   
+                            
+                            warrior:stopActionByTag(888);
+                            Warrior_P[5] = false
+                            warriorView.move(map) -- move会使Warrior_P[4]=false
                         end
                     end
 
@@ -179,9 +177,14 @@ function warriorFight.bitWarrior(map)
 
                 Warrior_P[2] = Warrior_P[2] - bit.hurt
                 --勇士死亡
-                if(Warrior_P[2] <= 0 and map:removeChildByTag(5000))then
+                if(Warrior_P[2] <= 0 )then
+                    if map:removeChildByTag(5000) then
+                        local moneyControl = require("src/util/money")
+                        moneyControl.addMoney("warrior", Warrior_P[1]:getChildByTag(1000),map)
+                    end
                     map:removeChildByTag(5000) --移除勇士
                     isExistWarrior = false
+                    
                     for key1, var1 in ipairs(soldierTab) do
                         if(var1.bitTarget == 5000)then
                             var1.layer:getChildByTag(100):stopAllActions() --勇士死亡，停止攻击活动
@@ -191,9 +194,6 @@ function warriorFight.bitWarrior(map)
                             var1.bitTarget = 0
                         end
                     end
-                    local moneyControl = require("src/util/money")
-                    moneyControl.addMoney("warrior", Warrior_P[1]:getChildByTag(1000),map)
-                    
                     soldierView.move(map)
                 else
 
