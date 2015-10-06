@@ -131,6 +131,7 @@ local function randomBirth(map)
     soldierPoint = object.getPoint(map,"object", tPointName[ram][1])
     soldierItem  = coordinate.getItem(map, soldierPoint)
     soldierState = tPointName[ram][2]
+    soldierRam   = ram
     
     --删除tap中其他巢穴
     local layerBg=map:getLayer("layerMap")
