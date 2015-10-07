@@ -87,51 +87,23 @@ end
 
 --
 
-function gameTip.awardMoney1(node,tip,map,key)
-    local layer = gameTip.new()
-    local x = node:getPositionX()
-    local y = node:getPositionY()
-
-    local blood_tip = cc.Label:createWithTTF(tip,"fonts/menu_format.ttf",10)
-    blood_tip:setColor(cc.c3b(0,125,0))
-    blood_tip:setPosition(x,y)
-    blood_tip:setScale(0.1)
-
-    local function handler()
-        map:removeChildByTag(key)
-    end
-    local effect =cc.Spawn:create(cc.ScaleTo:create(1,1.5),cc.MoveBy:create(1.5,cc.p(0,20)))
-    local action = cc.Sequence:create(effect,cc.CallFunc:create(handler,{}));
-    blood_tip:runAction(action) 
-    layer:addChild(blood_tip)
-
-    return layer
-end
-
 function gameTip.awardMoney(node, tip, map, key)
     local layer = gameTip.new()
     local x = node:getPositionX()
     local y = node:getPositionY()
 
-    local award_tip = cc.Label:createWithTTF(tip, "fonts/menu_format.ttf", 10)
-    award_tip:setColor(cc.c3b(0,125,0))
-    award_tip:setPosition(x,y)
-    
-    local sprite = cc.Sprite:create("res/icon/money.png")
-    local spriteX = x - award_tip:getContentSize().width - 10
-    sprite:setPosition(spriteX, y)
-    award_tip:setScale(0.5)
+    local money_tip = cc.Label:createWithTTF(tip,"fonts/menu_format.ttf",10)
+    money_tip:setColor(cc.c3b(0,125,0))
+    money_tip:setPosition(x,y)
+    money_tip:setScale(0.1)
 
-    layer:addChild(award_tip)
-    layer:addChild(sprite)
-    layer:setScale(0.2)
-    
     local function handler()
         map:removeChildByTag(key)
     end
-    local effect =cc.Spawn:create(cc.ScaleTo:create(1,1.5),cc.MoveBy:create(1.5,cc.p(0,20)))
+    local effect =cc.Spawn:create(cc.ScaleTo:create(1, 1.5),cc.MoveBy:create(1.5, cc.p(0,30)))
     local action = cc.Sequence:create(effect,cc.CallFunc:create(handler,{}));
-    layer:runAction(action) 
+    money_tip:runAction(action) 
+    layer:addChild(money_tip)
 
     return layer
 end

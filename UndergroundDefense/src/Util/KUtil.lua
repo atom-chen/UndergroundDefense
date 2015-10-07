@@ -41,4 +41,14 @@ function KUtil.getPoint(map,item)
     return cc.p(point.x,point.y)
 end
 
+--判断巡查是否超半径
+function KUtil.isInside(startItem, endItem, moveRang)
+	local distX = math.abs(startItem.x - endItem.x)
+	local distY = math.abs(startItem.y - endItem.y)
+	
+	if distX <= moveRang and distY <= moveRang then return true end
+	
+	return false
+end
+
 return KUtil

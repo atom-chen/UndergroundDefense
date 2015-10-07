@@ -25,9 +25,9 @@ function moneyControl.addMoney(typeName, node, map)
         require("src/view/menu/scaleMap").showMessage("金币数已够召唤魔将3", layerMap)
     end
        
---    local nodeKey  = 999
---    local moneyTip =  gameTip.awardMoney(node, "+ ".. awardMoney , map, nodeKey)
---    map:addChild(moneyTip, 0, nodeKey) 
+--   local nodeKey  = 999
+--   local moneyTip =  gameTip.awardMoney(node, "金币+ ".. awardMoney , map, nodeKey)
+--   map:addChild(moneyTip, 0, nodeKey) 
     
 end
 

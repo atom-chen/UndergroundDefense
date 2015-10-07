@@ -1,9 +1,9 @@
 {	
 	
   "SoldierNum": 10, 
-  "enemySoldierNum": 1,
+  "enemySoldierNum": 5,
   "WarriorNum": 8,  
-  "attackTime": 15,
+  "attackTime": 20,
   
   "birthplace_blood":500,
   "Boss": {
@@ -26,7 +26,8 @@
     "Viewrang": 40,
     "time" : 2,    
     "speed": 0.4,
-    "space": 3
+    "space": 3,
+    "moveRang":20
   },
   "Warrior": {
     "blood": 4000,

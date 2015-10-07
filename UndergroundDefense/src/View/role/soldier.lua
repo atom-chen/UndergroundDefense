@@ -85,17 +85,33 @@ function soldierLayer.create(x,y,sprite,blood_num,hurt,type,speed)
     return layer
 end
 
-local function Noderun(var,node)
+local function Noderun(var, userData)
+    local node = userData.var
+    local map  = userData.map
+    
     if(node.moveNum< table.getn(node.path))then
-        node.moveNum = node.moveNum +1 ;       
-        node.layer:getChildByTag(101):runAction(cc.MoveTo:create(node.speed,
-            cc.p(node.path[node.moveNum].x,node.path[node.moveNum].y+20)))
-        node.layer:getChildByTag(102):runAction(cc.MoveTo:create(node.speed,
-            cc.p(node.path[node.moveNum].x,node.path[node.moveNum].y+20)))
-        node.layer:getChildByTag(103):runAction(cc.MoveTo:create(node.speed,
-            cc.p(node.path[node.moveNum].x,node.path[node.moveNum].y+30)))
-        node.layer:getChildByTag(100):runAction(cc.Sequence:create(
-            cc.MoveTo:create(node.speed,node.path[node.moveNum]),cc.CallFunc:create(Noderun,node)))                                --第一个参数是回调的方法，第二个参数可以是开发者自定义的table
+        node.moveNum = node.moveNum +1; 
+        
+        --判断是否在巡逻半径内
+        local currentItem = node.path[node.moveNum]
+        local isInside = KUtil.isInside(soldierItem, currentItem, result.Soldier.moveRang)
+        
+        if isInside then 
+            node.findCount = 0
+            local point = coordinate.getPoint(map, node.path[node.moveNum])      
+            node.layer:getChildByTag(101):runAction(cc.MoveTo:create(node.speed,
+                cc.p(point.x, point.y+20)))
+            node.layer:getChildByTag(102):runAction(cc.MoveTo:create(node.speed,
+                cc.p(point.x, point.y+20)))
+            node.layer:getChildByTag(103):runAction(cc.MoveTo:create(node.speed,
+                cc.p(point.x, point.y+30)))
+            node.layer:getChildByTag(100):runAction(cc.Sequence:create(
+                cc.MoveTo:create(node.speed, point),cc.CallFunc:create(Noderun, userData)))
+        else
+            node.moveNum = 0;
+            node.isPatrol = true
+            node.findCount = node.findCount + 1
+        end                           
     else   
         node.moveNum = 0;
         node.isPatrol = true
@@ -156,28 +172,30 @@ function soldierLayer.move(map)
               local ram = math.random(1,table.getn(result.SoldierPoint)) 
                        
               local endItem = result.SoldierPoint[ram]
-  
-              --print("end : ".. endItem.x,endItem.y)
+              --多次为移动，移动回巢穴方向 
+              if var.findCount >= 3 then endItem = soldierItem end
+
                --A_start寻路
               local result = A_start.findPath(startItem, endItem, map)
                ---路径查找到
               if(result ~= 0)then
                  var.path = {} --path{}先清零
-                 table.insert(var.path,1,coordinate.getPoint(map, endItem)) -- 插入终点
+                 table.insert(var.path,1, endItem) -- 插入终点
                  --位置数组
                  while(result.x)do
                     local item = {x =result.x, y=result.y}  
                     --print(item.x,item.y)                 
-                    table.insert(var.path ,  1 , coordinate.getPoint(map,item))
+                    --table.insert(var.path ,  1 , coordinate.getPoint(map,item))
+                    table.insert(var.path ,  1 , item)
                  
                     result=result.father
                  end 
                 
                 --防止回退到item中心
-                 var.path[1].x,var.path[1].y = var.layer:getChildByTag(100):getPosition()  
+                 --var.path[1].x,var.path[1].y = var.layer:getChildByTag(100):getPosition()  
                                  
                  --节点移动
-                Noderun("",var) --“"只是为了满足函数调用   
+                 Noderun("", {var = var , map = map}) --“"只是为了满足函数调用   
                  
                --路径 没找到
               else
