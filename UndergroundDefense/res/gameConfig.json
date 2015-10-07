@@ -3,7 +3,7 @@
   "SoldierNum": 10, 
   "enemySoldierNum": 5,
   "WarriorNum": 8,  
-  "attackTime": 20,
+  "attackTime": 40,
   
   "birthplace_blood":500,
   "Boss": {
@@ -27,16 +27,16 @@
     "time" : 2,    
     "speed": 0.4,
     "space": 3,
-    "moveRang":20
+    "moveRang":10
   },
   "Warrior": {
-    "blood": 4000,
+    "blood": 1000,
     "hurt": 40,
     "rang": 32, 
     "time" : 2,
     "skill_time": 6,
     "skill_type1":80,
-    "skill_type2":200,
+    "skill_type2":100,
     "speed": 0.5 ,
     "space": 3  
   },
