@@ -42,7 +42,9 @@ function KUtil.getPoint(map,item)
 end
 
 --判断巡查是否超半径
-function KUtil.isInside(startItem, endItem, moveRang)
+function KUtil.isInside(startItem, endItem, moveRang, type)
+    if type ~= 0 then return true end  -- monster不限制巡逻半径
+    
 	local distX = math.abs(startItem.x - endItem.x)
 	local distY = math.abs(startItem.y - endItem.y)
 	

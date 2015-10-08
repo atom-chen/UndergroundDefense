@@ -54,7 +54,7 @@
   	}
   }, 
   "money":{
-  	"init": 0,
+  	"init": 1000,
   	"soldier":1,
   	"enemySoldier":1,
   	"warrior":5,

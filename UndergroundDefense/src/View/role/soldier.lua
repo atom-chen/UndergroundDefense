@@ -94,7 +94,7 @@ local function Noderun(var, userData)
         
         --判断是否在巡逻半径内
         local currentItem = node.path[node.moveNum]
-        local isInside = KUtil.isInside(soldierItem, currentItem, result.Soldier.moveRang)
+        local isInside = KUtil.isInside(soldierItem, currentItem, result.Soldier.moveRang, node.type)
         
         if isInside then 
             node.findCount = 0
@@ -192,11 +192,9 @@ function soldierLayer.move(map)
                  end 
                 
                 --防止回退到item中心
-                 --var.path[1].x,var.path[1].y = var.layer:getChildByTag(100):getPosition()  
-                                 
+                 --var.path[1].x,var.path[1].y = var.layer:getChildByTag(100):getPosition()                                  
                  --节点移动
                  Noderun("", {var = var , map = map}) --“"只是为了满足函数调用   
-                 
                --路径 没找到
               else
                  var.isPatrol = true  --重新巡逻 
