@@ -22,9 +22,9 @@ Warrior = result.Warrior
 
 
 ------------定义全局参数
-object=require("Util.getObjectLayerData")-- 加载地图对象层属性获取类
+object=require("src/util/getObjectLayerData")-- 加载地图对象层属性获取类
 
-tiled=require("Util/getTiledData") -- 加载地图指定point图块是否能移动
+tiled=require("src/util/getTiledData") -- 加载地图指定point图块是否能移动
 
 
 soldierTab     = {}      -- 魔王小兵集合
